@@ -11,10 +11,10 @@
 body {
     margin: 0;
     font-family: sans-serif;
-    height: 100vh;
+    height: 90vh;
     overflow: hidden;
 
-    
+
 }
 
 /* ページ全体のレイアウト（左右2カラム） */
