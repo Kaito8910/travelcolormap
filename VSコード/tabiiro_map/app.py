@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request, abort
+import requests
 
 app = Flask(__name__)
 
@@ -38,58 +39,72 @@ def travel_records_api():
     return jsonify(data)
 
 
+#------------------------ イベント検索機能 -----------------------------------
 
-@app.route('/event-search', methods=['GET', 'POST'])
+# --- イベント検索フォーム ---
+@app.route('/event-search', methods=['GET'])
 def event_search():
-    if request.method == 'GET':
-        return render_template('event_search.html', events=None)
+    return render_template('event_search.html')
 
-    keyword = request.form.get('keyword', '')
+
+# --- 検索結果 ---
+@app.route('/event-search-results', methods=['POST'])
+def event_search_results():
+    # フォームから値を取得
     area = request.form.get('area', '')
-    date = request.form.get('date', '')
     category = request.form.get('category', '')
+    date = request.form.get('date', '')
 
+    print("受け取った検索条件:", area, category, date)  # デバッグ用
+
+    # API用キーワード生成（キーワード欄はなし）
+    keyword_list = [area, category]
+    api_keyword = " ".join(filter(None, keyword_list))
     params = {
         'key': JARAN_API_KEY,
-        'keyword': f"{area} {keyword} {category}",
+        'keyword': api_keyword,
         'format': 'json',
-        'count': 10
+        'count': 5
     }
+
+    print("APIに送るパラメータ:", params)  # デバッグ用
 
     events = []
     try:
-        resp = request.get(JARAN_URL, params=params, timeout=5)
+        resp = requests.get(JARAN_URL, params=params, timeout=5)
+        print("APIステータスコード:", resp.status_code)  # デバッグ用
+
         if resp.status_code == 200:
             data = resp.json()
             results = data.get('results', {}).get('event', [])
-            for e in results:
-                start = e.get('event_start_date', '')
-                end = e.get('event_end_date', '')
-                if date and not (start <= date <= end):
-                    continue
+            print("取得件数:", len(results))  # デバッグ用
 
+            for e in results:
+                name = e.get('event_name', '不明なイベント')
+                start_date = e.get('event_start_date', '')
+                end_date = e.get('event_end_date', '')
+                location = e.get('event_place', '')
+                summary = (e.get('event_caption', '')[:100] + "...") if e.get('event_caption') else ''
                 events.append({
-                    'name': e.get('event_name', '不明なイベント'),
-                    'period': f"{start} ～ {end}",
-                    'location': e.get('event_place', ''),
-                    'summary': (e.get('event_caption', '')[:100] + "...") if e.get('event_caption') else '',
-                    'weather': get_weather(e.get('event_place', ''))
+                    'name': name,
+                    'period': f"{start_date} ～ {end_date}",
+                    'location': location,
+                    'summary': summary
                 })
-    except Exception as e:
-        print("Error:", e)
+    except Exception as ex:
+        print("イベント取得エラー:", ex)
         events = []
 
     return render_template(
-        'event_search.html',
+        'event_search_results.html',
         events=events,
-        keyword=keyword,
         area=area,
-        date=date,
-        category=category
+        category=category,
+        date=date
     )
 
 
-
+#---------------------------------------------------------------------------
 
 
 if __name__ == '__main__':
