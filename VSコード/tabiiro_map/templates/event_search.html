@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="event-search">
+    <h2>イベント検索</h2>
+    <form action="/search" method="post">
+        <input type="text" name="keyword" placeholder="キーワード・地域を入力" value="{{ keyword or '' }}">
+        <button type="submit">検索</button>
+    </form>
+
+    {% if events %}
+    <div class="event-list">
+        {% for event in events %}
+        <div class="event-card">
+            <h3>{{ event.name }}</h3>
+            <p><b>開催期間：</b>{{ event.period }}</p>
+            <p><b>開催場所：</b>{{ event.location }}</p>
+            <p>{{ event.summary }}</p>
+            <p><b>現在の天気：</b>{{ event.weather }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>検索キーワードを入力してイベントを探してください。</p>
+    {% endif %}
+</section>
+{% endblock %}

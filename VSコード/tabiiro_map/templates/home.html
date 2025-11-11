@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}旅色マップ - ホーム{% endblock %}
+
+{% block main_content %}
+    <div class="two-column-layout">
+        <div class="map-placeholder">
+            <svg id="japan-map" viewbox="0 0 1000 1000" style="width: 100%; height: 100%;">
+                <rect x="50" y="50" width="900" height="900" fill="#EFEFEF" stroke="#333" stroke-width="2" />
+                
+                <path id="pref13" data-name="東京都" fill="#CCCCCC" d="M 500 500 l 50 0 l 0 50 l -50 0 Z" style="cursor: pointer;"/>
+                <path id="pref27" data-name="大阪府" fill="#CCCCCC" d="M 400 400 l 50 0 l 0 50 l -50 0 Z" style="cursor: pointer;"/>
+                
+                <text id="map-loading-text" x="500" y="400" font-size="30" text-anchor="middle" fill="#666">
+                    地図データをロード中... (SVGデータを挿入してください)
+                </text>
+            </svg>
+        </div>
+
+        <div class="right-blocks-container">
+            <div class="info-block block-item">
+                <a href="#">情報</a>
+            </div>
+            <div class="search-block block-item">
+                <a href="#">検索</a>
+            </div>
+            <div class="record-block block-item">
+                <a href="#">記録</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ----------------------------------------------------
+            // 🎨 都道府県の色付けロジック（API参照）
+            // ----------------------------------------------------
+            
+            const colorMap = {
+                'visited': '#007BFF',       // 訪問済みの色
+                'want_to_go': '#FFC107',    // 興味ありの色
+                'default': '#DDDDDD'        // デフォルトの色
+            };
+
+            const japanMap = document.getElementById('japan-map');
+            const loadingText = document.getElementById('map-loading-text');
+
+            async function fetchAndRenderMap() {
+                if (loadingText) {
+                    loadingText.textContent = "データを取得中...";
+                }
+
+                try {
+                    const apiUrl = '{{ url_for("travel_records_api") }}'; // FlaskのAPIエンドポイントを参照
+                    
+                    const response = await fetch(apiUrl);
+                    if (!response.ok) {
+                        throw new Error(`APIリクエストが失敗しました: ${response.status}`);
+                    }
+                    
+                    const travelRecords = await response.json(); 
+
+                    if (loadingText) {
+                        loadingText.style.display = 'none'; 
+                    }
+
+                    if (japanMap) {
+                        applyColorsToMap(japanMap, travelRecords);
+                    }
+                    
+                } catch (error) {
+                    console.error("地図データの取得・描画中にエラーが発生しました:", error);
+                    if (loadingText) {
+                        loadingText.textContent = "データのロードに失敗しました。";
+                    }
+                }
+            }
+
+            function applyColorsToMap(mapElement, records) {
+                const prefectures = mapElement.querySelectorAll('path[id^="pref"]');
+
+                prefectures.forEach(pref => {
+                    const prefId = pref.id;
+                    const record = records[prefId];
+                    const prefName = pref.dataset.name || prefId; 
+
+                    let color = colorMap.default;
+                    let recordStatus = '未登録';
+
+                    if (record) {
+                        color = colorMap[record.status] || colorMap.default;
+                        recordStatus = record.status;
+                    }
+
+                    // 色の適用
+                    pref.setAttribute('fill', color);
+                    setupEventListeners(pref, prefName, record, color);
+                });
+            }
+
+            function setupEventListeners(prefElement, prefName, record, originalColor) {
+                // クリックイベント
+                prefElement.addEventListener('click', function() {
+                    alert(`${prefName}をクリックしました！\nステータス: ${record ? record.status : '未登録'}\n記録数: ${record ? record.count : 0}`);
+                });
+
+                // ホバーイベント
+                prefElement.addEventListener('mouseover', function() {
+                    this.setAttribute('fill', '#6C757D'); 
+                });
+
+                prefElement.addEventListener('mouseout', function() {
+                    this.setAttribute('fill', originalColor);
+                });
+            }
+
+            fetchAndRenderMap();
+        });
+    </script>
+{% endblock %}
+
