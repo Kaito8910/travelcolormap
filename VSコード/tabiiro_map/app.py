@@ -11,6 +11,7 @@ WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 
 
+# ホーム画面 (日本地図表示)
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -22,6 +23,38 @@ def user_data():
     except Exception:
         return "<h1>アカウント情報ページ</h1>"
 
+# アカウント情報画面 (url_for('user_data')に対応)
+@app.route('/user-data')
+def user_data():
+    return "<h1>アカウント情報ページ</h1>"
+
+# 旅行先記録画面 (メニュー項目に対応)
+@app.route('/travel-record')
+def travel_record():
+    return "<h1>旅行先記録ページ</h1>"
+
+# グルメ記録画面 (メニュー項目に対応)
+@app.route('/gourmet-record')
+def gourmet_record():
+    return "<h1>グルメ記録ページ</h1>"
+
+# 宿泊検索画面 (メニュー項目に対応)
+@app.route('/stay-search')
+def stay_search():
+    return "<h1>宿泊検索ページ</h1>"
+
+# イベント検索画面 (メニュー項目に対応)
+@app.route('/event-search')
+def event_search():
+    return "<h1>イベント検索ページ</h1>"
+
+# ログアウトルーティング (メニュー項目に対応)
+@app.route('/logout')
+def logout():
+    return "<h1>ログアウトしました</h1>"
+
+
+# --- APIエンドポイント ---
 
 # 地図の色付けデータを提供するAPIエンドポイント
 @app.route('/api/travel-records')
@@ -29,6 +62,7 @@ def travel_records_api():
     # ⚠️ 注意: ここにデータベースからデータを取得するロジックを実装してください.
     
     # 仮のデータ (都道府県ID 'prefXX' とステータス)
+    # 仮のデータ (Japan Mapが期待する形式: ID 'prefXX' とステータス)
     data = {
         'pref13': {'status': 'visited', 'count': 5},    # 東京都
         'pref27': {'status': 'want_to_go', 'count': 2}, # 大阪府
@@ -108,5 +142,4 @@ def event_search_results():
 
 
 if __name__ == '__main__':
-    # 開発用サーバーを実行
     app.run(debug=True)
