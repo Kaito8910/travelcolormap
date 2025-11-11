@@ -1,10 +1,37 @@
 {% extends "base.html" %}
-{% block content %}
+{% block main_content %}
 <section class="event-search">
     <h2>イベント検索</h2>
-    <form action="/search" method="post">
-        <input type="text" name="keyword" placeholder="キーワード・地域を入力" value="{{ keyword or '' }}">
-        <button type="submit">検索</button>
+
+    <form action="{{ url_for('event_search') }}" method="post" class="search-form">
+        <div class="form-group">
+            <label>地域名：</label>
+            <input type="text" name="area" placeholder="例：東京、大阪、福岡" value="{{ area or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>日付：</label>
+            <input type="date" name="date" value="{{ date or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>カテゴリー：</label>
+            <select name="category">
+                <option value="">選択してください</option>
+                <option value="祭り">祭り</option>
+                <option value="花火大会">花火大会</option>
+                <option value="音楽フェス">音楽フェス</option>
+                <option value="展示会">展示会</option>
+                <option value="その他">その他</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>キーワード：</label>
+            <input type="text" name="keyword" value="{{ keyword or '' }}">
+        </div>
+
+        <button type="submit" class="search-btn">検索</button>
     </form>
 
     {% if events %}
@@ -20,7 +47,7 @@
         {% endfor %}
     </div>
     {% else %}
-        <p>検索キーワードを入力してイベントを探してください。</p>
+        <p>条件を入力してイベントを検索してください。</p>
     {% endif %}
 </section>
 {% endblock %}

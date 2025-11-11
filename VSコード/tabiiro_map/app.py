@@ -1,27 +1,31 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request, abort
 
 app = Flask(__name__)
 
-# --- ルーティング ---
+# === APIキー設定 ===
+JARAN_API_KEY = "7e7c8f15291d905e"
+WEATHER_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+JARAN_URL = "https://webservice.recruit.co.jp/ab-event/v1/"
+WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
 
-# ホーム画面を表示するルーティング
+
+
 @app.route('/')
 def home():
-    # home.htmlをレンダリング（base.htmlが自動で適用される）
     return render_template('home.html')
 
-# アカウント情報画面のルーティング（base.htmlでurl_for('user_data')として参照されている）
-@app.route('/user-data')
+@app.route('/user-data', endpoint='user_data', methods=['GET'])
 def user_data():
-    # 実際には別のテンプレートをレンダリングします
-    return "<h1>アカウント情報ページ</h1>"
+    try:
+        return render_template('accounts/user_data.html', user=None)
+    except Exception:
+        return "<h1>アカウント情報ページ</h1>"
 
-# --- APIエンドポイント ---
 
 # 地図の色付けデータを提供するAPIエンドポイント
 @app.route('/api/travel-records')
 def travel_records_api():
-    # ⚠️ 注意: ここにデータベースからデータを取得するロジックを実装してください。
+    # ⚠️ 注意: ここにデータベースからデータを取得するロジックを実装してください.
     
     # 仮のデータ (都道府県ID 'prefXX' とステータス)
     data = {
@@ -33,89 +37,58 @@ def travel_records_api():
     }
     return jsonify(data)
 
-#--- イベント検索画面 ---
-from flask import Flask, render_template, request
-import requests
-import datetime
 
-app = Flask(__name__)
 
-# === APIキーを設定 ===
-JARAN_API_KEY = "7e7c8f15291d905e"
-WEATHER_API_KEY = "YOUR_OPENWEATHER_API_KEY"
+@app.route('/event-search', methods=['GET', 'POST'])
+def event_search():
+    if request.method == 'GET':
+        return render_template('event_search.html', events=None)
 
-# === じゃらんAPIベースURL ===
-JARAN_URL = "https://webservice.recruit.co.jp/ab-event/v1/"
-
-# === OpenWeatherMap API URL ===
-WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
-
-@app.route('/')
-def index():
-    return render_template('event_search.html', events=None)
-
-@app.route('/search', methods=['POST'])
-def search():
     keyword = request.form.get('keyword', '')
-    
-    # --- じゃらんイベントAPI呼び出し ---
+    area = request.form.get('area', '')
+    date = request.form.get('date', '')
+    category = request.form.get('category', '')
+
     params = {
         'key': JARAN_API_KEY,
-        'keyword': keyword,
+        'keyword': f"{area} {keyword} {category}",
         'format': 'json',
-        'count': 5
+        'count': 10
     }
-    response = requests.get(JARAN_URL, params=params)
+
     events = []
-    
-    if response.status_code == 200:
-        data = response.json()
-        if 'results' in data and 'event' in data['results']:
-            for e in data['results']['event']:
-                name = e.get('event_name', '不明なイベント')
-                start_date = e.get('event_start_date', '')
-                end_date = e.get('event_end_date', '')
-                location = e.get('event_place', '')
-                summary = e.get('event_caption', '')[:100] + "..."
-                
-                # --- 天気予報を取得（都市名から） ---
-                weather_info = get_weather(location)
-                
-                events.append({
-                    'name': name,
-                    'period': f"{start_date} ～ {end_date}",
-                    'location': location,
-                    'summary': summary,
-                    'weather': weather_info
-                })
-    
-    return render_template('event_search.html', events=events, keyword=keyword)
-
-def get_weather(city_name):
-    """OpenWeatherMapから天気情報を取得"""
-    if not city_name:
-        return "天気情報なし"
-    
-    params = {
-        'q': city_name,
-        'appid': WEATHER_API_KEY,
-        'lang': 'ja',
-        'units': 'metric'
-    }
     try:
-        res = requests.get(WEATHER_URL, params=params)
-        if res.status_code == 200:
-            data = res.json()
-            weather = data['weather'][0]['description']
-            temp = data['main']['temp']
-            return f"{weather}（{temp}℃）"
-        else:
-            return "天気情報取得失敗"
-    except:
-        return "天気情報取得エラー"
+        resp = request.get(JARAN_URL, params=params, timeout=5)
+        if resp.status_code == 200:
+            data = resp.json()
+            results = data.get('results', {}).get('event', [])
+            for e in results:
+                start = e.get('event_start_date', '')
+                end = e.get('event_end_date', '')
+                if date and not (start <= date <= end):
+                    continue
 
-if __name__ == '__main__':
-    app.run(debug=True)
+                events.append({
+                    'name': e.get('event_name', '不明なイベント'),
+                    'period': f"{start} ～ {end}",
+                    'location': e.get('event_place', ''),
+                    'summary': (e.get('event_caption', '')[:100] + "...") if e.get('event_caption') else '',
+                    'weather': get_weather(e.get('event_place', ''))
+                })
+    except Exception as e:
+        print("Error:", e)
+        events = []
+
+    return render_template(
+        'event_search.html',
+        events=events,
+        keyword=keyword,
+        area=area,
+        date=date,
+        category=category
+    )
+
+
 
 
 
