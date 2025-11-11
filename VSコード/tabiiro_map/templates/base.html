@@ -31,18 +31,23 @@
             </div>
             
             <!-- メニューリスト: IDを付与 -->
+            <!-- base.html のメニュー部分 -->
             <nav class="menu-nav" id="menu-list-container">
                 <ul class="menu-list">
-                    <!-- リンク先をapp.pyの関数名に合わせる (url_for('travel_record')) -->
                     <li><a href="{{ url_for('travel_record') }}">旅行先記録</a></li>
                     <li><a href="{{ url_for('gourmet_record') }}">グルメ記録</a></li>
                     <li><a href="{{ url_for('stay_search') }}">宿泊検索</a></li>
                     <li><a href="{{ url_for('event_search') }}">イベント検索</a></li>
-                    <!-- ⚠️ 修正箇所: 'user-data' を 'user_data' に変更 -->
                     <li><a href="{{ url_for('user_data') }}">アカウント情報</a></li>
-                    <li><a href="{{ url_for('logout') }}">ログアウト</a></li>
+
+                    {% if session.get('logged_in') %}
+                        <li><a href="{{ url_for('logout') }}">ログアウト</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}">ログイン</a></li>
+                    {% endif %}
                 </ul>
             </nav>
+
 
             {% block sidebar_content %}
             {% endblock %}
