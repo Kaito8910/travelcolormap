@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}アカウント作成 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+  <div class="signup_container">
+    <h1 class="signup-title">旅色マップへようこそ！</h1>
+
+    <form id="signupForm" method="POST" action="{{ url_for('register') }}">
+        <label for="userId">ユーザID<span class="required">＊</span></label>
+        <input type="text" id="userId" name="userId" placeholder="" required>
+
+        <label for="name">名前<span class="required">＊</span></label>
+        <input type="text" id="name" name="name" placeholder="" required>
+
+        <label for="email">メールアドレス<span class="required">＊</span></label>
+        <input type="email" id="email" name="email" placeholder="" required>
+
+        <label for="password">パスワード<span class="required">＊</span></label>
+        <input type="password" id="password" name="password" placeholder="" required>
+
+        <button type="submit" class="submit-btn">アカウント作成</button>
+    </form>
+    
+  </div>
+{% endblock%}
+
+<!--{% block scripts %}
+{{ super() }}
+<script>
+document.getElementById("signupForm").addEventListener("submit", function(e) {
+    const email = document.getElementById("email").value;
+    if (!email.includes("@")) {
+        e.preventDefault();
+        alert("正しいメールアドレスを入力してください。");
+    }
+//});
+</script>-->
+{% endblock %}

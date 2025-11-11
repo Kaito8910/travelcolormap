@@ -5,6 +5,7 @@ app = Flask(__name__)
 # --- ルーティング ---
 
 # ホーム画面を表示するルーティング
+
 @app.route('/')
 def home():
     # home.htmlをレンダリング（base.htmlが自動で適用される）
