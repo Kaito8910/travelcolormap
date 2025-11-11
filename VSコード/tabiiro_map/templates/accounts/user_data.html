@@ -9,11 +9,11 @@
     <li>メールアドレス: {{ user.email }}</li>
     <li>
         パスワード: {{ user.password }}
-        <form action="{% url 'change_pwd' %}" method="get" style="display:inline;">
+        <form action="{{ url_for('change_pwd') }}" method="get" style="display:inline;">
             <button type="submit">変更</button>
         </form>
     </li>
     <li>住所: {{ user.address }}</li>
 </ul>
-<a href="{% url 'logout' %}">ログアウト</a>
+
 {% endblock %}
