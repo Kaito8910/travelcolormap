@@ -41,6 +41,7 @@
                     <li><a href="{{ url_for('gourmet_record') }}">グルメ記録</a></li>
                     <li><a href="{{ url_for('stay_search') }}">宿泊検索</a></li>
                     <li><a href="{{ url_for('event_search') }}">イベント検索</a></li>
+                    <li><a href="{{ url_for('spot_search') }}">スポット検索</a></li>
                     <li><a href="{{ url_for('user_data') }}">アカウント情報</a></li>
                     {% if session.get('logged_in') %}
                         <li><a href="{{ url_for('logout') }}">ログアウト</a></li>

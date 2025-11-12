@@ -125,6 +125,10 @@ def stay_search():
 def event_search():
     return render_template('event_search.html')
 
+@app.route('/spot-search')
+def spot_search():
+    return "<h1>スポット検索ページ</h1>"
+
 
 # ===============================================================
 # 🗾 日本地図データ API
