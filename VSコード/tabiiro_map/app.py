@@ -127,7 +127,7 @@ def event_search():
 
 @app.route('/spot-search')
 def spot_search():
-    return "<h1>スポット検索ページ</h1>"
+    return render_template('spot_search.html')
 
 
 # ===============================================================
