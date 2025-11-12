@@ -257,3 +257,28 @@ input, select {
     padding: 8px;
     border: 1px
 }
+
+/* ==================================== */
+/* 4. ヘッダーロゴ (クリックでホームに戻る) */
+/* ==================================== */
+
+/* ロゴ画像のスタイル */
+.app-logo {
+    height: 60px;         /* ロゴの高さ（必要に応じて調整） */
+    width: auto;          /* アスペクト比を維持 */
+    display: block;
+    margin: 0 auto;       /* 横中央に配置 */
+}
+
+/* クリック可能リンク領域 */
+.home-link {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* ホバー時の軽いエフェクト */
+.home-link:hover .app-logo {
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
