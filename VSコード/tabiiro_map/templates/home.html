@@ -4,19 +4,45 @@
 
 {% block main_content %}
     <div class="two-column-layout">
+        <!-- 左側の大きなエリア: Japan Map のコンテナ -->
         <div class="map-placeholder">
-            <svg id="japan-map" viewbox="0 0 1000 1000" style="width: 100%; height: 100%;">
-                <rect x="50" y="50" width="900" height="900" fill="#EFEFEF" stroke="#333" stroke-width="2" />
-                
-                <path id="pref13" data-name="東京都" fill="#CCCCCC" d="M 500 500 l 50 0 l 0 50 l -50 0 Z" style="cursor: pointer;"/>
-                <path id="pref27" data-name="大阪府" fill="#CCCCCC" d="M 400 400 l 50 0 l 0 50 l -50 0 Z" style="cursor: pointer;"/>
-                
-                <text id="map-loading-text" x="500" y="400" font-size="30" text-anchor="middle" fill="#666">
-                    地図データをロード中... (SVGデータを挿入してください)
-                </text>
-            </svg>
+            <div id="japan-map-container">
+                <!-- 
+                    ⚠️ 注意: 
+                    これはJapan Mapの動作確認用のシンプルなSVGプレースホルダーです。
+                    全ての都道府県の境界線を表示するには、実際の日本のGeoJSON/SVGデータに置き換える必要があります。
+                -->
+                <svg id="japan-map" viewbox="0 0 1000 1000">
+                    <rect x="0" y="0" width="1000" height="1000" fill="#F0F0F0" stroke="#333" stroke-width="5" />
+                    <text x="500" y="50" font-size="30" text-anchor="middle" fill="#666">
+                        日本地図 (動作確認用プレースホルダー)
+                    </text>
+                    
+                    <!-- 動作確認用の都道府県パス (app.pyのデータに対応) -->
+                    <!-- 北海道: pref01 -->
+                    <path id="pref01" data-name="北海道" fill="#CCCCCC" d="M 200 100 L 400 100 L 400 200 L 200 200 Z" style="cursor: pointer; stroke: #FFF; stroke-width: 2;"/>
+                    <text x="300" y="150" font-size="15" text-anchor="middle">北海道</text>
+                    
+                    <!-- 東京都: pref13 -->
+                    <path id="pref13" data-name="東京都" fill="#CCCCCC" d="M 650 350 L 700 350 L 700 400 L 650 400 Z" style="cursor: pointer; stroke: #FFF; stroke-width: 2;"/>
+                    <text x="675" y="375" font-size="15" text-anchor="middle">東京</text>
+
+                    <!-- 静岡県: pref22 -->
+                    <path id="pref22" data-name="静岡県" fill="#CCCCCC" d="M 600 400 L 650 400 L 650 450 L 600 450 Z" style="cursor: pointer; stroke: #FFF; stroke-width: 2;"/>
+                    <text x="625" y="425" font-size="15" text-anchor="middle">静岡</text>
+
+                    <!-- 大阪府: pref27 -->
+                    <path id="pref27" data-name="大阪府" fill="#CCCCCC" d="M 500 500 L 550 500 L 550 550 L 500 550 Z" style="cursor: pointer; stroke: #FFF; stroke-width: 2;"/>
+                    <text x="525" y="525" font-size="15" text-anchor="middle">大阪</text>
+                    
+                    <!-- 福岡県: pref40 -->
+                    <path id="pref40" data-name="福岡県" fill="#CCCCCC" d="M 300 700 L 400 700 L 400 800 L 300 800 Z" style="cursor: pointer; stroke: #FFF; stroke-width: 2;"/>
+                    <text x="350" y="750" font-size="15" text-anchor="middle">福岡</text>
+                </svg>
+            </div>
         </div>
 
+        <!-- 右側の縦に並んだ3つのブロックのコンテナ (変更なし) -->
         <div class="right-blocks-container">
             <div class="info-block block-item">
                 <a href="#">情報</a>
@@ -33,29 +59,28 @@
 
 {% block scripts %}
     {{ super() }}
+    <!-- Japan Map の依存ライブラリ: jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Japan Map ライブラリ本体 -->
+    <script src="https://unpkg.com/japan-map/dist/jquery.japan-map.min.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        $(document).ready(function() {
             // ----------------------------------------------------
-            // 🎨 都道府県の色付けロジック（API参照）
+            // 🎨 Japan Map による色付けロジック
             // ----------------------------------------------------
             
             const colorMap = {
-                'visited': '#007BFF',       // 訪問済みの色
-                'want_to_go': '#FFC107',    // 興味ありの色
-                'default': '#DDDDDD'        // デフォルトの色
+                'visited': '#007BFF',       // 訪問済みの色 (青)
+                'want_to_go': '#FFC107',    // 興味ありの色 (黄)
+                'default': '#DDDDDD'        // デフォルトの色 (グレー)
             };
 
-            const japanMap = document.getElementById('japan-map');
-            const loadingText = document.getElementById('map-loading-text');
-
+            const $mapContainer = $('#japan-map-container');
+            
             async function fetchAndRenderMap() {
-                if (loadingText) {
-                    loadingText.textContent = "データを取得中...";
-                }
-
                 try {
-                    const apiUrl = '{{ url_for("travel_records_api") }}'; // FlaskのAPIエンドポイントを参照
-                    
+                    const apiUrl = '{{ url_for("travel_records_api") }}';
                     const response = await fetch(apiUrl);
                     if (!response.ok) {
                         throw new Error(`APIリクエストが失敗しました: ${response.status}`);
@@ -63,62 +88,55 @@
                     
                     const travelRecords = await response.json(); 
 
-                    if (loadingText) {
-                        loadingText.style.display = 'none'; 
-                    }
+                    const areasData = {};
+                    for (let i = 1; i <= 47; i++) {
+                        // 1から47までのID文字列 ('pref01', 'pref02', ...) を生成
+                        const prefId = 'pref' + String(i).padStart(2, '0');
+                        const record = travelRecords[prefId];
 
-                    if (japanMap) {
-                        applyColorsToMap(japanMap, travelRecords);
+                        let color = colorMap.default;
+                        if (record) {
+                            color = colorMap[record.status] || colorMap.default;
+                        }
+                        
+                        // Japan Map に渡すデータオブジェクトの構築
+                        areasData[i] = {
+                            name: $('#' + prefId).attr('data-name') || "未登録エリア",
+                            color: color,
+                            hoverColor: '#6C757D', 
+                            record: record || { status: '未登録', count: 0 }
+                        };
                     }
+                    
+                    // 5. Japan Map の初期化と描画
+                    $mapContainer.japanMap({
+                        areas: areasData, // 作成したエリアデータを適用
+                        selection: "all",
+                        drawsBox: true, 
+                        width: "100%",
+                        onSelect: function(data){
+                            // クリック時のイベント
+                            const selectedPrefId = data.area.attr('id');
+                            const prefIndex = parseInt(selectedPrefId.replace('pref', ''));
+                            
+                            // 選択されたエリアのデータが areasData に存在するか確認
+                            if (areasData[prefIndex]) {
+                                const recordData = areasData[prefIndex].record;
+                                alert(`${areasData[prefIndex].name}をクリックしました！\nステータス: ${recordData.status}\n記録数: ${recordData.count}`);
+                            } else {
+                                alert("エリア情報がありません。");
+                            }
+                        }
+                    });
                     
                 } catch (error) {
                     console.error("地図データの取得・描画中にエラーが発生しました:", error);
-                    if (loadingText) {
-                        loadingText.textContent = "データのロードに失敗しました。";
-                    }
+                    // エラーメッセージの表示など
                 }
             }
 
-            function applyColorsToMap(mapElement, records) {
-                const prefectures = mapElement.querySelectorAll('path[id^="pref"]');
-
-                prefectures.forEach(pref => {
-                    const prefId = pref.id;
-                    const record = records[prefId];
-                    const prefName = pref.dataset.name || prefId; 
-
-                    let color = colorMap.default;
-                    let recordStatus = '未登録';
-
-                    if (record) {
-                        color = colorMap[record.status] || colorMap.default;
-                        recordStatus = record.status;
-                    }
-
-                    // 色の適用
-                    pref.setAttribute('fill', color);
-                    setupEventListeners(pref, prefName, record, color);
-                });
-            }
-
-            function setupEventListeners(prefElement, prefName, record, originalColor) {
-                // クリックイベント
-                prefElement.addEventListener('click', function() {
-                    alert(`${prefName}をクリックしました！\nステータス: ${record ? record.status : '未登録'}\n記録数: ${record ? record.count : 0}`);
-                });
-
-                // ホバーイベント
-                prefElement.addEventListener('mouseover', function() {
-                    this.setAttribute('fill', '#6C757D'); 
-                });
-
-                prefElement.addEventListener('mouseout', function() {
-                    this.setAttribute('fill', originalColor);
-                });
-            }
-
+            // 地図の描画処理を開始
             fetchAndRenderMap();
         });
     </script>
 {% endblock %}
-
