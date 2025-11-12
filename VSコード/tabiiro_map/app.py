@@ -87,8 +87,10 @@ def register():
 # --- ログアウト ---
 @app.route('/logout')
 def logout():
+    # セッション情報をクリア（ログアウト処理）
     session.clear()
-    return redirect(url_for('home'))
+    return render_template('logout.html')
+
 
 
 # --- アカウント情報ページ ---
