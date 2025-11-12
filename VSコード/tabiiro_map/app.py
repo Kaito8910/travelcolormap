@@ -1,6 +1,5 @@
 from flask import Flask, render_template, jsonify, session, redirect, url_for, request, abort
-import requests, request, abort
-import requests
+import requests, request #, abort
 
 app = Flask(__name__)
 
