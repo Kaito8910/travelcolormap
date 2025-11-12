@@ -1,4 +1,13 @@
-from flask import Flask, render_template, jsonify, session, redirect, url_for, request
+from flask import (
+    Flask,
+    render_template,
+    jsonify,
+    session,
+    redirect,
+    url_for,
+    request,
+    flash,   # ← 追加
+)
 import requests
 
 app = Flask(__name__)
@@ -31,21 +40,48 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        # 簡易的な認証例
+        # 簡易的な認証例（ここは仮の処理）
         if username == 'user' and password == 'pass':
             session['logged_in'] = True
             session['username'] = username
             return redirect(url_for('home'))
         else:
-            return "<h3>ログイン失敗しました。ユーザー名かパスワードが違います。</h3>"
+            # 失敗時はメッセージを出してログイン画面に戻す
+            flash('ログインに失敗しました。ユーザー名かパスワードが違います。', 'error')
+            return redirect(url_for('login'))
 
-    return '''
-        <form method="post">
-            <input type="text" name="username" placeholder="ユーザー名"><br>
-            <input type="password" name="password" placeholder="パスワード"><br>
-            <button type="submit">ログイン</button>
-        </form>
-    '''
+    return render_template('login.html')
+
+
+# --- アカウント新規作成 ---
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+
+        # 簡単なバリデーション例
+        if password != confirm_password:
+            flash('パスワードが一致しません。', 'error')
+            return redirect(url_for('register'))
+
+        if not username or not email or not password:
+            flash('すべての項目を入力してください。', 'error')
+            return redirect(url_for('register'))
+
+        # ★本来はここでDBにユーザー情報を保存する処理を入れる
+
+        # 仮：登録完了とみなしてログイン状態にする
+        session['logged_in'] = True
+        session['username'] = username
+
+        flash('ユーザー登録が完了しました。', 'success')
+        return redirect(url_for('home'))
+
+    # GET のときは登録フォームを表示
+    return render_template('register.html')
 
 
 # --- ログアウト ---
@@ -72,13 +108,16 @@ def user_data():
 def travel_record():
     return "<h1>旅行先記録ページ</h1>"
 
+
 @app.route('/gourmet-record')
 def gourmet_record():
     return "<h1>グルメ記録ページ</h1>"
 
+
 @app.route('/stay-search')
 def stay_search():
     return "<h1>宿泊検索ページ</h1>"
+
 
 @app.route('/event-search', methods=['GET'])
 def event_search():

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}旅色マップ{% endblock %}</title>
-    <!-- CSSの参照: Jinja2/Flaskで正しいurl_forを使用 -->
+    <!-- CSSの参照 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -12,7 +12,12 @@
         <div class="page-left">
             <!-- ヘッダーセクション -->
             <header class="header-section">
-                <div class="app-title">旅色マップ</div>
+                <div class="app-title">
+                    <a href="{{ url_for('home') }}" class="home-link">
+                        <img src="{{ url_for('static', filename='images/tabiiro_rogo.png') }}" 
+                             alt="旅色マップロゴ" class="app-logo">
+                    </a>
+                </div>
             </header>
             
             <!-- メインコンテンツ領域 -->
@@ -22,25 +27,26 @@
             </main>
         </div>
 
-        <!-- 右側のメニュー/サイドバー部分: IDを付与 -->
+        <!-- 右側のメニュー/サイドバー部分 -->
         <aside class="page-right-sidebar" id="menu-sidebar">
-            <!-- ハンバーガーメニューアイコンのコンテナ -->
+            <!-- ハンバーガーメニューアイコン -->
             <div class="menu-icon-container">
-                <!-- アイコンにIDを付与 -->
                 <div class="menu-icon" id="menu-toggle-button">&#x2261;</div>
             </div>
             
-            <!-- メニューリスト: IDを付与 -->
+            <!-- メニューリスト -->
             <nav class="menu-nav" id="menu-list-container">
                 <ul class="menu-list">
-                    <!-- リンク先をapp.pyの関数名に合わせる (url_for('travel_record')) -->
                     <li><a href="{{ url_for('travel_record') }}">旅行先記録</a></li>
                     <li><a href="{{ url_for('gourmet_record') }}">グルメ記録</a></li>
                     <li><a href="{{ url_for('stay_search') }}">宿泊検索</a></li>
                     <li><a href="{{ url_for('event_search') }}">イベント検索</a></li>
-                    <!-- ⚠️ 修正箇所: 'user-data' を 'user_data' に変更 -->
                     <li><a href="{{ url_for('user_data') }}">アカウント情報</a></li>
-                    <li><a href="{{ url_for('logout') }}">ログアウト</a></li>
+                    {% if session.get('logged_in') %}
+                        <li><a href="{{ url_for('logout') }}">ログアウト</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}">ログイン</a></li>
+                    {% endif %}
                 </ul>
             </nav>
 
@@ -50,7 +56,7 @@
     </div>
 
     {% block scripts %}
-        <!-- トグル機能用のJavaScript -->
+        <!-- トグル機能用JavaScript -->
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const toggleButton = document.getElementById('menu-toggle-button');
@@ -58,7 +64,6 @@
                 
                 if (toggleButton && sidebar) {
                     toggleButton.addEventListener('click', function() {
-                        // sidebar 要素に 'is-closed' クラスを追加/削除する
                         sidebar.classList.toggle('is-closed');
                     });
                 }
