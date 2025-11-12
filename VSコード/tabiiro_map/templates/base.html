@@ -34,6 +34,14 @@
             <!-- base.html のメニュー部分 -->
             <nav class="menu-nav" id="menu-list-container">
                 <ul class="menu-list">
+<<<<<<< HEAD
+=======
+                    <li><a href="#">旅行先記録</a></li>
+                    <li><a href="#">グルメ記録</a></li>
+                    <li><a href="#">宿泊検索</a></li>
+                    <li><a href="{{ url_for('event_search') }}">イベント検索</a></li>
+                    <!-- リンク先をapp.pyの関数名に合わせる (url_for('travel_record')) -->
+>>>>>>> 67c419c9b4e33ab87e88be56fc400476cd543686
                     <li><a href="{{ url_for('travel_record') }}">旅行先記録</a></li>
                     <li><a href="{{ url_for('gourmet_record') }}">グルメ記録</a></li>
                     <li><a href="{{ url_for('stay_search') }}">宿泊検索</a></li>
