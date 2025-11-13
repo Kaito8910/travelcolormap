@@ -282,3 +282,111 @@ input, select {
     opacity: 0.85;
     transition: opacity 0.2s ease;
 }
+
+/* ==================================== */
+/* 5. ログイン・新規登録ページ */
+/* ==================================== */
+
+/* コンテナ全体 */
+.login-container,
+.register-container {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* タイトル */
+.login-container h1,
+.register-container h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+
+/* フォーム本体 */
+.login-form,
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* 各入力ブロック */
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    font-size: 1em;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #0078d7;
+    box-shadow: 0 0 4px rgba(0,120,215,0.4);
+}
+
+/* 送信ボタン */
+.submit-button {
+    background: #0078d7;
+    color: white;
+    padding: 12px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.submit-button:hover {
+    background: #0069b5;
+}
+
+/* ログイン/登録へのリンク部分 */
+.login-link,
+.register-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.login-link a,
+.register-link a {
+    color: #0078d7;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover,
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* フラッシュメッセージ */
+.flash-message {
+    padding: 10px;
+    margin-bottom: 12px;
+    text-align: center;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* 成功メッセージ */
+.flash-message.success {
+    background: #e3f8e5;
+    color: #0d7a1f;
+    border: 1px solid #8edfa3;
+}
+
+/* エラーメッセージ */
+.flash-message.error {
+    background: #fde6e6;
+    color: #b30000;
+    border: 1px solid #ff8a8a;
+}

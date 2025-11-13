@@ -10,6 +10,7 @@ from flask import (
 )
 import requests
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
 app = Flask(__name__)
@@ -28,12 +29,23 @@ db = SQLAlchemy(app)
 
 
 # ===============================================================
+# 👤 ユーザーモデル（新規追加）
+# ===============================================================
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+
+
+# ===============================================================
 # 🗾 都道府県ごとの訪問記録モデル
 # ===============================================================
 class TravelRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     prefecture = db.Column(db.String(50), unique=True, nullable=False)
     visit_count = db.Column(db.Integer, nullable=False, default=0)
+
 
 # --- 初回のみ実行してテーブルを作成 ---
 # with app.app_context():
@@ -56,20 +68,24 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
+        email = request.form.get('email')
         password = request.form.get('password')
 
-        if username == 'user' and password == 'pass':
+        user = User.query.filter_by(email=email).first()
+
+        if user and check_password_hash(user.password, password):
             session['logged_in'] = True
-            session['username'] = username
+            session['username'] = user.username
+            session['user_id'] = user.id
             return redirect(url_for('home'))
         else:
-            flash('ログインに失敗しました。ユーザー名かパスワードが違います。', 'error')
+            flash('ログインに失敗しました。メールアドレスかパスワードが違います。', 'error')
             return redirect(url_for('login'))
 
     return render_template('login.html')
 
 
+# ⭐⭐⭐⭐⭐ ここを完全に書き換え！（DBに登録できるregister）
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -78,6 +94,7 @@ def register():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
+        # 入力チェック
         if password != confirm_password:
             flash('パスワードが一致しません。', 'error')
             return redirect(url_for('register'))
@@ -86,10 +103,24 @@ def register():
             flash('すべての項目を入力してください。', 'error')
             return redirect(url_for('register'))
 
-        session['logged_in'] = True
-        session['username'] = username
-        flash('ユーザー登録が完了しました。', 'success')
-        return redirect(url_for('home'))
+        # 既存チェック
+        if User.query.filter_by(email=email).first():
+            flash('このメールアドレスはすでに使われています。', 'error')
+            return redirect(url_for('register'))
+
+        if User.query.filter_by(username=username).first():
+            flash('このユーザー名はすでに使われています。', 'error')
+            return redirect(url_for('register'))
+
+        # パスワードハッシュ化して保存
+        hashed_pass = generate_password_hash(password)
+
+        new_user = User(username=username, email=email, password=hashed_pass)
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('ユーザー登録が完了しました！ログインしてください。', 'success')
+        return redirect(url_for('login'))
 
     return render_template('register.html')
 
@@ -104,6 +135,7 @@ def logout():
 def user_data():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
+
     username = session.get('username', 'ゲスト')
     return f"<h1>{username} さんのアカウント情報ページ</h1>"
 
@@ -146,7 +178,6 @@ def travel_records_db_api():
     data = {}
 
     for r in records:
-        # 行った回数に応じて自動でステータスを設定
         if r.visit_count == 0:
             status = "none"
         elif r.visit_count <= 2:
@@ -175,6 +206,7 @@ def event_search_results():
 
     keyword_list = [area, category]
     api_keyword = " ".join(filter(None, keyword_list))
+
     params = {
         'key': JARAN_API_KEY,
         'keyword': api_keyword,
