@@ -5,8 +5,6 @@
 <div class="register-container">
     <h1>ユーザー情報確認</h1>
 
-    {% set user = {'username': '旅色ユーザー', 'email': 'tabiiro@example.com', 'password': 'password'} %}
-
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -29,14 +27,19 @@
         <div class="form-group">
             <label for="password">パスワード</label>
             <div style="display: flex; align-items: center; gap: 10px;">
-                <input type="password" id="password" name="password" value="{{ user.password }}" readonly>
+                <input type="password" id="password" name="password" value="********" readonly>
                 <a href="{{ url_for('change_pwd') }}" class="btn btn-secondary" style="white-space: nowrap;">
-                    パスワード変更。
+                    パスワード変更
                 </a>
             </div>
         </div>
 
         <button type="submit" class="submit-button">更新する</button>
     </form>
+    <form method="POST" action="{{ url_for('delete_account') }}" onsubmit="return confirm('本当にアカウントを削除しますか？ この操作は取り消せません。');">
+    <button type="submit" class="submit-button" style="background-color: #d9534f;">
+        アカウントを削除する
+    </button>
+</form>
 </div>
 {% endblock %}

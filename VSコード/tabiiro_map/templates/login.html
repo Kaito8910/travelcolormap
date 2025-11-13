@@ -25,6 +25,10 @@
             <label for="password">パスワード</label>
             <input type="password" id="password" name="password" required>
         </div>
+        <p class="forgot-password">
+            <a href="{{ url_for('forgot_password') }}">パスワードを忘れた方はこちら</a>
+        </p>
+
 
         <button type="submit" class="submit-button">ログイン</button>
     </form>

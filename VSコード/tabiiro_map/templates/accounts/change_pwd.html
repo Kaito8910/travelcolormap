@@ -1,33 +1,41 @@
 {% extends "base.html" %}
 {% block title %}パスワード変更{% endblock %}
 
-{% block styles %}
-{% endblock %}
+{% block main_content %}
+<div class="register-container">
+    <h1>パスワード変更</h1>
 
-{% block headertitle %}パスワード変更{% endblock %}
+    <!-- フラッシュメッセージ表示 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="flash-message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-{% block content %}
-<div class="row justify-content-md-center">
-<div  class="col-6">
-<form action="" method="POST">
-    {{ form.non_field_errors }}
-    {% for field in form %}
-    <div class="form-group">
-        <label class="col-6" for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
-        {{ field }}
-        {{ field.errors }}
+    <form action="{{ url_for('change_pwd') }}" method="POST" class="register-form">
+
+        <div class="form-group">
+            <label for="current_pwd">現在のパスワード</label>
+            <input type="password" id="current_pwd" name="current_pwd" required>
+        </div>
+
+        <div class="form-group">
+            <label for="new_pwd">新しいパスワード</label>
+            <input type="password" id="new_pwd" name="new_pwd" required>
+        </div>
+
+        <div class="form-group">
+            <label for="confirm_pwd">新しいパスワード（確認）</label>
+            <input type="password" id="confirm_pwd" name="confirm_pwd" required>
+        </div>
+
+        <button type="submit" class="submit-button">変更する</button>
+    </form>
+
+    <div style="margin-top: 20px;">
+        <a href="{{ url_for('user_data') }}" class="btn btn-secondary">戻る</a>
     </div>
-    {% endfor %}
-    {% csrf_token %}
-    <div class="form-group row">
-      <div class="col-sm">
-        <button type="submit" class="btn btn-primary btn-block">送信</button>
-      </div>
-      <div class="col-sm">
-        <button type="submit" class="btn btn-primary btn-block" onClick="javascript:history.go(-1);">戻る</button>
-      </div>
-    </div>
-</form>
-</div>
 </div>
 {% endblock %}

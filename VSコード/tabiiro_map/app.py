@@ -10,7 +10,7 @@ from flask import (
 )
 import requests
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate   # ⭐ 追加
+from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
@@ -25,10 +25,10 @@ app.secret_key = 'your_secret_key'  # 本番では安全なキーに変更！
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_records.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy()       # ⭐ 変更
+db = SQLAlchemy()
 db.init_app(app)
 
-migrate = Migrate(app, db)   # ⭐ 追加
+migrate = Migrate(app, db)
 
 
 # ===============================================================
@@ -139,57 +139,198 @@ def logout():
 
 
 # ===============================================================
-# ⭐ ユーザー情報表示
+# ⭐ ユーザー情報表示（ログイン中のユーザーを表示）
 # ===============================================================
 @app.route('/user-data', methods=['GET'])
 def user_data():
-    return render_template('user_data.html')
+
+    # ⭐ ログインチェック
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+
+    if not user:
+        flash("ユーザー情報が見つかりません。", "error")
+        return redirect(url_for('home'))
+
+    return render_template('user_data.html', user=user)
 
 
 
 # ===============================================================
-# ⭐ ユーザー情報更新
+# ⭐ ユーザー情報更新（メールアドレス更新）
 # ===============================================================
 @app.route('/user-data', methods=['POST'])
 def update_user_data():
-    email = request.form.get('email')
-    password = request.form.get('password')
 
-    if not email or not password:
-        flash('入力内容に不備があります。', 'error')
-    else:
-        flash('ユーザー情報を更新しました！', 'success')
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
 
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+
+    if not user:
+        flash("ユーザー情報が見つかりません。", "error")
+        return redirect(url_for('home'))
+
+    new_email = request.form.get('email')
+
+    if not new_email:
+        flash("メールアドレスを入力してください。", "error")
+        return redirect(url_for('user_data'))
+
+    # メール重複チェック
+    existing = User.query.filter_by(email=new_email).first()
+    if existing and existing.id != user.id:
+        flash("このメールアドレスはすでに使用されています。", "error")
+        return redirect(url_for('user_data'))
+
+    # 更新
+    user.email = new_email
+    db.session.commit()
+
+    flash("ユーザー情報を更新しました！", "success")
     return redirect(url_for('user_data'))
+
+# ===============================================================
+# ⭐ ユーザー情報削除（アカウント削除）
+# ===============================================================
+
+@app.route('/delete-account', methods=['POST'])
+def delete_account():
+    if not session.get('logged_in'):
+        flash("ログインしてください。", "error")
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+
+    if not user:
+        flash("ユーザーが見つかりません。", "error")
+        return redirect(url_for('user_data'))
+
+    # ★ アカウント削除
+    db.session.delete(user)
+    db.session.commit()
+
+    # セッションをクリアしてログアウト
+    session.clear()
+
+    flash("アカウントを削除しました。ご利用ありがとうございました。", "success")
+    return redirect(url_for('home'))
 
 
 
 # ===============================================================
-# パスワード変更
+# ⭐ パスワード変更（DB対応版）
 # ===============================================================
 @app.route('/change-pwd', methods=['GET', 'POST'])
 def change_pwd():
+
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user = User.query.get(session.get('user_id'))
+
     if request.method == 'POST':
         current_pwd = request.form.get('current_pwd')
         new_pwd = request.form.get('new_pwd')
         confirm_pwd = request.form.get('confirm_pwd')
 
+        # 入力チェック
         if not current_pwd or not new_pwd or not confirm_pwd:
             flash('すべての項目を入力してください。', 'error')
-        elif new_pwd != confirm_pwd:
-            flash('新しいパスワードと確認用パスワードが一致しません。', 'error')
-        elif current_pwd != 'password':
-            flash('現在のパスワードが正しくありません。', 'error')
-        else:
-            flash('パスワードを変更しました！', 'success')
-            return redirect(url_for('user_data'))
+            return redirect(url_for('change_pwd'))
+
+        # 現在のパスワード確認
+        if not check_password_hash(user.password, current_pwd):
+            flash('現在のパスワードが違います。', 'error')
+            return redirect(url_for('change_pwd'))
+
+        # 新パスワード一致確認
+        if new_pwd != confirm_pwd:
+            flash('新しいパスワードが一致しません。', 'error')
+            return redirect(url_for('change_pwd'))
+
+        # 更新
+        user.password = generate_password_hash(new_pwd)
+        db.session.commit()
+        flash('パスワードを変更しました！', 'success')
+        return redirect(url_for('user_data'))
 
     return render_template('change_pwd.html')
+
+@app.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+
+        if not email:
+            flash("メールアドレスを入力してください。", "error")
+            return redirect(url_for('forgot_password'))
+
+        user = User.query.filter_by(email=email).first()
+
+        if not user:
+            flash("このメールアドレスは登録されていません。", "error")
+            return redirect(url_for('forgot_password'))
+
+        # ⭐ メールを session に保存（重要！）
+        session['reset_email'] = email
+
+        return redirect(url_for('reset_password'))
+
+    return render_template('forgot_password.html')
+
+
+
+@app.route('/reset-password', methods=['GET', 'POST'])
+def reset_password():
+
+    # ⭐ forgot-password からメールが渡されているか確認
+    reset_email = session.get('reset_email')
+    if not reset_email:
+        flash("メールアドレスが確認できません。もう一度やり直してください。", "error")
+        return redirect(url_for('forgot_password'))
+
+    user = User.query.filter_by(email=reset_email).first()
+
+    if not user:
+        flash("該当ユーザーが見つかりませんでした。", "error")
+        return redirect(url_for('forgot_password'))
+
+    if request.method == 'POST':
+        new_pwd = request.form.get('new_pwd')
+        confirm_pwd = request.form.get('confirm_pwd')
+
+        if not new_pwd or not confirm_pwd:
+            flash("パスワードを入力してください。", "error")
+            return redirect(url_for('reset_password'))
+
+        if new_pwd != confirm_pwd:
+            flash("パスワードが一致しません。", "error")
+            return redirect(url_for('reset_password'))
+
+        # ⭐ パスワード更新
+        user.password = generate_password_hash(new_pwd)
+        db.session.commit()
+
+        # session のデータ消去
+        session.pop('reset_email', None)
+
+        flash("パスワードを更新しました。ログインしてください。", "success")
+        return redirect(url_for('login'))
+
+    return render_template('reset_password.html')
+
+
 
 
 
 # ===============================================================
-# 各種ページ（省略）
+# 各種ページ
 # ===============================================================
 @app.route('/travel-record')
 def travel_record():
@@ -253,7 +394,7 @@ def event_search_results():
     api_keyword = " ".join(filter(None, keyword_list))
 
     params = {
-        'key': JARAN_API_KEY,
+        'key': "7e7c8f15291d905e",
         'keyword': api_keyword,
         'format': 'json',
         'count': 5
@@ -261,7 +402,7 @@ def event_search_results():
 
     events = []
     try:
-        resp = requests.get(JARAN_URL, params=params, timeout=5)
+        resp = requests.get("https://webservice.recruit.co.jp/ab-event/v1/", params=params, timeout=5)
         if resp.status_code == 200:
             data = resp.json()
             results = data.get('results', {}).get('event', [])
