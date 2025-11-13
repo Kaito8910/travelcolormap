@@ -131,13 +131,49 @@ def logout():
     return render_template('logout.html')
 
 
-@app.route('/user-data')
+
+
+# === ユーザー情報確認画面（GET表示） ===
+@app.route('/user-data', methods=['GET'])
 def user_data():
+    return render_template('user_data.html')  # ← HTMLファイル名に合わせて変更
+
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    username = session.get('username', 'ゲスト')
-    return f"<h1>{username} さんのアカウント情報ページ</h1>"
+# === ユーザー情報更新処理（POST送信） ===
+@app.route('/user-data', methods=['POST'])
+def update_user_data():
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    # 仮の処理（データベース接続なし）
+    if not email or not password:
+        flash('入力内容に不備があります。', 'error')
+    else:
+        flash('ユーザー情報を更新しました！', 'success')
+
+    return redirect(url_for('user_data'))
+
+# --- パスワード変更ページ ---
+@app.route('/change-pwd', methods=['GET', 'POST'])
+def change_pwd():
+    if request.method == 'POST':
+        current_pwd = request.form.get('current_pwd')
+        new_pwd = request.form.get('new_pwd')
+        confirm_pwd = request.form.get('confirm_pwd')
+
+        if not current_pwd or not new_pwd or not confirm_pwd:
+            flash('すべての項目を入力してください。', 'error')
+        elif new_pwd != confirm_pwd:
+            flash('新しいパスワードと確認用パスワードが一致しません。', 'error')
+        elif current_pwd != 'password':
+            flash('現在のパスワードが正しくありません。', 'error')
+        else:
+            flash('パスワードを変更しました！', 'success')
+            return redirect(url_for('user_data'))
+
+    return render_template('change_pwd.html')
 
 
 # ===============================================================
