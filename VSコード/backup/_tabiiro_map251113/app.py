@@ -10,29 +10,26 @@ from flask import (
 )
 import requests
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate   # ⭐ 追加
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 本番では安全なキーに変更！
 
+# === APIキー設定 ===
+JARAN_API_KEY = "7e7c8f15291d905e"
+WEATHER_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+JARAN_URL = "https://webservice.recruit.co.jp/ab-event/v1/"
+WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
 
-
-# ===============================================================
-# ✨ データベース & マイグレーション設定
-# ===============================================================
+# === データベース設定 ===
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_records.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy()       # ⭐ 変更
-db.init_app(app)
-
-migrate = Migrate(app, db)   # ⭐ 追加
+db = SQLAlchemy(app)
 
 
 # ===============================================================
-# 👤 ユーザーモデル
+# 👤 ユーザーモデル（新規追加）
 # ===============================================================
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,9 +47,13 @@ class TravelRecord(db.Model):
     visit_count = db.Column(db.Integer, nullable=False, default=0)
 
 
+# --- 初回のみ実行してテーブルを作成 ---
+# with app.app_context():
+#     db.create_all()
+
 
 # ===============================================================
-# 🏠 ホーム画面
+# 🏠 ホーム画面（日本地図表示）
 # ===============================================================
 @app.route('/')
 def home():
@@ -60,10 +61,10 @@ def home():
     return render_template('home.html', logged_in=logged_in)
 
 
+# ===============================================================
+# 👤 ログイン・ログアウト・アカウント管理
+# ===============================================================
 
-# ===============================================================
-# 👤 ログイン
-# ===============================================================
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -84,10 +85,7 @@ def login():
     return render_template('login.html')
 
 
-
-# ===============================================================
-# ⭐ 新規登録（DB保存）
-# ===============================================================
+# ⭐⭐⭐⭐⭐ ここを完全に書き換え！（DBに登録できるregister）
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -105,7 +103,7 @@ def register():
             flash('すべての項目を入力してください。', 'error')
             return redirect(url_for('register'))
 
-        # 重複チェック
+        # 既存チェック
         if User.query.filter_by(email=email).first():
             flash('このメールアドレスはすでに使われています。', 'error')
             return redirect(url_for('register'))
@@ -114,7 +112,7 @@ def register():
             flash('このユーザー名はすでに使われています。', 'error')
             return redirect(url_for('register'))
 
-        # ハッシュ化
+        # パスワードハッシュ化して保存
         hashed_pass = generate_password_hash(password)
 
         new_user = User(username=username, email=email, password=hashed_pass)
@@ -127,94 +125,52 @@ def register():
     return render_template('register.html')
 
 
-
-# ===============================================================
-# 👤 ログアウト
-# ===============================================================
 @app.route('/logout')
 def logout():
     session.clear()
     return render_template('logout.html')
 
 
-
-# ===============================================================
-# ⭐ ユーザー情報表示
-# ===============================================================
-@app.route('/user-data', methods=['GET'])
+@app.route('/user-data')
 def user_data():
-    return render_template('user_data.html')
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
 
-
-
-# ===============================================================
-# ⭐ ユーザー情報更新
-# ===============================================================
-@app.route('/user-data', methods=['POST'])
-def update_user_data():
-    email = request.form.get('email')
-    password = request.form.get('password')
-
-    if not email or not password:
-        flash('入力内容に不備があります。', 'error')
-    else:
-        flash('ユーザー情報を更新しました！', 'success')
-
-    return redirect(url_for('user_data'))
-
+    username = session.get('username', 'ゲスト')
+    return f"<h1>{username} さんのアカウント情報ページ</h1>"
 
 
 # ===============================================================
-# パスワード変更
+# 📖 各種ページ
 # ===============================================================
-@app.route('/change-pwd', methods=['GET', 'POST'])
-def change_pwd():
-    if request.method == 'POST':
-        current_pwd = request.form.get('current_pwd')
-        new_pwd = request.form.get('new_pwd')
-        confirm_pwd = request.form.get('confirm_pwd')
 
-        if not current_pwd or not new_pwd or not confirm_pwd:
-            flash('すべての項目を入力してください。', 'error')
-        elif new_pwd != confirm_pwd:
-            flash('新しいパスワードと確認用パスワードが一致しません。', 'error')
-        elif current_pwd != 'password':
-            flash('現在のパスワードが正しくありません。', 'error')
-        else:
-            flash('パスワードを変更しました！', 'success')
-            return redirect(url_for('user_data'))
-
-    return render_template('change_pwd.html')
-
-
-
-# ===============================================================
-# 各種ページ（省略）
-# ===============================================================
 @app.route('/travel-record')
 def travel_record():
     return "<h1>旅行先記録ページ</h1>"
+
 
 @app.route('/gourmet-record')
 def gourmet_record():
     return "<h1>グルメ記録ページ</h1>"
 
+
 @app.route('/stay-search')
 def stay_search():
     return "<h1>宿泊検索ページ</h1>"
 
-@app.route('/event-search')
+
+@app.route('/event-search', methods=['GET'])
 def event_search():
     return render_template('event_search.html')
+
 
 @app.route('/spot-search')
 def spot_search():
     return render_template('spot_search.html')
 
 
-
 # ===============================================================
-# API（都道府県訪問記録）
+# 🗾 日本地図データ API（DB連携）
 # ===============================================================
 @app.route('/api/travel-records-db')
 def travel_records_db_api():
@@ -239,9 +195,8 @@ def travel_records_db_api():
     return jsonify(data)
 
 
-
 # ===============================================================
-# 🎉 イベント検索API
+# 🎉 イベント検索機能 (じゃらんAPI)
 # ===============================================================
 @app.route('/event-search-results', methods=['POST'])
 def event_search_results():
@@ -285,9 +240,8 @@ def event_search_results():
     )
 
 
-
 # ===============================================================
-# アプリ起動
+# 🧭 アプリ起動
 # ===============================================================
 if __name__ == '__main__':
     app.run(debug=True)

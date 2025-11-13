@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}ブックマーク一覧 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="bookmark-list-container">
+    <h2>ブックマーク一覧</h2>
+
+    <div class="filter-section">
+        <label for="filter-tag">タグで絞り込み：</label>
+        <select id="filter-tag" name="tag">
+            <option value="">すべて</option>
+            <option value="観光">観光</option>
+            <option value="グルメ">グルメ</option>
+            <option value="宿泊">宿泊</option>
+            <option value="イベント">イベント</option>
+        </select>
+    </div>
+
+    <table class="bookmark-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>スポット名</th>
+                <th>タグ</th>
+                <th>グルメ</th>
+                <th>イベント</th>
+                <th>メモ</th>
+                <th>登録日</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>001</td>
+                <td>東京タワー</td>
+                <td>観光</td>
+                <td>ー</td>
+                <td>桜まつり</td>
+                <td>夜景が最高</td>
+                <td>2025/04/12</td>
+                <td>
+                    <button class="btn-edit">編集</button>
+                    <button class="btn-delete">削除</button>
+                </td>
+            </tr>
+            <tr>
+                <td>002</td>
+                <td>銀座寿司大</td>
+                <td>グルメ</td>
+                <td>寿司</td>
+                <td>ー</td>
+                <td>特上コースが絶品</td>
+                <td>2025/05/01</td>
+                <td>
+                    <button class="btn-edit">編集</button>
+                    <button class="btn-delete">削除</button>
+                </td>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
