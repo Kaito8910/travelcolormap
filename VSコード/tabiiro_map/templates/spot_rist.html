@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}観光地一覧 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="spot-list-container">
+    <h1>{{ username }} さんの観光地一覧</h1>
+
+    {% if spots %}
+        <div class="spot-list">
+            {% for spot in spots %}
+                <div class="spot-card">
+                    {% if spot.photo_filename %}
+                        <img src="{{ url_for('static', filename='uploads/' + spot.photo_filename) }}" alt="{{ spot.name }}">
+                    {% else %}
+                        <div class="no-photo">写真なし</div>
+                    {% endif %}
+                    <div class="spot-info">
+                        <h2>{{ spot.name }}</h2>
+                        <p><strong>訪問日:</strong> {{ spot.visit_date }}</p>
+                        {% if spot.comment %}
+                            <p><strong>コメント:</strong> {{ spot.comment }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>まだ登録された観光地はありません。</p>
+    {% endif %}
+
+    <div class="back-link">
+        <a href="{{ url_for('spot_register') }}">＋ 新しい観光地を登録する</a>
+    </div>
+</div>
+{% endblock %}
