@@ -5,6 +5,7 @@
 <div class="register-container">
     <h1>ユーザー情報確認</h1>
 
+    <!-- フラッシュメッセージ -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -13,6 +14,7 @@
         {% endif %}
     {% endwith %}
 
+    <!-- ユーザー情報更新フォーム -->
     <form method="POST" action="{{ url_for('update_user_data') }}" class="register-form">
         <div class="form-group">
             <label for="username">ユーザー名</label>
@@ -36,10 +38,13 @@
 
         <button type="submit" class="submit-button">更新する</button>
     </form>
-    <form method="POST" action="{{ url_for('delete_account') }}" onsubmit="return confirm('本当にアカウントを削除しますか？ この操作は取り消せません。');">
-    <button type="submit" class="submit-button" style="background-color: #d9534f;">
-        アカウントを削除する
-    </button>
-</form>
+
+    <!-- アカウント削除フォーム（単独フォームに分離） -->
+    <form method="POST" action="{{ url_for('delete_account') }}"
+        onsubmit="return confirm('本当にアカウントを削除しますか？ この操作は取り消せません。');">
+        <button type="submit" class="submit-button" style="background-color: #d9534f;">
+            アカウントを削除する
+        </button>
+    </form>
 </div>
 {% endblock %}
