@@ -6,18 +6,38 @@ from flask import (
     redirect,
     url_for,
     request,
-    flash,   # ← 追加
+    flash,
 )
 import requests
+from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # セッション管理に必須（本番では安全な値を設定）
+app.secret_key = 'your_secret_key'  # 本番では安全なキーに変更！
 
 # === APIキー設定 ===
 JARAN_API_KEY = "7e7c8f15291d905e"
 WEATHER_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 JARAN_URL = "https://webservice.recruit.co.jp/ab-event/v1/"
 WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
+
+# === データベース設定 ===
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_records.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+
+# ===============================================================
+# 🗾 都道府県ごとの訪問記録モデル
+# ===============================================================
+class TravelRecord(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    prefecture = db.Column(db.String(50), unique=True, nullable=False)
+    visit_count = db.Column(db.Integer, nullable=False, default=0)
+
+# --- 初回のみ実行してテーブルを作成 ---
+# with app.app_context():
+#     db.create_all()
 
 
 # ===============================================================
@@ -33,27 +53,23 @@ def home():
 # 👤 ログイン・ログアウト・アカウント管理
 # ===============================================================
 
-# --- ログイン ---
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
 
-        # 簡易的な認証例（ここは仮の処理）
         if username == 'user' and password == 'pass':
             session['logged_in'] = True
             session['username'] = username
             return redirect(url_for('home'))
         else:
-            # 失敗時はメッセージを出してログイン画面に戻す
             flash('ログインに失敗しました。ユーザー名かパスワードが違います。', 'error')
             return redirect(url_for('login'))
 
     return render_template('login.html')
 
 
-# --- アカウント新規作成 ---
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -62,7 +78,6 @@ def register():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
-        # 簡単なバリデーション例
         if password != confirm_password:
             flash('パスワードが一致しません。', 'error')
             return redirect(url_for('register'))
@@ -71,29 +86,20 @@ def register():
             flash('すべての項目を入力してください。', 'error')
             return redirect(url_for('register'))
 
-        # ★本来はここでDBにユーザー情報を保存する処理を入れる
-
-        # 仮：登録完了とみなしてログイン状態にする
         session['logged_in'] = True
         session['username'] = username
-
         flash('ユーザー登録が完了しました。', 'success')
         return redirect(url_for('home'))
 
-    # GET のときは登録フォームを表示
     return render_template('register.html')
 
 
-# --- ログアウト ---
 @app.route('/logout')
 def logout():
-    # セッション情報をクリア（ログアウト処理）
     session.clear()
     return render_template('logout.html')
 
 
-
-# --- アカウント情報ページ ---
 @app.route('/user-data')
 def user_data():
     if not session.get('logged_in'):
@@ -125,23 +131,36 @@ def stay_search():
 def event_search():
     return render_template('event_search.html')
 
+
 @app.route('/spot-search')
 def spot_search():
     return render_template('spot_search.html')
 
 
 # ===============================================================
-# 🗾 日本地図データ API
+# 🗾 日本地図データ API（DB連携）
 # ===============================================================
-@app.route('/api/travel-records')
-def travel_records_api():
-    data = {
-        'pref13': {'status': 'visited', 'count': 5},
-        'pref27': {'status': 'want_to_go', 'count': 2},
-        'pref40': {'status': 'visited', 'count': 8},
-        'pref01': {'status': 'visited', 'count': 1},
-        'pref22': {'status': 'want_to_go', 'count': 3}
-    }
+@app.route('/api/travel-records-db')
+def travel_records_db_api():
+    records = TravelRecord.query.all()
+    data = {}
+
+    for r in records:
+        # 行った回数に応じて自動でステータスを設定
+        if r.visit_count == 0:
+            status = "none"
+        elif r.visit_count <= 2:
+            status = "light"
+        elif r.visit_count <= 5:
+            status = "medium"
+        else:
+            status = "heavy"
+
+        data[r.prefecture] = {
+            "visit_count": r.visit_count,
+            "status": status
+        }
+
     return jsonify(data)
 
 
