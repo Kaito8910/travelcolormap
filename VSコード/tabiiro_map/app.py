@@ -165,7 +165,7 @@ def change_pwd():
             flash('すべての項目を入力してください。', 'error')
         elif new_pwd != confirm_pwd:
             flash('新しいパスワードと確認用パスワードが一致しません。', 'error')
-        elif current_pwd != 'password':  # 仮データ：現在のパスワード
+        elif current_pwd != 'password':
             flash('現在のパスワードが正しくありません。', 'error')
         else:
             flash('パスワードを変更しました！', 'success')
