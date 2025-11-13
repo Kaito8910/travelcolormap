@@ -143,8 +143,13 @@ def logout():
 # ===============================================================
 @app.route('/user-data', methods=['GET'])
 def user_data():
-    return render_template('user_data.html')
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('ログインしてください。', 'error')
+        return redirect(url_for('login'))
 
+    user = User.query.get(user_id)
+    return render_template('user_data.html', user=user)
 
 
 # ===============================================================
@@ -152,15 +157,23 @@ def user_data():
 # ===============================================================
 @app.route('/user-data', methods=['POST'])
 def update_user_data():
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('ログインしてください。', 'error')
+        return redirect(url_for('login'))
+
+    user = User.query.get(user_id)
     email = request.form.get('email')
-    password = request.form.get('password')
 
-    if not email or not password:
-        flash('入力内容に不備があります。', 'error')
-    else:
-        flash('ユーザー情報を更新しました！', 'success')
+    if not email:
+        flash('メールアドレスを入力してください。', 'error')
+        return redirect(url_for('user_data'))
 
+    user.email = email
+    db.session.commit()
+    flash('ユーザー情報を更新しました！', 'success')
     return redirect(url_for('user_data'))
+
 
 
 

@@ -5,8 +5,6 @@
 <div class="register-container">
     <h1>ユーザー情報確認</h1>
 
-    {% set user = {'username': '旅色ユーザー', 'email': 'tabiiro@example.com', 'password': 'password'} %}
-
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -15,10 +13,16 @@
         {% endif %}
     {% endwith %}
 
-    <form method="POST" action="{{ url_for('update_user_data') }}" class="register-form">
+    <form method="POST" action="{{ url_for('user_data') }}" class="register-form">
+
         <div class="form-group">
-            <label for="username">ユーザー名</label>
-            <input type="text" id="username" name="username" value="{{ user.username }}" disabled>
+            <label for="user_id">ユーザーID</label>
+            <input type="text" id="user_id" name="user_id" value="{{ user.id }}" disabled>
+        </div>
+
+        <div class="form-group">
+            <label for="name">ユーザー名</label>
+            <input type="text" id="name" name="name" value="{{ user.username }}" disabled>
         </div>
 
         <div class="form-group">
@@ -29,10 +33,8 @@
         <div class="form-group">
             <label for="password">パスワード</label>
             <div style="display: flex; align-items: center; gap: 10px;">
-                <input type="password" id="password" name="password" value="{{ user.password }}" readonly>
-                <a href="{{ url_for('change_pwd') }}" class="btn btn-secondary" style="white-space: nowrap;">
-                    パスワード変更。
-                </a>
+                <input type="password" id="password" name="password" value="********" readonly>
+                <a href="{{ url_for('change_pwd') }}" class="btn btn-secondary">パスワード変更</a>
             </div>
         </div>
 
