@@ -138,6 +138,8 @@ def logout():
 def user_data():
     return render_template('user_data.html')  # ← HTMLファイル名に合わせて変更
 
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
 
 # === ユーザー情報更新処理（POST送信） ===
 @app.route('/user-data', methods=['POST'])
