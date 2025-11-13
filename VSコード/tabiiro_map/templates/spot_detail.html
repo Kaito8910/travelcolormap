@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}観光地詳細 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="spot-detail-container">
+    <h1>{{ spot.name }}</h1>
+
+    <div class="spot-detail-content">
+        {% if spot.photo_url %}
+            <img src="{{ spot.photo_url }}" alt="{{ spot.name }}" class="spot-photo">
+        {% else %}
+            <div class="no-photo">写真なし</div>
+        {% endif %}
+
+        <div class="spot-info">
+            <p><strong>住所：</strong>{{ spot.address }}</p>
+            <p><strong>コメント：</strong>{{ spot.comment }}</p>
+        </div>
+    </div>
+
+    <div class="weather-section">
+        <a href="{{ url_for('weather_forecast', city=spot.city) }}" class="weather-button">
+            天気を確認
+        </a>
+    </div>
+
+    <div class="back-link">
+        <a href="{{ url_for('spot_list') }}">← 一覧に戻る</a>
+    </div>
+</div>
+{% endblock %}

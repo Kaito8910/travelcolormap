@@ -35,10 +35,18 @@
             <div style="display: flex; align-items: center; gap: 10px;">
                 <input type="password" id="password" name="password" value="********" readonly>
                 <a href="{{ url_for('change_pwd') }}" class="btn btn-secondary">パスワード変更</a>
+                <a href="{{ url_for('change_pwd') }}" class="btn btn-secondary" style="white-space: nowrap;">
+                    パスワード変更
+                </a>
             </div>
         </div>
 
         <button type="submit" class="submit-button">更新する</button>
     </form>
+    <form method="POST" action="{{ url_for('delete_account') }}" onsubmit="return confirm('本当にアカウントを削除しますか？ この操作は取り消せません。');">
+    <button type="submit" class="submit-button" style="background-color: #d9534f;">
+        アカウントを削除する
+    </button>
+</form>
 </div>
 {% endblock %}
