@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ weather.city_name }}の天気予報 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="weather-page">
+    <h1>🌤 {{ weather.city_name }} の天気予報</h1>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% else %}
+        <div class="weather-card">
+            <p><strong>天気：</strong> {{ weather.description }}</p>
+            <p><strong>現在の気温：</strong> {{ weather.temp }} ℃</p>
+            <p><strong>最高気温：</strong> {{ weather.temp_max }} ℃</p>
+            <p><strong>最低気温：</strong> {{ weather.temp_min }} ℃</p>
+            <p><strong>湿度：</strong> {{ weather.humidity }} %</p>
+            <p><strong>降水確率：</strong> {{ weather.pop | round(0) }} %</p>
+        </div>
+    {% endif %}
+
+    <div class="back-link">
+        <a href="javascript:history.back()">戻る</a>
+    </div>
+</div>
+{% endblock %}
