@@ -143,6 +143,10 @@ def logout():
 # ===============================================================
 @app.route('/user-data', methods=['GET'])
 def user_data():
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('ログインしてください。', 'error')
+        return redirect(url_for('login'))
 
     # ⭐ ログインチェック
     if not session.get('logged_in'):
@@ -157,6 +161,8 @@ def user_data():
 
     return render_template('user_data.html', user=user)
 
+    user = User.query.get(user_id)
+    return render_template('user_data.html', user=user)
 
 
 # ===============================================================
@@ -164,6 +170,21 @@ def user_data():
 # ===============================================================
 @app.route('/user-data', methods=['POST'])
 def update_user_data():
+    user_id = session.get('user_id')
+    if not user_id:
+        flash('ログインしてください。', 'error')
+        return redirect(url_for('login'))
+
+    user = User.query.get(user_id)
+    email = request.form.get('email')
+
+    if not email:
+        flash('メールアドレスを入力してください。', 'error')
+        return redirect(url_for('user_data'))
+
+    user.email = email
+    db.session.commit()
+    flash('ユーザー情報を更新しました！', 'success')
 
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -220,6 +241,7 @@ def delete_account():
 
     flash("アカウントを削除しました。ご利用ありがとうございました。", "success")
     return redirect(url_for('home'))
+
 
 
 
