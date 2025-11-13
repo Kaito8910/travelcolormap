@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}旅色マップ - ホーム{% endblock %}
+
+{% block main_content %}
+<div class="two-column-layout">
+
+    <!-- 左側：本物の SVG 日本地図 -->
+    <div class="map-placeholder">
+        <div id="japan-map-container">
+            <object id="japan-map"
+                    type="image/svg+xml"
+                    data="{{ url_for('static', filename='svg/map-full.svg') }}">
+            </object>
+        </div>
+    </div>
+
+    <!-- 右側のメニュー -->
+    <div class="right-blocks-container">
+        <div class="info-block block-item"><a href="#">情報</a></div>
+        <div class="search-block block-item"><a href="#">検索</a></div>
+        <div class="record-block block-item"><a href="#">記録</a></div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+
+    // 訪問回数から色を決める
+    const colorMap = {
+        'none': '#E0E0E0',    // 0
+        'light': '#A8DADC',   // 1〜2
+        'medium': '#457B9D',  // 3〜5
+        'heavy': '#1D3557'    // 6〜
+    };
+
+    // SVG読み込み後に実行
+    $('#japan-map').on('load', async function() {
+        const svgDoc = this.contentDocument;  // 中身のSVGを取得
+        const paths = svgDoc.querySelectorAll("path");
+
+        // APIからデータ取得
+        const response = await fetch("{{ url_for('travel_records_db_api') }}");
+        const records = await response.json();
+
+        // SVG内の都道府県へ反映
+        paths.forEach(path => {
+            const prefName = path.getAttribute("data-name");
+            const rec = records[prefName];
+
+            if (!rec) return;
+
+            // 色付け
+            path.style.fill = colorMap[rec.status] || "#ccc";
+
+            // クリックイベント
+            path.addEventListener('click', () => {
+                alert(`${prefName}\n訪問回数: ${rec.visit_count} 回`);
+            });
+        });
+    });
+
+});
+</script>
+{% endblock %}
