@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}メッセージ表示 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="message-container">
+    <h2>宿泊記録</h2>
+    <p>宿泊記録を保存しました。</p>
+
+    <form action="{{ url_for('menu') }}">
+        <button type="submit">戻る</button>
+    </form>
+</div>
+{% endblock %}
