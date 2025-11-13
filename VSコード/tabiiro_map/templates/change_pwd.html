@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}パスワード変更 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>パスワード変更</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="flash-message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('change_pwd') }}" class="register-form">
+        <div class="form-group">
+            <label for="current_pwd">現在のパスワード</label>
+            <input type="password" id="current_pwd" name="current_pwd" required>
+        </div>
+
+        <div class="form-group">
+            <label for="new_pwd">新しいパスワード</label>
+            <input type="password" id="new_pwd" name="new_pwd" required>
+        </div>
+
+        <div class="form-group">
+            <label for="confirm_pwd">新しいパスワード（確認）</label>
+            <input type="password" id="confirm_pwd" name="confirm_pwd" required>
+        </div>
+
+        <button type="submit" class="submit-button">変更する</button>
+        <a href="{{ url_for('user_data') }}" class="cancel-button">戻る</a>
+    </form>
+</div>
+{% endblock %}
