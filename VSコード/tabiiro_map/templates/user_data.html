@@ -5,6 +5,7 @@
 <div class="register-container">
     <h1>ユーザー情報確認</h1>
 
+    <!-- フラッシュメッセージ -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -13,16 +14,11 @@
         {% endif %}
     {% endwith %}
 
-    <form method="POST" action="{{ url_for('user_data') }}" class="register-form">
-
+    <!-- ユーザー情報更新フォーム -->
+    <form method="POST" action="{{ url_for('update_user_data') }}" class="register-form">
         <div class="form-group">
-            <label for="user_id">ユーザーID</label>
-            <input type="text" id="user_id" name="user_id" value="{{ user.id }}" disabled>
-        </div>
-
-        <div class="form-group">
-            <label for="name">ユーザー名</label>
-            <input type="text" id="name" name="name" value="{{ user.username }}" disabled>
+            <label for="username">ユーザー名</label>
+            <input type="text" id="username" name="username" value="{{ user.username }}" disabled>
         </div>
 
         <div class="form-group">
@@ -34,7 +30,6 @@
             <label for="password">パスワード</label>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <input type="password" id="password" name="password" value="********" readonly>
-                <a href="{{ url_for('change_pwd') }}" class="btn btn-secondary">パスワード変更</a>
                 <a href="{{ url_for('change_pwd') }}" class="btn btn-secondary" style="white-space: nowrap;">
                     パスワード変更
                 </a>
@@ -43,10 +38,13 @@
 
         <button type="submit" class="submit-button">更新する</button>
     </form>
-    <form method="POST" action="{{ url_for('delete_account') }}" onsubmit="return confirm('本当にアカウントを削除しますか？ この操作は取り消せません。');">
-    <button type="submit" class="submit-button" style="background-color: #d9534f;">
-        アカウントを削除する
-    </button>
-</form>
+
+    <!-- アカウント削除フォーム（単独フォームに分離） -->
+    <form method="POST" action="{{ url_for('delete_account') }}"
+        onsubmit="return confirm('本当にアカウントを削除しますか？ この操作は取り消せません。');">
+        <button type="submit" class="submit-button" style="background-color: #d9534f;">
+            アカウントを削除する
+        </button>
+    </form>
 </div>
 {% endblock %}
