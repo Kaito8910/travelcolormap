@@ -333,10 +333,6 @@ def event_search():
     return render_template('event_search.html')
 
 
-@app.route('/spot-search')
-def spot_search():
-    return render_template('spot_search.html')
-
 
 # ===============================================================
 # API（都道府県訪問記録）
@@ -411,64 +407,49 @@ def event_search_results():
     )
 
 
-<<<<<<< HEAD
-=======
-
-
 
 # ===============================================================
 # スポット検索
 # ===============================================================
 
-
-# ==== 仮データ（本来はDBやAPIから取得） ====
-SPOT_DATA = [
-    {
-        "name": "東京タワー",
-        "address": "東京都港区芝公園4-2-8",
-        "category": "観光地",
-        "description": "東京の iconic なランドマーク。",
-    },
-    {
-        "name": "浅草寺",
-        "address": "東京都台東区浅草2-3-1",
-        "category": "寺院",
-        "description": "国内外から人気の観光スポット。",
-    },
-    {
-        "name": "ユニバーサルスタジオジャパン",
-        "address": "大阪府大阪市此花区桜島2丁目",
-        "category": "テーマパーク",
-        "description": "映画の世界が楽しめる人気スポット。",
-    },
+# 都道府県リスト
+PREFECTURES = [
+    "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
+    "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
+    "新潟県","富山県","石川県","福井県","山梨県","長野県",
+    "岐阜県","静岡県","愛知県","三重県",
+    "滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県",
+    "鳥取県","島根県","岡山県","広島県","山口県",
+    "徳島県","香川県","愛媛県","高知県",
+    "福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"
 ]
 
+# 仮データ
+SPOTS = [
+    {"name": "東京タワー", "prefecture": "東京都", "address": "東京都港区芝公園4-2-8"},
+    {"name": "大阪城", "prefecture": "大阪府", "address": "大阪府大阪市中央区大阪城1-1"},
+    {"name": "金閣寺", "prefecture": "京都府", "address": "京都府京都市北区金閣寺町1"},
+    {"name": "札幌時計台", "prefecture": "北海道", "address": "北海道札幌市中央区北1条西2丁目"}
+]
 
-# ==== 検索フォーム ====
-@app.route('/spot-search', methods=['GET'])
+# フォームページ
+@app.route("/spot_search")
 def spot_search():
-    return render_template('spot_search.html')
+    return render_template("spot_search.html", prefectures=PREFECTURES)
 
-
-# ==== 検索結果 ====
-@app.route('/spot-search-results', methods=['POST'])
+# 検索結果ページ
+@app.route("/spot_search/results")
 def spot_search_results():
-    keyword = request.form.get('keyword', '').strip()
+    prefecture = request.args.get("prefecture", "")
+    keyword = request.args.get("keyword", "").lower()
 
-    # キーワードを含むものを検索
-    results = []
-    for s in SPOT_DATA:
-        if keyword in s["name"] or keyword in s["address"] or keyword in s["category"]:
-            results.append(s)
+    results = SPOTS
+    if prefecture:
+        results = [s for s in results if s["prefecture"] == prefecture]
+    if keyword:
+        results = [s for s in results if keyword in s["name"].lower() or keyword in s["address"].lower()]
 
-    return render_template(
-        "spot_search_results.html",
-        keyword=keyword,
-        results=results
-    )
-
-
->>>>>>> dabe233 (破壊してやる)
+    return render_template("spot_search_results.html", results=results)
 # ===============================================================
 # アプリ起動
 # ===============================================================
