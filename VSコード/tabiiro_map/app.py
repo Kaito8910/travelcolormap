@@ -411,6 +411,73 @@ def event_search_results():
     )
 
 
+<<<<<<< HEAD
+=======
+
+
+
+# ===============================================================
+# アプリ起動
+# ===============================================================
+
+
+# ==== 仮データ（本来はDBやAPIから取得） ====
+SPOT_DATA = [
+    {
+        "name": "東京タワー",
+        "address": "東京都港区芝公園4-2-8",
+        "category": "観光地",
+        "description": "東京の iconic なランドマーク。",
+    },
+    {
+        "name": "浅草寺",
+        "address": "東京都台東区浅草2-3-1",
+        "category": "寺院",
+        "description": "国内外から人気の観光スポット。",
+    },
+    {
+        "name": "ユニバーサルスタジオジャパン",
+        "address": "大阪府大阪市此花区桜島2丁目",
+        "category": "テーマパーク",
+        "description": "映画の世界が楽しめる人気スポット。",
+    },
+]
+
+
+# ==== 検索フォーム ====
+@app.route('/spot-search', methods=['GET'])
+def spot_search():
+    return render_template('spot_search.html')
+
+
+# ==== 検索結果 ====
+@app.route('/spot-search-results', methods=['POST'])
+def spot_search_results():
+    keyword = request.form.get('keyword', '').strip()
+
+    # キーワードを含むものを検索
+    results = []
+    for s in SPOT_DATA:
+        if keyword in s["name"] or keyword in s["address"] or keyword in s["category"]:
+            results.append(s)
+
+    return render_template(
+        "spot_search_results.html",
+        keyword=keyword,
+        results=results
+    )
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
+
+
+
+
+
+>>>>>>> dabe233 (破壊してやる)
 # ===============================================================
 # アプリ起動
 # ===============================================================
