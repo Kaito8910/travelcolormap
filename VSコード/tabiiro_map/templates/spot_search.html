@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}スポット検索{% endblock %}
+
+{% block main_content %}
+<div class="search-container">
+    <h2>スポット検索</h2>
+
+    <form action="{{ url_for('spot_search_results') }}" method="post" class="search-form">
+        <input type="text" name="keyword" placeholder="キーワード（地名・カテゴリなど）を入力" required>
+        <button type="submit">検索</button>
+    </form>
+</div>
+{% endblock %}
