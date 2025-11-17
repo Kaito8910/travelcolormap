@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}グルメ一覧 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="gourmet-list-container">
+    <h1>グルメ記録</h1>
+
+    <!-- 戻るボタン -->
+    <div class="back-btn-wrapper">
+        <a href="{{ url_for('user_data') }}" class="back-button">戻る</a>
+    </div>
+
+    {% if gourmet_list|length == 0 %}
+        <p class="no-data">まだグルメ情報が登録されていません。</p>
+    {% else %}
+        <div class="gourmet-grid">
+            {% for g in gourmet_list %}
+            <div class="gourmet-card">
+                
+                <!-- 写真 -->
+                {% if g.photo_url %}
+                    <img src="{{ g.photo_url }}" alt="{{ g.shop_name }}" class="gourmet-photo">
+                {% else %}
+                    <div class="no-photo">写真なし</div>
+                {% endif %}
+
+                <!-- 店名 -->
+                <h2 class="gourmet-name">{{ g.shop_name }}</h2>
+
+                <!-- 料理名 -->
+                <p class="dish-name"><strong>料理名：</strong>{{ g.dish_name }}</p>
+
+                <!-- 評価（星表示） -->
+                <p class="rating">
+                    <strong>評価：</strong>
+                    {% for i in range(g.rating) %}
+                        ★
+                    {% endfor %}
+                    {% for i in range(5 - g.rating) %}
+                        ☆
+                    {% endfor %}
+                </p>
+
+                <!-- 日付 -->
+                <p class="gourmet-date"><strong>訪問日：</strong>{{ g.date }}</p>
+
+                <!-- 金額 -->
+                <p class="gourmet-price"><strong>金額：</strong>{{ g.price }} 円</p>
+
+                <!-- コメント -->
+                <p class="gourmet-comment">{{ g.comment }}</p>
+
+                <!-- 詳細ページ -->
+                <a href="{{ url_for('gourmet_detail', gourmet_id=g.id) }}" class="detail-button">詳細を見る →</a>
+
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
