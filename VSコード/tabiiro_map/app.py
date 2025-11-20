@@ -396,9 +396,7 @@ def spot_register():
 
 @app.route('/gourmet-record')
 def gourmet_record():
-    return "<h1>グルメ記録ページ</h1>"
-
-
+    return render_template('gourmet_record.html')
 
 # ===============================================================
 # イベント検索
@@ -499,9 +497,6 @@ def spot_search_results():
         keyword=keyword,
         results=results
     )
-
-
-
 
 # ===============================
 # 宿泊検索（検索フォーム）
