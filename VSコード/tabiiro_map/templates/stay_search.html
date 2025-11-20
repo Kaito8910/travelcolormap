@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}宿泊検索{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>宿泊検索</h1>
+
+    <form action="/stay_search_results" method="GET">
+
+        <label>都道府県</label>
+        <select name="middle" required>
+            {% for p in prefectures %}
+                <option value="{{ p.middle }}" 
+                        data-large="{{ p.large }}" 
+                        data-small="{{ p.small }}">
+                    {{ p.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <!-- hidden -->
+        <input type="hidden" name="large" id="largeInput">
+        <input type="hidden" name="small" id="smallInput">
+
+        <label>チェックイン日</label>
+        <input type="date" name="checkin_date" required>
+
+        <label>チェックアウト日</label>
+        <input type="date" name="checkout_date" required>
+
+        <label>大人人数</label>
+        <input type="number" name="adults" value="1" min="1" required>
+
+        <button type="submit">検索</button>
+    </form>
+</div>
+
+<script>
+const prefectureSelect = document.querySelector('select[name="middle"]');
+const largeInput = document.getElementById("largeInput");
+const smallInput = document.getElementById("smallInput");
+
+prefectureSelect.addEventListener("change", function() {
+    const option = this.selectedOptions[0];
+    largeInput.value = option.dataset.large;
+    smallInput.value = option.dataset.small;
+});
+
+// 初期セット
+prefectureSelect.dispatchEvent(new Event("change"));
+</script>
+
+{% endblock %}
