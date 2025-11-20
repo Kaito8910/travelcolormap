@@ -20,10 +20,7 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-
 API_KEY = "1002136947918553343"
-
-
 
 # ===============================================================
 # ✨ データベース & マイグレーション設定
@@ -34,7 +31,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 db.init_app(app)
 migrate = Migrate(app, db)
-
 
 # ===============================================================
 # 🌟 DB モデル
@@ -54,7 +50,6 @@ class User(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False
     )
-
 
 # ---------------------------------------------------------------
 # 観光地管理テーブル（SPOT）
@@ -78,8 +73,6 @@ class Spot(db.Model):
         db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False
     )
 
-
-
 # ---------------------------------------------------------------
 # グルメ記録テーブル（FOOD）
 # ---------------------------------------------------------------
@@ -99,7 +92,6 @@ class Food(db.Model):
         db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False
     )
 
-
 # ---------------------------------------------------------------
 # 宿泊記録テーブル（STAY）
 # ---------------------------------------------------------------
@@ -118,7 +110,6 @@ class Stay(db.Model):
         db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False
     )
 
-
 # ---------------------------------------------------------------
 # ブックマーク管理テーブル（BOOKMARK）
 # ---------------------------------------------------------------
@@ -133,7 +124,6 @@ class Bookmark(db.Model):
     thumb = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
 
-
 # ===============================================================
 # 🏠 ホーム
 # ===============================================================
@@ -141,7 +131,6 @@ class Bookmark(db.Model):
 def home():
     logged_in = session.get('logged_in', False)
     return render_template('home.html', logged_in=logged_in)
-
 
 # ===============================================================
 # 👤 ログイン
@@ -164,7 +153,6 @@ def login():
         return redirect(url_for('login'))
 
     return render_template('login.html')
-
 
 # ===============================================================
 # ⭐ 新規登録
@@ -209,7 +197,6 @@ def register():
 
     return render_template('register.html')
 
-
 # ===============================================================
 # 👤 ログアウト
 # ===============================================================
@@ -217,7 +204,6 @@ def register():
 def logout():
     session.clear()
     return render_template('logout.html')
-
 
 # ===============================================================
 # ⭐ ユーザー情報表示
@@ -229,7 +215,6 @@ def user_data():
 
     user = User.query.get(session.get('user_id'))
     return render_template('user_data.html', user=user)
-
 
 # ===============================================================
 # ⭐ ユーザー情報更新
@@ -257,7 +242,6 @@ def update_user_data():
     flash("ユーザー情報を更新しました！", "success")
     return redirect(url_for('user_data'))
 
-
 # ===============================================================
 # ⭐ アカウント削除
 # ===============================================================
@@ -275,7 +259,6 @@ def delete_account():
 
     flash("アカウントを削除しました。", "success")
     return redirect(url_for('home'))
-
 
 # ===============================================================
 # ⭐ パスワード変更
@@ -308,7 +291,6 @@ def change_pwd():
 
     return render_template('change_pwd.html')
 
-
 # ===============================================================
 # ⭐ パスワード再設定
 # ===============================================================
@@ -326,7 +308,6 @@ def forgot_password():
         return redirect(url_for('reset_password'))
 
     return render_template('forgot_password.html')
-
 
 @app.route('/reset-password', methods=['GET', 'POST'])
 def reset_password():
@@ -354,7 +335,6 @@ def reset_password():
         return redirect(url_for('login'))
 
     return render_template('reset_password.html')
-
 
 # ===============================================================
 # スポット登録
@@ -427,8 +407,6 @@ def spot_register():
 
     return render_template("spot_register.html")
 
-
-
 # ===============================================================
 #グルメ記録登録
 # ===============================================================
@@ -463,7 +441,6 @@ def travel_records_db_api():
 
     return jsonify(data)
 
-
 # ===============================================================
 # API — 都道府県カウント
 # ===============================================================
@@ -478,7 +455,6 @@ def api_pref_counts():
                 pref_counts[pref] = pref_counts.get(pref, 0) + 1
 
     return jsonify(pref_counts)
-
 
 # ==== 仮データ（本来はDBやAPIから取得） ====
 SPOT_DATA = [
@@ -545,14 +521,11 @@ def spot_search():
         prefectures=PREF_LIST
     )
 
-
-
 # ==== 検索結果 ====
 @app.route('/spot-search-results', methods=['GET'])
 def spot_search_results():
     prefecture = request.args.get('prefecture', '')
     keyword = request.args.get('keyword', '')
-
 
     # キーワードを含むものを検索
     results = []
@@ -592,7 +565,6 @@ PREFECTURES = [
 @app.route("/stay_search", methods=["GET"])
 def stay_search():
     return render_template("stay_search.html", prefectures=PREFECTURES)
-
 
 # ===============================
 # 宿泊検索結果
@@ -642,7 +614,6 @@ def stay_search_results():
         checkout_date=checkout_date,
         adults=adults,
     )
-
 
 # ===============================================================
 # イベント検索
@@ -750,7 +721,6 @@ def convert_weather_icon(code):
     if code == 95: return "⛈️"
     if code in [96, 99]: return "⛈️"
     return "❓"
-
 
 @app.route('/weather', methods=['GET', 'POST'])
 def weather():
