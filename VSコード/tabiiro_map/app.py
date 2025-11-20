@@ -15,9 +15,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from spot_pref_map import SPOT_TO_PREF
 from datetime import datetime
+import pandas as pd
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
+
+
+API_KEY = "1002136947918553343"
+
 
 
 # ===============================================================
@@ -393,12 +398,7 @@ def spot_register():
 def gourmet_record():
     return "<h1>グルメ記録ページ</h1>"
 
-# ===============================================================
-# 宿泊検索
-# ===============================================================
-@app.route('/stay-search')
-def stay_search():
-    return "<h1>宿泊検索ページ</h1>"
+
 
 # ===============================================================
 # イベント検索
@@ -412,11 +412,31 @@ def event_search():
 # スポット検索
 # ===============================================================
 
-@app.route('/spot-search')
-def spot_search():
-    return render_template('spot_search.html')
+# ===============================================================
+# API（都道府県訪問記録）
+# ===============================================================
+@app.route('/api/travel-records-db')
+def travel_records_db_api():
 
+    records = TravelRecord.query.all()
+    data = {}
 
+    for r in records:
+        if r.visit_count == 0:
+            status = "none"
+        elif r.visit_count <= 2:
+            status = "light"
+        elif r.visit_count <= 5:
+            status = "medium"
+        else:
+            status = "heavy"
+
+        data[r.prefecture] = {
+            "visit_count": r.visit_count,
+            "status": status
+        }
+
+    return jsonify(data)
 
 
 # ===============================================================
@@ -433,6 +453,132 @@ def api_pref_counts():
                 pref_counts[pref] = pref_counts.get(pref, 0) + 1
 
     return jsonify(pref_counts)
+
+
+
+
+
+
+# ===============================================================
+# アプリ起動
+# ===============================================================
+
+
+# ==== 仮データ（本来はDBやAPIから取得） ====
+SPOT_DATA = [
+    {
+        "name": "東京タワー",
+        "address": "東京都港区芝公園4-2-8",
+        "category": "観光地",
+        "description": "東京の iconic なランドマーク。",
+    },
+    {
+        "name": "浅草寺",
+        "address": "東京都台東区浅草2-3-1",
+        "category": "寺院",
+        "description": "国内外から人気の観光スポット。",
+    },
+    {
+        "name": "ユニバーサルスタジオジャパン",
+        "address": "大阪府大阪市此花区桜島2丁目",
+        "category": "テーマパーク",
+        "description": "映画の世界が楽しめる人気スポット。",
+    },
+]
+
+
+# ==== 検索フォーム ====
+@app.route('/spot-search', methods=['GET'])
+def spot_search():
+    return render_template('spot_search.html')
+
+
+# ==== 検索結果 ====
+@app.route('/spot-search-results', methods=['POST'])
+def spot_search_results():
+    keyword = request.form.get('keyword', '').strip()
+
+    # キーワードを含むものを検索
+    results = []
+    for s in SPOT_DATA:
+        if keyword in s["name"] or keyword in s["address"] or keyword in s["category"]:
+            results.append(s)
+
+    return render_template(
+        "spot_search_results.html",
+        keyword=keyword,
+        results=results
+    )
+
+
+
+
+# ===============================
+# 宿泊検索（検索フォーム）
+# ===============================
+
+RAKUTEN_API_KEY = "1002136947918553343"
+
+
+# 都道府県コード（middleClassCode）の例。地区コードAPI（GetAreaClass）から取得したコードを使う必要あり。
+PREFECTURES = [
+    {"name": "北海道", "middleCode": "hokkaido"},
+    {"name": "青森県", "middleCode": "aomori"},
+    {"name": "岩手県", "middleCode": "iwate"},
+    {"name": "宮城県", "middleCode": "miyagi"},
+    {"name": "秋田県", "middleCode": "akita"},
+    {"name": "山形県", "middleCode": "yamagata"},
+    {"name": "福島県", "middleCode": "fukushima"},
+    {"name": "茨城県", "middleCode": "ibaraki"},
+    {"name": "栃木県", "middleCode": "tochigi"},
+    {"name": "群馬県", "middleCode": "gunma"},
+    {"name": "埼玉県", "middleCode": "saitama"},
+    {"name": "千葉県", "middleCode": "chiba"},
+    {"name": "東京都", "middleCode": "tokyo"},
+    {"name": "神奈川県", "middleCode": "kanagawa"},
+    # 必要に応じて残りを追加
+]
+
+@app.route("/stay_search", methods=["GET"])
+def stay_search():
+    return render_template("stay_search.html", prefectures=PREFECTURES)
+
+@app.route("/stay_search/results", methods=["GET"])
+def stay_search_results():
+    middle_code = request.args.get("middle_code")
+    checkin_date = request.args.get("checkin_date")
+    checkout_date = request.args.get("checkout_date")
+    adults = int(request.args.get("adults", 1))
+
+    url = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
+    params = {
+        "applicationId": RAKUTEN_API_KEY,
+        "format": "json",
+        "middleClassCode": middle_code,
+        "checkinDate": checkin_date,
+        "checkoutDate": checkout_date,
+        "adultNum": adults,
+        "hits": 10,
+        "page": 1,
+        "responseType": "small",  # 必要に応じて small / middle / large
+        "sort": "+roomCharge"       # 安い順にソート
+    }
+
+    response = requests.get(url, params=params)
+    data = response.json()
+    hotels = data.get("hotels", [])
+
+    # デバッグログ
+    print("Request URL:", response.url)
+    print("Response:", data)
+
+    return render_template(
+        "stay_search_results.html",
+        hotels=hotels,
+        checkin_date=checkin_date,
+        checkout_date=checkout_date,
+        adults=adults
+    )
 
 
 # ===============================================================
