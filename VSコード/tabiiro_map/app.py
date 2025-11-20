@@ -65,13 +65,19 @@ class Spot(db.Model):
     spot_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("USER.id"), nullable=False)
     name = db.Column(db.String(100), nullable=False)
+    prefecture = db.Column(db.String(20), nullable=False)
     visit_date = db.Column(db.Date, nullable=False)
     photo = db.Column(db.String(255))
     comment = db.Column(db.Text)
+    weather = db.Column(db.String(50))   
+    temp_max = db.Column(db.Float)        
+    temp_min = db.Column(db.Float)         
+    precipitation = db.Column(db.Float)     
     created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
     updated_at = db.Column(
         db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False
     )
+
 
 
 # ---------------------------------------------------------------
@@ -360,34 +366,67 @@ def spot_register():
 
     if request.method == 'POST':
         user_id = session.get('user_id')
-        name = request.form.get('name')
+        prefecture = request.form.get("prefecture")
         visit_date = datetime.strptime(request.form.get('visit_date'), "%Y-%m-%d").date()
         comment = request.form.get('comment')
+        name = request.form.get('name')
 
+        # 写真処理
         photo_file = request.files.get('photo')
         filename = None
-
         if photo_file and photo_file.filename:
             upload_dir = os.path.join("static", "uploads")
             os.makedirs(upload_dir, exist_ok=True)
             filename = f"{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
             photo_file.save(os.path.join(upload_dir, filename))
 
+        # ▼▼ 天気取得 ▼▼
+        lat, lon = PREF_LATLON.get(prefecture, (None, None))
+        weather = None
+        temp_max = None
+        temp_min = None
+        precipitation = None
+
+        if lat and lon:
+            url = (
+                "https://archive-api.open-meteo.com/v1/archive"
+                f"?latitude={lat}&longitude={lon}"
+                f"&start_date={visit_date}&end_date={visit_date}"
+                "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum"
+                "&timezone=Asia/Tokyo"
+            )
+            try:
+                res = requests.get(url).json()
+                code = res["daily"]["weathercode"][0]
+                weather = convert_weather_icon(code)
+                temp_max = res["daily"]["temperature_2m_max"][0]
+                temp_min = res["daily"]["temperature_2m_min"][0]
+                precipitation = res["daily"]["precipitation_sum"][0]
+            except:
+                print("天気取得失敗")
+
+        # ▼▼ DB 保存 ▼▼
         new_spot = Spot(
             user_id=user_id,
             name=name,
+            prefecture=prefecture,
             visit_date=visit_date,
             photo=filename,
-            comment=comment
+            comment=comment,
+            weather=weather,
+            temp_max=temp_max,
+            temp_min=temp_min,
+            precipitation=precipitation,
         )
 
         db.session.add(new_spot)
         db.session.commit()
 
-        flash("登録しました！", "success")
+        flash("登録しました！（天気データも保存しました）", "success")
         return redirect(url_for('spot_register'))
 
     return render_template("spot_register.html")
+
 
 
 # ===============================================================
@@ -627,6 +666,150 @@ def event_search_results():
         "event_search_results.html",
         keyword=keyword,
         results=results
+    )
+
+# ============================
+# 天気（Open-Meteo）
+# ============================
+
+import requests
+
+# ======================================
+# 都道府県 → 緯度経度
+# ======================================
+
+PREF_LATLON = {
+    "北海道": (43.06417, 141.34694),
+    "青森県": (40.82444, 140.74),
+    "岩手県": (39.70361, 141.1525),
+    "宮城県": (38.26889, 140.87194),
+    "秋田県": (39.71861, 140.1025),
+    "山形県": (38.24056, 140.36333),
+    "福島県": (37.75, 140.46778),
+    "茨城県": (36.34139, 140.44667),
+    "栃木県": (36.56583, 139.88361),
+    "群馬県": (36.39111, 139.06083),
+    "埼玉県": (35.85694, 139.64889),
+    "千葉県": (35.60472, 140.12333),
+    "東京都": (35.68944, 139.69167),
+    "神奈川県": (35.44778, 139.6425),
+    "新潟県": (37.90222, 139.02361),
+    "富山県": (36.69528, 137.21139),
+    "石川県": (36.59444, 136.62556),
+    "福井県": (36.06528, 136.22194),
+    "山梨県": (35.66389, 138.56833),
+    "長野県": (36.65139, 138.18111),
+    "岐阜県": (35.39111, 136.72222),
+    "静岡県": (34.97694, 138.38306),
+    "愛知県": (35.18028, 136.90667),
+    "三重県": (34.73028, 136.50861),
+    "滋賀県": (35.00444, 135.86833),
+    "京都府": (35.02139, 135.75556),
+    "大阪府": (34.68639, 135.52),
+    "兵庫県": (34.69139, 135.18306),
+    "奈良県": (34.68528, 135.83278),
+    "和歌山県": (34.22611, 135.1675),
+    "鳥取県": (35.50361, 134.23833),
+    "島根県": (35.47222, 133.05056),
+    "岡山県": (34.66167, 133.935),
+    "広島県": (34.39639, 132.45944),
+    "山口県": (34.18583, 131.47139),
+    "徳島県": (34.06583, 134.55944),
+    "香川県": (34.34028, 134.04333),
+    "愛媛県": (33.84167, 132.76611),
+    "高知県": (33.55972, 133.53111),
+    "福岡県": (33.59028, 130.40194),
+    "佐賀県": (33.24944, 130.29889),
+    "長崎県": (32.74472, 129.87361),
+    "熊本県": (32.78972, 130.74167),
+    "大分県": (33.23806, 131.6125),
+    "宮崎県": (31.91111, 131.42389),
+    "鹿児島県": (31.56028, 130.55806),
+    "沖縄県": (26.2125, 127.68111),
+}
+
+# ======================================
+# 天気（Open-Meteo + アイコン + 週間予報）
+# ======================================
+
+import requests
+
+def convert_weather_icon(code):
+    if code == 0: return "☀️"
+    if code == 1: return "🌤"
+    if code == 2: return "⛅"
+    if code == 3: return "☁️"
+    if code in [45, 48]: return "🌫"
+    if code in [51, 53, 55]: return "🌧"
+    if code in [61, 63, 65]: return "🌧"
+    if code in [66, 67]: return "🌧❄️"
+    if code in [71, 73, 75]: return "❄️"
+    if code == 77: return "🌨"
+    if code in [80, 81, 82]: return "🌦"
+    if code in [85, 86]: return "🌨"
+    if code == 95: return "⛈️"
+    if code in [96, 99]: return "⛈️"
+    return "❓"
+
+
+@app.route('/weather', methods=['GET', 'POST'])
+def weather():
+    weather_data = None
+    weekly = None
+    error = None
+
+    if request.method == "POST":
+        pref = request.form.get("prefecture")
+
+        if pref not in PREF_LATLON:
+            error = "都道府県を選択してください。"
+        else:
+            lat, lon = PREF_LATLON[pref]
+
+            url = (
+                "https://api.open-meteo.com/v1/forecast"
+                f"?latitude={lat}&longitude={lon}"
+                "&current_weather=true"
+                "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max"
+                "&timezone=Asia/Tokyo"
+            )
+
+            try:
+                res = requests.get(url).json()
+
+                # 現在の天気
+                code = res["current_weather"]["weathercode"]
+
+                weather_data = {
+                    "city_name": pref,
+                    "description": "現在の天気",
+                    "temp": res["current_weather"]["temperature"],
+                    "humidity": "-",  # ※後で時間別を追加できる
+                    "icon": convert_weather_icon(code),
+                }
+
+                # 週間データ
+                weekly = []
+                for i in range(7):
+                    w_code = res["daily"]["weathercode"][i]
+                    weekly.append({
+                        "date": res["daily"]["time"][i],
+                        "icon": convert_weather_icon(w_code),
+                        "max": res["daily"]["temperature_2m_max"][i],
+                        "min": res["daily"]["temperature_2m_min"][i],
+                        "precip": res["daily"]["precipitation_probability_max"][i],
+                    })
+
+            except Exception as e:
+                print(e)
+                error = "天気データの取得に失敗しました。"
+
+    return render_template(
+        "weather.html",
+        weather=weather_data,
+        weekly=weekly,
+        error=error,
+        prefectures=list(PREF_LATLON.keys())
     )
 
 # ===============================================================

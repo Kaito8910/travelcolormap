@@ -1,26 +1,80 @@
 {% extends "base.html" %}
 
-{% block title %}{{ weather.city_name }}の天気予報 | 旅色マップ{% endblock %}
+{% block title %}
+    天気予報 | 旅色マップ
+{% endblock %}
 
 {% block main_content %}
-<div class="weather-page">
-    <h1>🌤 {{ weather.city_name }} の天気予報</h1>
+<div class="weather-page" style="max-width:900px; margin:0 auto; padding:20px;">
+
+    <h1 style="text-align:center;">🌤 天気予報（Open-Meteo）</h1>
+
+    <!-- フォーム -->
+    <form method="POST" action="{{ url_for('weather') }}" style="text-align:center; margin-bottom:25px;">
+        <select name="prefecture" required style="padding:8px; font-size:1em;">
+            <option value="">都道府県を選択</option>
+            {% for pref in prefectures %}
+                <option value="{{ pref }}">{{ pref }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" style="padding:8px 12px; font-size:1em;">検索</button>
+    </form>
 
     {% if error %}
-        <p class="error">{{ error }}</p>
-    {% else %}
-        <div class="weather-card">
-            <p><strong>天気：</strong> {{ weather.description }}</p>
-            <p><strong>現在の気温：</strong> {{ weather.temp }} ℃</p>
-            <p><strong>最高気温：</strong> {{ weather.temp_max }} ℃</p>
-            <p><strong>最低気温：</strong> {{ weather.temp_min }} ℃</p>
-            <p><strong>湿度：</strong> {{ weather.humidity }} %</p>
-            <p><strong>降水確率：</strong> {{ weather.pop | round(0) }} %</p>
+        <p style="color:red; text-align:center;">{{ error }}</p>
+    {% endif %}
+
+    <!-- 現在の天気カード -->
+    {% if weather %}
+        <div style="
+            background:#fff;
+            padding:20px;
+            border-radius:12px;
+            box-shadow:0 3px 7px rgba(0,0,0,0.15);
+            margin-bottom:25px;
+        ">
+            <h2 style="margin-top:0;">{{ weather.city_name }}（現在）</h2>
+            <p style="font-size:2em;">{{ weather.icon }}</p>
+            <p><strong>気温：</strong> {{ weather.temp }}℃</p>
         </div>
     {% endif %}
 
-    <div class="back-link">
-        <a href="javascript:history.back()">戻る</a>
+    <!-- 週間予報 -->
+    {% if weekly %}
+        <h2 style="margin-top:40px;">週間天気</h2>
+
+        <div style="
+            display:flex;
+            gap:10px;
+            overflow-x:auto;
+            padding-bottom:10px;
+        ">
+            {% for day in weekly %}
+            <div style="
+                min-width:130px;
+                background:white;
+                padding:15px;
+                border-radius:10px;
+                text-align:center;
+                box-shadow:0 2px 6px rgba(0,0,0,0.1);
+            ">
+                <div style="font-weight:bold; margin-bottom:5px;">
+                    {{ day.date }}
+                </div>
+                <div style="font-size:2em; margin-bottom:10px;">
+                    {{ day.icon }}
+                </div>
+                <div><strong>最高</strong>：{{ day.max }}℃</div>
+                <div><strong>最低</strong>：{{ day.min }}℃</div>
+                <div><strong>降水確率</strong>：{{ day.precip }}%</div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="{{ url_for('home') }}">ホームに戻る</a>
     </div>
+
 </div>
 {% endblock %}
