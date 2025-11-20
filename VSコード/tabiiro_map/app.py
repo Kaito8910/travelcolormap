@@ -519,66 +519,129 @@ def spot_search_results():
 
 RAKUTEN_API_KEY = "1002136947918553343"
 
+# --------------------------------------------------
+# エリア一覧（GetAreaClass を起動時に読み込む）
+# --------------------------------------------------
+def load_area_class():
+    url = "https://app.rakuten.co.jp/services/api/Travel/GetAreaClass/20131024"
+    params = {
+        "applicationId": RAKUTEN_API_KEY,
+        "format": "json"
+    }
+    data = requests.get(url, params=params).json()
+    return data
 
-# 都道府県コード（middleClassCode）の例。地区コードAPI（GetAreaClass）から取得したコードを使う必要あり。
-PREFECTURES = [
-    {"name": "北海道", "middleCode": "hokkaido"},
-    {"name": "青森県", "middleCode": "aomori"},
-    {"name": "岩手県", "middleCode": "iwate"},
-    {"name": "宮城県", "middleCode": "miyagi"},
-    {"name": "秋田県", "middleCode": "akita"},
-    {"name": "山形県", "middleCode": "yamagata"},
-    {"name": "福島県", "middleCode": "fukushima"},
-    {"name": "茨城県", "middleCode": "ibaraki"},
-    {"name": "栃木県", "middleCode": "tochigi"},
-    {"name": "群馬県", "middleCode": "gunma"},
-    {"name": "埼玉県", "middleCode": "saitama"},
-    {"name": "千葉県", "middleCode": "chiba"},
-    {"name": "東京都", "middleCode": "tokyo"},
-    {"name": "神奈川県", "middleCode": "kanagawa"},
-    # 必要に応じて残りを追加
-]
+AREA_CLASS_DATA = load_area_class()
 
-@app.route("/stay_search", methods=["GET"])
+# --------------------------------------------------
+# 都道府県リスト（middleClassCode）
+# --------------------------------------------------
+def get_prefectures():
+    prefs = []
+    large_classes = AREA_CLASS_DATA["areaClasses"]["largeClasses"]
+
+    for large in large_classes:
+        for middle in large["middleClasses"]:
+            prefs.append({
+                "large": large["largeClassCode"],
+                "middle": middle["middleClassCode"],
+                "middle_name": middle["middleClassName"]
+            })
+    return prefs
+
+# --------------------------------------------------
+# smallClassCode 一覧を取得（中分類 → 小分類）
+# --------------------------------------------------
+def get_small_classes(large_code, middle_code):
+    small_list = []
+
+    for large in AREA_CLASS_DATA["areaClasses"]["largeClasses"]:
+        if large["largeClassCode"] == large_code:
+            for middle in large["middleClasses"]:
+                if middle["middleClassCode"] == middle_code:
+                    for small in middle["smallClasses"]:
+                        small_list.append({
+                            "small": small["smallClassCode"],
+                            "small_name": small["smallClassName"]
+                        })
+    return small_list
+
+# --------------------------------------------------
+# detailClassCode 一覧を取得（小分類 → 細分類）
+# --------------------------------------------------
+def get_detail_classes(large_code, middle_code, small_code):
+    detail_list = []
+
+    for large in AREA_CLASS_DATA["areaClasses"]["largeClasses"]:
+        if large["largeClassCode"] == large_code:
+            for middle in large["middleClasses"]:
+                if middle["middleClassCode"] == middle_code:
+                    for small in middle["smallClasses"]:
+                        if small["smallClassCode"] == small_code:
+                            for detail in small["detailClasses"]:
+                                detail_list.append({
+                                    "detail": detail["detailClassCode"],
+                                    "detail_name": detail["detailClassName"]
+                                })
+    return detail_list
+
+# ==================================================
+#  宿泊検索フォーム
+# ==================================================
+@app.route("/stay_search")
 def stay_search():
-    return render_template("stay_search.html", prefectures=PREFECTURES)
+    prefectures = get_prefectures()
+    return render_template("stay_search.html", prefectures=prefectures)
 
-@app.route("/stay_search/results", methods=["GET"])
+# ==================================================
+#  Ajaxで小分類・細分類を返す
+# ==================================================
+@app.route("/get_small")
+def get_small():
+    large = request.args.get("large")
+    middle = request.args.get("middle")
+    return {"small": get_small_classes(large, middle)}
+
+@app.route("/get_detail")
+def get_detail():
+    large = request.args.get("large")
+    middle = request.args.get("middle")
+    small = request.args.get("small")
+    return {"detail": get_detail_classes(large, middle, small)}
+
+# ==================================================
+#  検索結果
+# ==================================================
+@app.route("/stay_search_results")
 def stay_search_results():
-    middle_code = request.args.get("middle_code")
+    large = request.args.get("large")
+    middle = request.args.get("middle")
+    small = request.args.get("small")
+    detail = request.args.get("detail")
     checkin_date = request.args.get("checkin_date")
     checkout_date = request.args.get("checkout_date")
-    adults = int(request.args.get("adults", 1))
+    adults = request.args.get("adults", 1)
 
     url = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
+
     params = {
         "applicationId": RAKUTEN_API_KEY,
         "format": "json",
-        "middleClassCode": middle_code,
+        "largeClassCode": large,
+        "middleClassCode": middle,
+        "smallClassCode": small,
+        "detailClassCode": detail,
         "checkinDate": checkin_date,
         "checkoutDate": checkout_date,
         "adultNum": adults,
-        "hits": 10,
+        "hits": 20,
         "page": 1,
-        "responseType": "small",  # 必要に応じて small / middle / large
-        "sort": "+roomCharge"       # 安い順にソート
+        "sort": "+roomCharge"
     }
 
-    response = requests.get(url, params=params)
-    data = response.json()
-    hotels = data.get("hotels", [])
+    data = requests.get(url, params=params).json()
 
-    # デバッグログ
-    print("Request URL:", response.url)
-    print("Response:", data)
-
-    return render_template(
-        "stay_search_results.html",
-        hotels=hotels,
-        checkin_date=checkin_date,
-        checkout_date=checkout_date,
-        adults=adults
-    )
+    return render_template("stay_search_results.html", data=data)
 
 
 # ===============================================================
