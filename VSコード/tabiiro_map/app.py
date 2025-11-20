@@ -15,9 +15,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from spot_pref_map import SPOT_TO_PREF
 from datetime import datetime
+#import pandas as pd
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
+
+
+API_KEY = "1002136947918553343"
+
 
 
 # ===============================================================
@@ -391,14 +396,7 @@ def spot_register():
 
 @app.route('/gourmet-record')
 def gourmet_record():
-    return "<h1>グルメ記録ページ</h1>"
-
-# ===============================================================
-# 宿泊検索
-# ===============================================================
-@app.route('/stay-search')
-def stay_search():
-    return "<h1>宿泊検索ページ</h1>"
+    return render_template('gourmet_record.html')
 
 # ===============================================================
 # イベント検索
@@ -409,14 +407,30 @@ def event_search():
     return render_template('event_search.html')
 
 # ===============================================================
-# スポット検索
+# API（都道府県訪問記録）
 # ===============================================================
+@app.route('/api/travel-records-db')
+def travel_records_db_api():
 
-@app.route('/spot-search')
-def spot_search():
-    return render_template('spot_search.html')
+    records = TravelRecord.query.all()
+    data = {}
 
+    for r in records:
+        if r.visit_count == 0:
+            status = "none"
+        elif r.visit_count <= 2:
+            status = "light"
+        elif r.visit_count <= 5:
+            status = "medium"
+        else:
+            status = "heavy"
 
+        data[r.prefecture] = {
+            "visit_count": r.visit_count,
+            "status": status
+        }
+
+    return jsonify(data)
 
 
 # ===============================================================
@@ -433,6 +447,141 @@ def api_pref_counts():
                 pref_counts[pref] = pref_counts.get(pref, 0) + 1
 
     return jsonify(pref_counts)
+
+
+# ==== 仮データ（本来はDBやAPIから取得） ====
+SPOT_DATA = [
+    {
+        "name": "東京タワー",
+        "address": "東京都港区芝公園4-2-8",
+        "category": "観光地",
+        "description": "東京の iconic なランドマーク。",
+    },
+    {
+        "name": "浅草寺",
+        "address": "東京都台東区浅草2-3-1",
+        "category": "寺院",
+        "description": "国内外から人気の観光スポット。",
+    },
+    {
+        "name": "ユニバーサルスタジオジャパン",
+        "address": "大阪府大阪市此花区桜島2丁目",
+        "category": "テーマパーク",
+        "description": "映画の世界が楽しめる人気スポット。",
+    },
+]
+
+# ===============================================================
+# スポット検索
+# ===============================================================
+
+# ==== 検索フォーム ====
+@app.route('/spot-search', methods=['GET'])
+def spot_search():
+    return render_template('spot_search.html')
+
+
+# ==== 検索結果 ====
+@app.route('/spot-search-results', methods=['POST'])
+def spot_search_results():
+    keyword = request.form.get('keyword', '').strip()
+
+    # キーワードを含むものを検索
+    results = []
+    for s in SPOT_DATA:
+        if keyword in s["name"] or keyword in s["address"] or keyword in s["category"]:
+            results.append(s)
+
+    return render_template(
+        "spot_search_results.html",
+        keyword=keyword,
+        results=results
+    )
+
+# ===============================
+# 宿泊検索（検索フォーム）
+# ===============================
+
+RAKUTEN_API_KEY = "1002136947918553343"
+
+# ▼ 楽天公式の正しい都道府県コード（最低限版）
+PREFECTURES = [
+    {"name": "北海道", "large": "japan", "middle": "hokkaido", "small": "sapporo"},
+    {"name": "青森県", "large": "japan", "middle": "aomori", "small": "aomori"},
+    {"name": "岩手県", "large": "japan", "middle": "iwate", "small": "morioka"},
+    {"name": "宮城県", "large": "japan", "middle": "miyagi", "small": "sendai"},
+    {"name": "秋田県", "large": "japan", "middle": "akita", "small": "akita"},
+    {"name": "山形県", "large": "japan", "middle": "yamagata", "small": "yamagata"},
+    {"name": "福島県", "large": "japan", "middle": "fukushima", "small": "fukushima"},
+    {"name": "東京都", "large": "japan", "middle": "tokyo", "small": "tokyo"},
+    {"name": "神奈川県", "large": "japan", "middle": "kanagawa", "small": "yokohama"},
+    {"name": "千葉県", "large": "japan", "middle": "chiba", "small": "chiba"},
+]
+
+# ===============================
+# 宿泊検索（検索フォーム）
+# ===============================
+@app.route("/stay_search", methods=["GET"])
+def stay_search():
+    return render_template("stay_search.html", prefectures=PREFECTURES)
+
+
+# ===============================
+# 宿泊検索結果
+# ===============================
+@app.route("/stay_search_results", methods=["GET"])
+def stay_search_results():
+
+    # HTML から受け取り
+    large = request.args.get("large")
+    middle = request.args.get("middle")
+    small = request.args.get("small")
+    checkin_date = request.args.get("checkin_date")
+    checkout_date = request.args.get("checkout_date")
+    adults = request.args.get("adults", 1)
+
+    url = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
+
+    params = {
+        "applicationId": RAKUTEN_API_KEY,
+        "format": "json",
+        "largeClassCode": large,
+        "middleClassCode": middle,
+        "smallClassCode": small,
+        "checkinDate": checkin_date,
+        "checkoutDate": checkout_date,
+        "adultNum": adults,
+        "hits": 20,
+        "page": 1,
+        "sort": "+roomCharge"
+    }
+
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    hotels = data.get("hotels", [])
+    error = data.get("error")
+
+    # デバッグ表示（必要なら）
+    print("URL:", response.url)
+    print("DATA:", data)
+
+    return render_template(
+        "stay_search_results.html",
+        hotels=hotels,
+        error=error,
+        checkin_date=checkin_date,
+        checkout_date=checkout_date,
+        adults=adults,
+    )
+
+
+# ===============================================================
+# イベント検索
+# ===============================================================
+@app.route('/event_search_resultes', methods=['GET'])
+def event_search_results():
+    return render_template('event_search_results.html')
 
 
 # ===============================================================
