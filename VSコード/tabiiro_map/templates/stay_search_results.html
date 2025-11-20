@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}宿泊検索結果 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>宿泊検索結果</h1>
+    <!-- フラッシュメッセージ -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="flash-message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    {% if error %}
+        <p style="color:red;">APIエラー: {{ error }}</p>
+    {% endif %}
+
+    {% if hotels|length == 0 %}
+        <p>該当するホテルがありませんでした。</p>
+    {% endif %}
+
+    {% for h in hotels %}
+        {% set info = h.hotel[0].hotelBasicInfo %}
+        <div class="card">
+            <h2>{{ info.hotelName }}</h2>
+
+            {% if info.hotelImageUrl %}
+                <img src="{{ info.hotelImageUrl }}" width="200">
+            {% endif %}
+
+            <p>住所：{{ info.address1 }} {{ info.address2 }}</p>
+            <p>最低料金：{{ info.hotelMinCharge }} 円〜</p>
+            <p><a href="{{ info.hotelInformationUrl }}" target="_blank">詳細を見る</a></p>
+        </div>
+        <hr>
+    {% endfor %}
+</div>
+{% endblock %}
