@@ -15,7 +15,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from spot_pref_map import SPOT_TO_PREF
 from datetime import datetime
-import pandas as pd
+#import pandas as pd
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -409,10 +409,6 @@ def event_search():
     return render_template('event_search.html')
 
 # ===============================================================
-# スポット検索
-# ===============================================================
-
-# ===============================================================
 # API（都道府県訪問記録）
 # ===============================================================
 @app.route('/api/travel-records-db')
@@ -455,15 +451,6 @@ def api_pref_counts():
     return jsonify(pref_counts)
 
 
-
-
-
-
-# ===============================================================
-# アプリ起動
-# ===============================================================
-
-
 # ==== 仮データ（本来はDBやAPIから取得） ====
 SPOT_DATA = [
     {
@@ -486,6 +473,9 @@ SPOT_DATA = [
     },
 ]
 
+# ===============================================================
+# スポット検索
+# ===============================================================
 
 # ==== 検索フォーム ====
 @app.route('/spot-search', methods=['GET'])
@@ -579,6 +569,13 @@ def stay_search_results():
         checkout_date=checkout_date,
         adults=adults
     )
+
+# ===============================================================
+# イベント検索
+# ===============================================================
+@app.route('/event_search_resultes', methods=['GET'])
+def event_search_results():
+    return render_template('event_search_results.html')
 
 
 # ===============================================================
