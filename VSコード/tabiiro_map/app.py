@@ -509,66 +509,77 @@ def spot_search_results():
 
 RAKUTEN_API_KEY = "1002136947918553343"
 
-
-# 都道府県コード（middleClassCode）の例。地区コードAPI（GetAreaClass）から取得したコードを使う必要あり。
+# ▼ 楽天公式の正しい都道府県コード（最低限版）
 PREFECTURES = [
-    {"name": "北海道", "middleCode": "hokkaido"},
-    {"name": "青森県", "middleCode": "aomori"},
-    {"name": "岩手県", "middleCode": "iwate"},
-    {"name": "宮城県", "middleCode": "miyagi"},
-    {"name": "秋田県", "middleCode": "akita"},
-    {"name": "山形県", "middleCode": "yamagata"},
-    {"name": "福島県", "middleCode": "fukushima"},
-    {"name": "茨城県", "middleCode": "ibaraki"},
-    {"name": "栃木県", "middleCode": "tochigi"},
-    {"name": "群馬県", "middleCode": "gunma"},
-    {"name": "埼玉県", "middleCode": "saitama"},
-    {"name": "千葉県", "middleCode": "chiba"},
-    {"name": "東京都", "middleCode": "tokyo"},
-    {"name": "神奈川県", "middleCode": "kanagawa"},
-    # 必要に応じて残りを追加
+    {"name": "北海道", "large": "japan", "middle": "hokkaido", "small": "sapporo"},
+    {"name": "青森県", "large": "japan", "middle": "aomori", "small": "aomori"},
+    {"name": "岩手県", "large": "japan", "middle": "iwate", "small": "morioka"},
+    {"name": "宮城県", "large": "japan", "middle": "miyagi", "small": "sendai"},
+    {"name": "秋田県", "large": "japan", "middle": "akita", "small": "akita"},
+    {"name": "山形県", "large": "japan", "middle": "yamagata", "small": "yamagata"},
+    {"name": "福島県", "large": "japan", "middle": "fukushima", "small": "fukushima"},
+    {"name": "東京都", "large": "japan", "middle": "tokyo", "small": "tokyo"},
+    {"name": "神奈川県", "large": "japan", "middle": "kanagawa", "small": "yokohama"},
+    {"name": "千葉県", "large": "japan", "middle": "chiba", "small": "chiba"},
 ]
 
+# ===============================
+# 宿泊検索（検索フォーム）
+# ===============================
 @app.route("/stay_search", methods=["GET"])
 def stay_search():
     return render_template("stay_search.html", prefectures=PREFECTURES)
 
-@app.route("/stay_search/results", methods=["GET"])
+
+# ===============================
+# 宿泊検索結果
+# ===============================
+@app.route("/stay_search_results", methods=["GET"])
 def stay_search_results():
-    middle_code = request.args.get("middle_code")
+
+    # HTML から受け取り
+    large = request.args.get("large")
+    middle = request.args.get("middle")
+    small = request.args.get("small")
     checkin_date = request.args.get("checkin_date")
     checkout_date = request.args.get("checkout_date")
-    adults = int(request.args.get("adults", 1))
+    adults = request.args.get("adults", 1)
 
     url = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
+
     params = {
         "applicationId": RAKUTEN_API_KEY,
         "format": "json",
-        "middleClassCode": middle_code,
+        "largeClassCode": large,
+        "middleClassCode": middle,
+        "smallClassCode": small,
         "checkinDate": checkin_date,
         "checkoutDate": checkout_date,
         "adultNum": adults,
-        "hits": 10,
+        "hits": 20,
         "page": 1,
-        "responseType": "small",  # 必要に応じて small / middle / large
-        "sort": "+roomCharge"       # 安い順にソート
+        "sort": "+roomCharge"
     }
 
     response = requests.get(url, params=params)
     data = response.json()
-    hotels = data.get("hotels", [])
 
-    # デバッグログ
-    print("Request URL:", response.url)
-    print("Response:", data)
+    hotels = data.get("hotels", [])
+    error = data.get("error")
+
+    # デバッグ表示（必要なら）
+    print("URL:", response.url)
+    print("DATA:", data)
 
     return render_template(
         "stay_search_results.html",
         hotels=hotels,
+        error=error,
         checkin_date=checkin_date,
         checkout_date=checkout_date,
-        adults=adults
+        adults=adults,
     )
+
 
 # ===============================================================
 # イベント検索
