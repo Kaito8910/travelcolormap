@@ -7,47 +7,42 @@
 
     <form action="/stay_search_results" method="GET">
 
-        <label>都道府県</label>
-        <select name="middle" required>
+        <label>都道府県を選択</label>
+        <select name="small" required>
+            <option value="">選択してください</option>
+
             {% for p in prefectures %}
-                <option value="{{ p.middle }}" 
-                        data-large="{{ p.large }}" 
-                        data-small="{{ p.small }}">
+                <option value="{{ p.small }}"
+                        data-large="{{ p.large }}"
+                        data-middle="{{ p.middle }}">
                     {{ p.name }}
                 </option>
             {% endfor %}
         </select>
 
-        <!-- hidden -->
-        <input type="hidden" name="large" id="largeInput">
-        <input type="hidden" name="small" id="smallInput">
+        <!-- hidden で large/middle を送る -->
+        <input type="hidden" name="large" id="large">
+        <input type="hidden" name="middle" id="middle">
 
-        <label>チェックイン日</label>
-        <input type="date" name="checkin_date" required>
+        <script>
+            // small を選択したら large と middle も自動で入る
+            document.querySelector("select[name='small']").addEventListener("change", function () {
+                let selected = this.options[this.selectedIndex];
+                document.getElementById("large").value = selected.dataset.large;
+                document.getElementById("middle").value = selected.dataset.middle;
+            });
+        </script>
 
-        <label>チェックアウト日</label>
-        <input type="date" name="checkout_date" required>
+        <label>チェックイン</label>
+        <input type="date" name="checkin_date" value="{{ today }}" required>
 
-        <label>大人人数</label>
-        <input type="number" name="adults" value="1" min="1" required>
+        <label>チェックアウト</label>
+        <input type="date" name="checkout_date" value="{{ tomorrow }}" required>
 
-        <button type="submit">検索</button>
+        <label>大人の人数</label>
+        <input type="number" name="adults" value="1" min="1" max="10">
+
+        <button type="submit">検索する</button>
     </form>
 </div>
-
-<script>
-const prefectureSelect = document.querySelector('select[name="middle"]');
-const largeInput = document.getElementById("largeInput");
-const smallInput = document.getElementById("smallInput");
-
-prefectureSelect.addEventListener("change", function() {
-    const option = this.selectedOptions[0];
-    largeInput.value = option.dataset.large;
-    smallInput.value = option.dataset.small;
-});
-
-// 初期セット
-prefectureSelect.dispatchEvent(new Event("change"));
-</script>
-
 {% endblock %}

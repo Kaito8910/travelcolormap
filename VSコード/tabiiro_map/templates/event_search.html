@@ -1,71 +1,81 @@
 {% extends "base.html" %}
+{% block title %}イベント検索 | 旅色マップ{% endblock %}
+
 {% block main_content %}
-<section class="event-search">
-    <h2>イベント検索</h2>
+<div class="register-container">
+    <h1>イベント検索</h1>
 
-    <form action="{{ url_for('event_search_results') }}" method="post" class="search-form">
-        <select name="area">
-            <option value="">都道府県を選択</option>
-            <option value="北海道">北海道</option>
-            <option value="青森県">青森県</option>
-            <option value="岩手県">岩手県</option>
-            <option value="宮城県">宮城県</option>
-            <option value="秋田県">秋田県</option>
-            <option value="山形県">山形県</option>
-            <option value="福島県">福島県</option>
-            <option value="茨城県">茨城県</option>
-            <option value="栃木県">栃木県</option>
-            <option value="群馬県">群馬県</option>
-            <option value="埼玉県">埼玉県</option>
-            <option value="千葉県">千葉県</option>
-            <option value="東京都">東京都</option>
-            <option value="神奈川県">神奈川県</option>
-            <option value="新潟県">新潟県</option>
-            <option value="富山県">富山県</option>
-            <option value="石川県">石川県</option>
-            <option value="福井県">福井県</option>
-            <option value="山梨県">山梨県</option>
-            <option value="長野県">長野県</option>
-            <option value="岐阜県">岐阜県</option>
-            <option value="静岡県">静岡県</option>
-            <option value="愛知県">愛知県</option>
-            <option value="三重県">三重県</option>
-            <option value="滋賀県">滋賀県</option>
-            <option value="京都府">京都府</option>
-            <option value="大阪府">大阪府</option>
-            <option value="兵庫県">兵庫県</option>
-            <option value="奈良県">奈良県</option>
-            <option value="和歌山県">和歌山県</option>
-            <option value="鳥取県">鳥取県</option>
-            <option value="島根県">島根県</option>
-            <option value="岡山県">岡山県</option>
-            <option value="広島県">広島県</option>
-            <option value="山口県">山口県</option>
-            <option value="徳島県">徳島県</option>
-            <option value="香川県">香川県</option>
-            <option value="愛媛県">愛媛県</option>
-            <option value="高知県">高知県</option>
-            <option value="福岡県">福岡県</option>
-            <option value="佐賀県">佐賀県</option>
-            <option value="長崎県">長崎県</option>
-            <option value="熊本県">熊本県</option>
-            <option value="大分県">大分県</option>
-            <option value="宮崎県">宮崎県</option>
-            <option value="鹿児島県">鹿児島県</option>
-            <option value="沖縄県">沖縄県</option>
-        </select>
+    <!-- フラッシュメッセージ -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="flash-message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-        <input type="date" name="date">
+    <form method="POST" action="{{ url_for('event_search_results') }}">
+    <label for="keyword">キーワード:</label>
+    <input type="text" id="keyword" name="keyword" value="{{ keyword or '' }}">
 
-        <select name="category">
-            <option value="">カテゴリーを選択</option>
-            <option value="花火">花火</option>
-            <option value="祭り">祭り</option>
-            <option value="音楽">音楽</option>
-            <option value="スポーツ">スポーツ</option>
-        </select>
+    <label for="ymd">日付 (YYYYMMDD):</label>
+    <input type="text" id="ymd" name="ymd" value="{{ ymd or '' }}">
 
-        <button type="submit">検索</button>
-    </form>
+    <label for="prefecture">都道府県:</label>
+    <select id="prefecture" name="prefecture">
+        <option value="">-- 選択してください --</option>
+        <option value="online" {% if prefecture=='online' %}selected{% endif %}>オンライン</option>
+        <option value="hokkaido" {% if prefecture=='hokkaido' %}selected{% endif %}>北海道</option>
+        <option value="aomori" {% if prefecture=='aomori' %}selected{% endif %}>青森県</option>
+        <option value="iwate" {% if prefecture=='iwate' %}selected{% endif %}>岩手県</option>
+        <option value="miyagi" {% if prefecture=='miyagi' %}selected{% endif %}>宮城県</option>
+        <option value="akita" {% if prefecture=='akita' %}selected{% endif %}>秋田県</option>
+        <option value="yamagata" {% if prefecture=='yamagata' %}selected{% endif %}>山形県</option>
+        <option value="fukushima" {% if prefecture=='fukushima' %}selected{% endif %}>福島県</option>
+        <option value="ibaraki" {% if prefecture=='ibaraki' %}selected{% endif %}>茨城県</option>
+        <option value="tochigi" {% if prefecture=='tochigi' %}selected{% endif %}>栃木県</option>
+        <option value="gunma" {% if prefecture=='gunma' %}selected{% endif %}>群馬県</option>
+        <option value="saitama" {% if prefecture=='saitama' %}selected{% endif %}>埼玉県</option>
+        <option value="chiba" {% if prefecture=='chiba' %}selected{% endif %}>千葉県</option>
+        <option value="tokyo" {% if prefecture=='tokyo' %}selected{% endif %}>東京都</option>
+        <option value="kanagawa" {% if prefecture=='kanagawa' %}selected{% endif %}>神奈川県</option>
+        <option value="yamanashi" {% if prefecture=='yamanashi' %}selected{% endif %}>山梨県</option>
+        <option value="nagano" {% if prefecture=='nagano' %}selected{% endif %}>長野県</option>
+        <option value="niigata" {% if prefecture=='niigata' %}selected{% endif %}>新潟県</option>
+        <option value="toyama" {% if prefecture=='toyama' %}selected{% endif %}>富山県</option>
+        <option value="ishikawa" {% if prefecture=='ishikawa' %}selected{% endif %}>石川県</option>
+        <option value="fukui" {% if prefecture=='fukui' %}selected{% endif %}>福井県</option>
+        <option value="gifu" {% if prefecture=='gifu' %}selected{% endif %}>岐阜県</option>
+        <option value="shizuoka" {% if prefecture=='shizuoka' %}selected{% endif %}>静岡県</option>
+        <option value="aichi" {% if prefecture=='aichi' %}selected{% endif %}>愛知県</option>
+        <option value="mie" {% if prefecture=='mie' %}selected{% endif %}>三重県</option>
+        <option value="shiga" {% if prefecture=='shiga' %}selected{% endif %}>滋賀県</option>
+        <option value="kyoto" {% if prefecture=='kyoto' %}selected{% endif %}>京都府</option>
+        <option value="osaka" {% if prefecture=='osaka' %}selected{% endif %}>大阪府</option>
+        <option value="hyogo" {% if prefecture=='hyogo' %}selected{% endif %}>兵庫県</option>
+        <option value="nara" {% if prefecture=='nara' %}selected{% endif %}>奈良県</option>
+        <option value="wakayama" {% if prefecture=='wakayama' %}selected{% endif %}>和歌山県</option>
+        <option value="tottori" {% if prefecture=='tottori' %}selected{% endif %}>鳥取県</option>
+        <option value="shimane" {% if prefecture=='shimane' %}selected{% endif %}>島根県</option>
+        <option value="okayama" {% if prefecture=='okayama' %}selected{% endif %}>岡山県</option>
+        <option value="hiroshima" {% if prefecture=='hiroshima' %}selected{% endif %}>広島県</option>
+        <option value="yamaguchi" {% if prefecture=='yamaguchi' %}selected{% endif %}>山口県</option>
+        <option value="tokushima" {% if prefecture=='tokushima' %}selected{% endif %}>徳島県</option>
+        <option value="kagawa" {% if prefecture=='kagawa' %}selected{% endif %}>香川県</option>
+        <option value="ehime" {% if prefecture=='ehime' %}selected{% endif %}>愛媛県</option>
+        <option value="kochi" {% if prefecture=='kochi' %}selected{% endif %}>高知県</option>
+        <option value="fukuoka" {% if prefecture=='fukuoka' %}selected{% endif %}>福岡県</option>
+        <option value="saga" {% if prefecture=='saga' %}selected{% endif %}>佐賀県</option>
+        <option value="nagasaki" {% if prefecture=='nagasaki' %}selected{% endif %}>長崎県</option>
+        <option value="kumamoto" {% if prefecture=='kumamoto' %}selected{% endif %}>熊本県</option>
+        <option value="oita" {% if prefecture=='oita' %}selected{% endif %}>大分県</option>
+        <option value="miyazaki" {% if prefecture=='miyazaki' %}selected{% endif %}>宮崎県</option>
+        <option value="kagoshima" {% if prefecture=='kagoshima' %}selected{% endif %}>鹿児島県</option>
+        <option value="okinawa" {% if prefecture=='okinawa' %}selected{% endif %}>沖縄県</option>
+    </select>
 
+    <button type="submit">検索</button>
+</form>
+
+</div>
 {% endblock %}

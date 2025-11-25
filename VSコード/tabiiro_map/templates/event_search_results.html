@@ -1,22 +1,27 @@
 {% extends "base.html" %}
-
-{% block title %}イベント検索結果{% endblock %}
+{% block title %}イベント検索 | 旅色マップ{% endblock %}
 
 {% block main_content %}
-<h2>「{{ keyword }}」の検索結果</h2>
+<div class="register-container">
+    <h1>検索結果（{{ events|length }}件）</h1>
 
-{% if results %}
-    {% for event in results %}
-        <div class="event-card">
-            <strong>{{ event.name }}</strong><br>
-            住所：{{ event.address }}<br>
-            カテゴリ：{{ event.category }}<br>
-            説明：{{ event.description }}<br>
+    {% if events %}
+        <div class="result-cards">
+            {% for ev in events %}
+                <div class="spot-card">
+                    <h3>{{ ev.title }}</h3>
+                    {% if ev.started_at %}<p><strong>開始日時:</strong> {{ ev.started_at }}</p>{% endif %}
+                    {% if ev.ended_at %}<p><strong>終了日時:</strong> {{ ev.ended_at }}</p>{% endif %}
+                    {% if ev.place %}<p><strong>場所:</strong> {{ ev.place }}</p>{% endif %}
+                    {% if ev.address %}<p><strong>住所:</strong> {{ ev.address }}</p>{% endif %}
+                    <a href="{{ ev.event_url }}" class="btn btn-primary" target="_blank">イベント詳細を見る</a>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-{% else %}
-    <p>該当するイベントが見つかりませんでした。</p>
-{% endif %}
+    {% else %}
+        <p>該当するイベントは見つかりませんでした。</p>
+    {% endif %}
 
-<a href="{{ url_for('event_search') }}">検索に戻る</a>
+    <button onclick="history.back()" class="btn btn-secondary mt-3">検索画面に戻る</button>
+</div>
 {% endblock %}
