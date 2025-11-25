@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}観光地登録 | 旅色マップ{% endblock %}
+{% block title %}観光地編集 | 旅色マップ{% endblock %}
 
 {% block main_content %}
-<div class="spot-register-container">
-    <h1>観光地登録</h1>
+<div class="edit-container">
+    <h1>観光地編集</h1>
 
-    <!-- フラッシュメッセージ表示 -->
+    <!-- フラッシュ -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -15,19 +15,18 @@
         {% endif %}
     {% endwith %}
 
-    <form method="POST" action="{{ url_for('spot_register') }}" enctype="multipart/form-data" class="spot-form">
+    <form method="POST" enctype="multipart/form-data" class="edit-form">
 
         <!-- 観光地名 -->
         <div class="form-group">
-            <label for="spot_name">観光地名</label>
-            <input type="text" id="spot_name" name="spot_name" required>
+            <label>観光地名</label>
+            <input type="text" name="spot_name" value="{{ spot.name }}" required>
         </div>
 
         <!-- 都道府県 -->
         <div class="form-group">
-            <label for="prefecture">都道府県</label>
-            <select id="prefecture" name="prefecture" required>
-                <option value="">選択してください</option>
+            <label>都道府県</label>
+            <select name="prefecture" required>
                 {% for p in [
                     "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
                     "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
@@ -37,30 +36,33 @@
                     "徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県",
                     "熊本県","大分県","宮崎県","鹿児島県","沖縄県"
                 ] %}
-                    <option value="{{ p }}">{{ p }}</option>
+                    <option value="{{ p }}" {% if spot.prefecture == p %}selected{% endif %}>
+                        {{ p }}
+                    </option>
                 {% endfor %}
             </select>
         </div>
 
         <!-- 訪問日 -->
         <div class="form-group">
-            <label for="visit_date">訪問日</label>
-            <input type="date" id="visit_date" name="visit_date" required>
+            <label>訪問日</label>
+            <input type="date" name="visit_date" value="{{ spot.visit_date }}" required>
         </div>
 
         <!-- 写真 -->
         <div class="form-group">
-            <label for="photo">写真</label>
-            <input type="file" id="photo" name="photo" accept="image/*">
+            <label>写真（変更する場合のみ選択）</label>
+            <input type="file" name="photo" accept="image/*">
         </div>
 
         <!-- コメント -->
         <div class="form-group">
-            <label for="comment">コメント</label>
-            <textarea id="comment" name="comment" rows="4"></textarea>
+            <label>コメント</label>
+            <textarea name="comment">{{ spot.comment }}</textarea>
         </div>
 
-        <button type="submit" class="submit-button">登録</button>
+        <button type="submit" class="save-button">保存</button>
+        <a href="{{ url_for('spot_detail', spot_id=spot.spot_id) }}" class="cancel-button">キャンセル</a>
     </form>
 </div>
 {% endblock %}
