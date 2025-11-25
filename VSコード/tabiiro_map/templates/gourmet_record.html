@@ -10,7 +10,7 @@
 
     <!-- ★ form は必ず 1つだけ！ -->
     <form action="{{ url_for('add_gourmet') }}" method="POST"
-          enctype="multipart/form-data" class="gourmet-form">
+        enctype="multipart/form-data" class="gourmet-form">
 
         <div class="form-group">
             <label for="shop_name">店舗名</label>
@@ -38,7 +38,6 @@
             <input type="date" id="visit_date" name="visit_date" required>
         </div>
 
-        <!-- ★ 写真アップロード欄（form 内に入れる） -->
         <div class="form-group">
             <label for="photo">写真</label>
             <input type="file" id="photo" name="photo" accept="image/*">
