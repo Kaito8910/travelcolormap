@@ -8,16 +8,18 @@
 
     <h1 class="page-title">グルメ記録</h1>
 
-    <form action="{{ url_for('add_gourmet') }}" method="POST" class="gourmet-form">
+    <!-- ★ form は必ず 1つだけ！ -->
+    <form action="{{ url_for('add_gourmet') }}" method="POST"
+          enctype="multipart/form-data" class="gourmet-form">
 
         <div class="form-group">
-            <label for="store_name">店舗名</label>
-            <input type="text" id="store_name" name="store_name" required>
+            <label for="shop_name">店舗名</label>
+            <input type="text" id="shop_name" name="shop_name" required>
         </div>
 
         <div class="form-group">
-            <label for="menu_name">料理名</label>
-            <input type="text" id="menu_name" name="menu_name" required>
+            <label for="food_name">料理名</label>
+            <input type="text" id="food_name" name="food_name" required>
         </div>
 
         <div class="form-group">
@@ -34,6 +36,12 @@
         <div class="form-group">
             <label for="visit_date">日付</label>
             <input type="date" id="visit_date" name="visit_date" required>
+        </div>
+
+        <!-- ★ 写真アップロード欄（form 内に入れる） -->
+        <div class="form-group">
+            <label for="photo">写真</label>
+            <input type="file" id="photo" name="photo" accept="image/*">
         </div>
 
         <div class="form-group">

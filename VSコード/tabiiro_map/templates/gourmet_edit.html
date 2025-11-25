@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}グルメ編集 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<h1>グルメ編集</h1>
+
+<form action="{{ url_for('gourmet_edit', food_id=food.food_id) }}"
+    method="POST" enctype="multipart/form-data" class="gourmet-form">
+
+    <div class="form-group">
+        <label>店舗名</label>
+        <input type="text" name="shop_name" value="{{ food.shop_name }}" required>
+    </div>
+
+    <div class="form-group">
+        <label>料理名</label>
+        <input type="text" name="food_name" value="{{ food.food_name }}" required>
+    </div>
+
+    <div class="form-group">
+        <label>評価</label>
+        <select name="evaluation">
+            {% for i in range(1,6) %}
+                <option value="{{ i }}" 
+                    {% if i == food.evaluation %}selected{% endif %}>
+                    {{ "★" * i }}{{ "☆" * (5-i) }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>訪問日</label>
+        <input type="date" name="visit_date" value="{{ food.visit_date }}">
+    </div>
+
+    <div class="form-group">
+        <label>メモ</label>
+        <textarea name="memo" rows="4">{{ food.memo }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label>写真変更</label><br>
+        {% if food.photo %}
+            <img src="{{ url_for('static', filename='uploads/' + food.photo) }}"
+                class="edit-photo-preview">
+        {% endif %}
+        <input type="file" name="photo" accept="image/*">
+    </div>
+
+    <button type="submit" class="submit-btn">更新</button>
+
+</form>
+
+{% endblock %}

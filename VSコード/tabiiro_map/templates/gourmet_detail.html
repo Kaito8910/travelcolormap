@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}グルメ詳細 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<div class="detail-container">
+
+    <h1>{{ food.shop_name }}（{{ food.food_name }}）</h1>
+
+    {% if food.photo %}
+        <img src="{{ url_for('static', filename='uploads/' + food.photo) }}" 
+            alt="food photo" class="detail-photo">
+    {% else %}
+        <p>写真なし</p>
+    {% endif %}
+
+    <p><strong>評価:</strong> {{ "★" * food.evaluation }}{{ "☆" * (5 - food.evaluation) }}</p>
+    <p><strong>訪問日:</strong> {{ food.visit_date }}</p>
+
+    {% if food.memo %}
+        <p><strong>メモ:</strong><br>{{ food.memo | nl2br }}</p>
+    {% endif %}
+
+    <div class="btn-area">
+        <a href="{{ url_for('gourmet_edit', food_id=food.food_id) }}" class="edit-btn">編集</a>
+
+        <form action="{{ url_for('gourmet_delete', food_id=food.food_id) }}" method="POST"
+            onsubmit="return confirm('本当に削除しますか？');">
+            <button type="submit" class="delete-btn">削除</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

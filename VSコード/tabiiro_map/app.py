@@ -85,11 +85,13 @@ class Food(db.Model):
     visit_date = db.Column(db.Date, nullable=False)
     evaluation = db.Column(db.Integer)
     memo = db.Column(db.Text)
+    photo = db.Column(db.String(255))
     stay_id = db.Column(db.Integer, db.ForeignKey("STAY.stay_id"))
     created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
     updated_at = db.Column(
         db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False
     )
+
 
 # ---------------------------------------------------------------
 # 宿泊記録テーブル（STAY）
@@ -449,6 +451,110 @@ def gourmet_list():
 @app.route('/gourmet_record')
 def gourmet_record():
     return render_template('gourmet_record.html')
+
+# ===============================================================
+# グルメ記録追加（POST処理）
+# ===============================================================
+@app.route('/add_gourmet', methods=['POST'])
+def add_gourmet():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+
+    shop_name = request.form.get('shop_name')
+    food_name = request.form.get('food_name')
+    visit_date = request.form.get('visit_date')
+    evaluation = request.form.get('evaluation')
+    memo = request.form.get('memo')
+
+    # 日付変換
+    visit_date = datetime.strptime(visit_date, "%Y-%m-%d").date()
+
+    # 写真処理
+    photo_file = request.files.get("photo")
+    filename = None
+
+    if photo_file and photo_file.filename:
+        upload_dir = os.path.join("static", "uploads")
+        os.makedirs(upload_dir, exist_ok=True)
+
+        filename = (
+            f"{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
+        )
+        photo_file.save(os.path.join(upload_dir, filename))
+
+    new_food = Food(
+        user_id=user_id,
+        shop_name=shop_name,
+        food_name=food_name,
+        visit_date=visit_date,
+        evaluation=evaluation,
+        memo=memo,
+        photo=filename
+    )
+
+    db.session.add(new_food)
+    db.session.commit()
+
+    flash("グルメ記録を登録しました！", "success")
+    return redirect(url_for('gourmet_list'))
+
+# ===============================================================
+# グルメ記録更新
+# ===============================================================
+@app.route('/gourmet_edit/<int:food_id>', methods=['GET', 'POST'])
+def gourmet_edit(food_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    food = Food.query.get_or_404(food_id)
+
+    if request.method == 'POST':
+        food.shop_name = request.form.get('shop_name')
+        food.food_name = request.form.get('food_name')
+        food.evaluation = int(request.form.get('evaluation'))
+        food.memo = request.form.get('memo')
+
+        visit_date = request.form.get('visit_date')
+        food.visit_date = datetime.strptime(visit_date, "%Y-%m-%d").date()
+
+        # 写真更新
+        photo_file = request.files.get("photo")
+        if photo_file and photo_file.filename:
+            upload_dir = os.path.join("static", "uploads")
+            os.makedirs(upload_dir, exist_ok=True)
+
+            filename = (
+                f"{food.user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
+            )
+            photo_file.save(os.path.join(upload_dir, filename))
+            food.photo = filename
+
+        db.session.commit()
+
+        flash("グルメ記録を更新しました！", "success")
+        return redirect(url_for('gourmet_detail', food_id=food.food_id))
+
+    return render_template('gourmet_edit.html', food=food)
+
+# ===============================================================
+# グルメ記録削除
+# ===============================================================
+@app.route('/gourmet_delete/<int:food_id>', methods=['POST'])
+def gourmet_delete(food_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    food = Food.query.get_or_404(food_id)
+
+    db.session.delete(food)
+    db.session.commit()
+
+    flash("グルメ記録を削除しました。", "success")
+    return redirect(url_for('gourmet_list'))
+
+
 
 # ===============================================================
 # スポット一覧
