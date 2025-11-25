@@ -1,15 +1,22 @@
-<h2>検索結果</h2>
-<p>検索条件：{{ area }} / {{ category }} / {{ date }}</p>
+{% extends "base.html" %}
 
-{% if events %}
-    {% for event in events %}
+{% block title %}イベント検索結果{% endblock %}
+
+{% block main_content %}
+<h2>「{{ keyword }}」の検索結果</h2>
+
+{% if results %}
+    {% for event in results %}
         <div class="event-card">
-            <h3>{{ event.name }}</h3>
-            <p><b>期間：</b>{{ event.period }}</p>
-            <p><b>場所：</b>{{ event.location }}</p>
-            <p>{{ event.summary }}</p>
+            <strong>{{ event.name }}</strong><br>
+            住所：{{ event.address }}<br>
+            カテゴリ：{{ event.category }}<br>
+            説明：{{ event.description }}<br>
         </div>
     {% endfor %}
 {% else %}
     <p>該当するイベントが見つかりませんでした。</p>
 {% endif %}
+
+<a href="{{ url_for('event_search') }}">検索に戻る</a>
+{% endblock %}

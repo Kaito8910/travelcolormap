@@ -399,14 +399,6 @@ def gourmet_record():
     return render_template('gourmet_record.html')
 
 # ===============================================================
-# イベント検索
-# ===============================================================
-
-@app.route('/event-search', methods=['GET'])
-def event_search():
-    return render_template('event_search.html')
-
-# ===============================================================
 # API（都道府県訪問記録）
 # ===============================================================
 @app.route('/api/travel-records-db')
@@ -471,6 +463,27 @@ SPOT_DATA = [
     },
 ]
 
+EVENT_DATA = [
+    {
+        "name": "祭り",
+        "address": "東京都港区芝公園4-2-8",
+        "category": "観光地",
+        "description": "東京の iconic なランドマーク。",
+    },
+    {
+        "name": "お花見",
+        "address": "東京都台東区浅草2-3-1",
+        "category": "寺院",
+        "description": "国内外から人気の観光スポット。",
+    },
+    {
+        "name": "ショー",
+        "address": "大阪府大阪市此花区桜島2丁目",
+        "category": "テーマパーク",
+        "description": "映画の世界が楽しめる人気スポット。",
+    },
+]
+
 # ===============================================================
 # スポット検索
 # ===============================================================
@@ -478,13 +491,29 @@ SPOT_DATA = [
 # ==== 検索フォーム ====
 @app.route('/spot-search', methods=['GET'])
 def spot_search():
-    return render_template('spot_search.html')
+    PREF_LIST = [
+        "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
+        "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
+        "新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県",
+        "静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県",
+        "奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県",
+        "徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県",
+        "熊本県","大分県","宮崎県","鹿児島県","沖縄県"
+    ]
+
+    return render_template(
+        'spot_search.html',
+        prefectures=PREF_LIST
+    )
+
 
 
 # ==== 検索結果 ====
-@app.route('/spot-search-results', methods=['POST'])
+@app.route('/spot-search-results', methods=['GET'])
 def spot_search_results():
-    keyword = request.form.get('keyword', '').strip()
+    prefecture = request.args.get('prefecture', '')
+    keyword = request.args.get('keyword', '')
+
 
     # キーワードを含むものを検索
     results = []
@@ -579,10 +608,26 @@ def stay_search_results():
 # ===============================================================
 # イベント検索
 # ===============================================================
-@app.route('/event_search_resultes', methods=['GET'])
-def event_search_results():
-    return render_template('event_search_results.html')
 
+@app.route('/event-search', methods=['GET'])
+def event_search():
+    return render_template('event_search.html')
+
+@app.route('/event-search-results', methods=['POST'])
+def event_search_results():
+    keyword = request.form.get('keyword', '').strip()
+
+    # キーワードを含むものを検索
+    results = []
+    for s in EVENT_DATA:
+        if keyword in s["name"] or keyword in s["address"] or keyword in s["category"]:
+            results.append(s)
+
+    return render_template(
+        "event_search_results.html",
+        keyword=keyword,
+        results=results
+    )
 
 # ===============================================================
 # アプリ起動
