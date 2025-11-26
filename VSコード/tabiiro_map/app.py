@@ -442,7 +442,65 @@ def gourmet_list():
     user_id = session.get('user_id')
     foods = Food.query.filter_by(user_id=user_id).all()
 
-    return render_template('gourmet_list.html', foods=foods)
+    # 店舗名 → 記録一覧
+    grouped = {}
+    for f in foods:
+        grouped.setdefault(f.shop_name, [])
+        grouped[f.shop_name].append(f)
+
+    # 店舗ごとの平均評価を計算
+    shop_summary = []
+    for shop, items in grouped.items():
+        avg = sum(i.evaluation for i in items) / len(items)
+
+        # 写真は代表として1枚（最新のにする）
+        thumbnail = next((i.photo for i in items if i.photo), None)
+
+        shop_summary.append({
+            "shop_name": shop,
+            "items": items,
+            "avg": round(avg, 1),   # 小数1桁
+            "count": len(items),
+            "thumbnail": thumbnail
+        })
+
+    return render_template(
+        'gourmet_list.html',
+        shop_summary=shop_summary
+    )
+
+# ===============================================================
+# グルメ記録店舗詳細
+# ===============================================================
+
+@app.route('/shop/<shop_name>')
+def shop_detail(shop_name):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+
+    items = Food.query.filter_by(user_id=user_id, shop_name=shop_name).all()
+
+    if not items:
+        flash("データが存在しません。", "error")
+        return redirect(url_for('gourmet_list'))
+
+    avg = sum(i.evaluation for i in items) / len(items)
+    avg = round(avg, 1)
+
+    # サムネイル
+    thumbnail = next((i.photo for i in items if i.photo), None)
+
+    return render_template(
+        'shop_detail.html',
+        shop_name=shop_name,
+        items=items,
+        avg=avg,
+        count=len(items),
+        thumbnail=thumbnail
+    )
+
 
 # ===============================================================
 #グルメ記録登録
@@ -450,7 +508,10 @@ def gourmet_list():
 
 @app.route('/gourmet_record')
 def gourmet_record():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
     return render_template('gourmet_record.html')
+
 
 # ===============================================================
 # グルメ記録追加（POST処理）
@@ -465,7 +526,7 @@ def add_gourmet():
     shop_name = request.form.get('shop_name')
     food_name = request.form.get('food_name')
     visit_date = request.form.get('visit_date')
-    evaluation = request.form.get('evaluation')
+    evaluation = int(request.form.get('evaluation'))
     memo = request.form.get('memo')
 
     # 日付変換
@@ -499,6 +560,7 @@ def add_gourmet():
 
     flash("グルメ記録を登録しました！", "success")
     return redirect(url_for('gourmet_list'))
+
 
 # ===============================================================
 # グルメ記録更新
@@ -537,6 +599,19 @@ def gourmet_edit(food_id):
         return redirect(url_for('gourmet_detail', food_id=food.food_id))
 
     return render_template('gourmet_edit.html', food=food)
+
+# ===============================================================
+# グルメ記録詳細
+# ===============================================================
+
+@app.route('/gourmet_detail/<int:food_id>')
+def gourmet_detail(food_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    food = Food.query.get_or_404(food_id)
+    return render_template('gourmet_detail.html', food=food)
+
 
 # ===============================================================
 # グルメ記録削除

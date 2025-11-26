@@ -8,7 +8,6 @@
 
     <h1 class="page-title">グルメ記録</h1>
 
-    <!-- ★ form は必ず 1つだけ！ -->
     <form action="{{ url_for('add_gourmet') }}" method="POST"
         enctype="multipart/form-data" class="gourmet-form">
 
@@ -23,14 +22,15 @@
         </div>
 
         <div class="form-group">
-            <label for="evaluation">評価</label>
-            <select id="evaluation" name="evaluation">
-                <option value="1">★☆☆☆☆</option>
-                <option value="2">★★☆☆☆</option>
-                <option value="3" selected>★★★☆☆</option>
-                <option value="4">★★★★☆</option>
-                <option value="5">★★★★★</option>
-            </select>
+            <label>評価</label>
+            <div class="star-rating">
+                <span data-value="5">★</span>
+                <span data-value="4">★</span>
+                <span data-value="3">★</span>
+                <span data-value="2">★</span>
+                <span data-value="1">★</span>
+            </div>
+            <input type="hidden" id="evaluation" name="evaluation" value="3"> 
         </div>
 
         <div class="form-group">
@@ -55,5 +55,45 @@
     </form>
 
 </div>
+
+<!-- ⭐ ここに JS を入れる（block の内側） -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const stars = document.querySelectorAll(".star-rating span");
+    const evaluationInput = document.getElementById("evaluation");
+
+    let currentValue = parseInt(evaluationInput.value);
+
+    highlightStars(currentValue);
+
+    stars.forEach(star => {
+        star.addEventListener("mouseenter", () => {
+            const val = parseInt(star.dataset.value);
+            highlightStars(val);
+        });
+
+        star.addEventListener("click", () => {
+            currentValue = parseInt(star.dataset.value);
+            evaluationInput.value = currentValue;
+            highlightStars(currentValue);
+        });
+    });
+
+    document.querySelector(".star-rating").addEventListener("mouseleave", () => {
+        highlightStars(currentValue);
+    });
+
+    function highlightStars(val) {
+        stars.forEach(s => {
+            const starVal = parseInt(s.dataset.value);
+            if (starVal <= val) {
+                s.classList.add("selected");
+            } else {
+                s.classList.remove("selected");
+            }
+        });
+    }
+});
+</script>
 
 {% endblock %}

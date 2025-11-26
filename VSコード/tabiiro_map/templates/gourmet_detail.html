@@ -4,31 +4,47 @@
 
 {% block main_content %}
 
-<div class="detail-container">
+<div class="gourmet-detail-container">
 
-    <h1>{{ food.shop_name }}（{{ food.food_name }}）</h1>
+    <h1 class="page-title">グルメ詳細</h1>
 
+    <!-- 写真 -->
     {% if food.photo %}
-        <img src="{{ url_for('static', filename='uploads/' + food.photo) }}" 
-            alt="food photo" class="detail-photo">
+        <img src="{{ url_for('static', filename='uploads/' ~ food.photo) }}"
+            alt="{{ food.shop_name }}" class="detail-photo">
     {% else %}
-        <p>写真なし</p>
+        <div class="no-photo big">写真なし</div>
     {% endif %}
 
-    <p><strong>評価:</strong> {{ "★" * food.evaluation }}{{ "☆" * (5 - food.evaluation) }}</p>
-    <p><strong>訪問日:</strong> {{ food.visit_date }}</p>
+    <div class="detail-info">
 
-    {% if food.memo %}
-        <p><strong>メモ:</strong><br>{{ food.memo | nl2br }}</p>
-    {% endif %}
+        <p><strong>店舗名：</strong>{{ food.shop_name }}</p>
 
-    <div class="btn-area">
-        <a href="{{ url_for('gourmet_edit', food_id=food.food_id) }}" class="edit-btn">編集</a>
+        <p><strong>料理名：</strong>{{ food.food_name }}</p>
 
-        <form action="{{ url_for('gourmet_delete', food_id=food.food_id) }}" method="POST"
-            onsubmit="return confirm('本当に削除しますか？');">
-            <button type="submit" class="delete-btn">削除</button>
+        <p><strong>評価：</strong>
+            {% for i in range(food.evaluation) %}★{% endfor %}
+            {% for i in range(5 - food.evaluation) %}☆{% endfor %}
+        </p>
+
+        <p><strong>訪問日：</strong>{{ food.visit_date }}</p>
+
+        {% if food.memo %}
+            <p><strong>コメント：</strong><br>{{ food.memo }}</p>
+        {% endif %}
+    </div>
+
+    <div class="detail-buttons">
+        <a href="{{ url_for('gourmet_edit', food_id=food.food_id) }}" class="edit-button">編集する</a>
+
+        <form method="POST"
+            action="{{ url_for('gourmet_delete', food_id=food.food_id) }}"
+            onsubmit="return confirm('この記録を削除しますか？');"
+            class="delete-form">
+            <button type="submit" class="delete-button">削除する</button>
         </form>
+
+        <a href="{{ url_for('gourmet_list') }}" class="back-button">一覧へ戻る</a>
     </div>
 
 </div>

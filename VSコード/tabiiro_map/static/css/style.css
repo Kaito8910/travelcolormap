@@ -414,3 +414,185 @@ body {
 .cancel-button:hover {
     background: #888;
 }
+
+/* ========================= */
+/* ⭐ 星評価 UI（必ず追加） */
+/* ========================= */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;  /* 5 → 1 の順に自然に動かす */
+    gap: 5px;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.star-rating span {
+    color: #ccc;  /* デフォルトの薄いグレー */
+    transition: color 0.2s;
+}
+
+/* クリック確定時 */
+.star-rating span.selected {
+    color: gold !important;
+}
+
+/* ホバー時 */
+.star-rating span.hover {
+    color: gold !important;
+}
+
+/* グルメ詳細ページ */
+.gourmet-detail-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.detail-photo {
+    width: 100%;
+    max-height: 380px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.no-photo.big {
+    width: 100%;
+    height: 300px;
+    background: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    color: #777;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.detail-info p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.detail-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+.delete-form {
+    display: inline;
+}
+
+.edit-button {
+    padding: 10px 18px;
+    background: #ff9800;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.edit-button:hover {
+    background: #ffb74d;
+}
+
+.delete-button {
+    padding: 10px 18px;
+    background: #e53935;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background: #ef5350;
+}
+
+.back-button {
+    padding: 10px 18px;
+    background: #aaa;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background: #888;
+}
+
+/* カード全体をリンク化 */
+.gourmet-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* カードのホバーアニメーション */
+.gourmet-card {
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.gourmet-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.shop-detail-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.sub-title {
+    margin-top: 20px;
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.visit-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.visit-card {
+    padding: 15px;
+    background: #fafafa;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.memo {
+    margin-top: 8px;
+}
+
+.detail-link {
+    display: inline-block;
+    margin-top: 8px;
+    color: #0078d7;
+}
+
+/* 写真なしの店舗カードデザイン */
+.no-photo-card {
+    padding: 20px;
+    text-align: center;
+}
+
+.no-photo-card .gourmet-name {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.no-photo-card .rating {
+    margin: 8px 0;
+}
+
+.detail-button {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #0078d7;
+}
