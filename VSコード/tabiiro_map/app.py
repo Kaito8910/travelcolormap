@@ -19,7 +19,6 @@ from datetime import datetime, date, timedelta
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-API_KEY = "1002136947918553343"
 
 # ===============================================================
 # ✨ データベース & マイグレーション設定
@@ -885,171 +884,40 @@ def spot_search_results():
         results=results
     )
 
-# ===============================
-# 宿泊検索（検索フォーム）
-# ===============================
-prefectures = [
-    # 北海道・東北
-    {"name": "北海道", "large": "hokkaido", "middle": "hokkaido", "small": "hokkaido"},
-    {"name": "青森県", "large": "tohoku", "middle": "aomori", "small": "aomori"},
-    {"name": "岩手県", "large": "tohoku", "middle": "iwate", "small": "iwate"},
-    {"name": "宮城県", "large": "tohoku", "middle": "miyagi", "small": "miyagi"},
-    {"name": "秋田県", "large": "tohoku", "middle": "akita", "small": "akita"},
-    {"name": "山形県", "large": "tohoku", "middle": "yamagata", "small": "yamagata"},
-    {"name": "福島県", "large": "tohoku", "middle": "fukushima", "small": "fukushima"},
 
-    # 関東
-    {"name": "茨城県", "large": "kanto", "middle": "ibaraki", "small": "ibaraki"},
-    {"name": "栃木県", "large": "kanto", "middle": "tochigi", "small": "tochigi"},
-    {"name": "群馬県", "large": "kanto", "middle": "gunma", "small": "gunma"},
-    {"name": "埼玉県", "large": "kanto", "middle": "saitama", "small": "saitama"},
-    {"name": "千葉県", "large": "kanto", "middle": "chiba", "small": "chiba"},
-    {"name": "東京都", "large": "kanto", "middle": "tokyo", "small": "tokyo"},
-    {"name": "神奈川県", "large": "kanto", "middle": "kanagawa", "small": "kanagawa"},
+# ===============================================================
+# 宿泊検索
+# ===============================================================
 
-    # 中部
-    {"name": "新潟県", "large": "chubu", "middle": "niigata", "small": "niigata"},
-    {"name": "富山県", "large": "chubu", "middle": "toyama", "small": "toyama"},
-    {"name": "石川県", "large": "chubu", "middle": "ishikawa", "small": "ishikawa"},
-    {"name": "福井県", "large": "chubu", "middle": "fukui", "small": "fukui"},
-    {"name": "山梨県", "large": "chubu", "middle": "yamanashi", "small": "yamanashi"},
-    {"name": "長野県", "large": "chubu", "middle": "nagano", "small": "nagano"},
-    {"name": "岐阜県", "large": "chubu", "middle": "gifu", "small": "gifu"},
-    {"name": "静岡県", "large": "chubu", "middle": "shizuoka", "small": "shizuoka"},
-    {"name": "愛知県", "large": "chubu", "middle": "aichi", "small": "aichi"},
+APPLICATION_ID = "1002136947918553343"
 
-    # 近畿
-    {"name": "三重県", "large": "kinki", "middle": "mie", "small": "mie"},
-    {"name": "滋賀県", "large": "kinki", "middle": "shiga", "small": "shiga"},
-    {"name": "京都府", "large": "kinki", "middle": "kyoto", "small": "kyoto"},
-    {"name": "大阪府", "large": "kinki", "middle": "osaka", "small": "osaka"},
-    {"name": "兵庫県", "large": "kinki", "middle": "hyogo", "small": "hyogo"},
-    {"name": "奈良県", "large": "kinki", "middle": "nara", "small": "nara"},
-    {"name": "和歌山県", "large": "kinki", "middle": "wakayama", "small": "wakayama"},
-
-    # 中国
-    {"name": "鳥取県", "large": "chugoku", "middle": "tottori", "small": "tottori"},
-    {"name": "島根県", "large": "chugoku", "middle": "shimane", "small": "shimane"},
-    {"name": "岡山県", "large": "chugoku", "middle": "okayama", "small": "okayama"},
-    {"name": "広島県", "large": "chugoku", "middle": "hiroshima", "small": "hiroshima"},
-    {"name": "山口県", "large": "chugoku", "middle": "yamaguchi", "small": "yamaguchi"},
-
-    # 四国
-    {"name": "徳島県", "large": "shikoku", "middle": "tokushima", "small": "tokushima"},
-    {"name": "香川県", "large": "shikoku", "middle": "kagawa", "small": "kagawa"},
-    {"name": "愛媛県", "large": "shikoku", "middle": "ehime", "small": "ehime"},
-    {"name": "高知県", "large": "shikoku", "middle": "kochi", "small": "kochi"},
-
-    # 九州・沖縄
-    {"name": "福岡県", "large": "kyushu", "middle": "fukuoka", "small": "fukuoka"},
-    {"name": "佐賀県", "large": "kyushu", "middle": "saga", "small": "saga"},
-    {"name": "長崎県", "large": "kyushu", "middle": "nagasaki", "small": "nagasaki"},
-    {"name": "熊本県", "large": "kyushu", "middle": "kumamoto", "small": "kumamoto"},
-    {"name": "大分県", "large": "kyushu", "middle": "oita", "small": "oita"},
-    {"name": "宮崎県", "large": "kyushu", "middle": "miyazaki", "small": "miyazaki"},
-    {"name": "鹿児島県", "large": "kyushu", "middle": "kagoshima", "small": "kagoshima"},
-    {"name": "沖縄県", "large": "okinawa", "middle": "okinawa", "small": "okinawa"},
-]
-
-
-
-
-RAKUTEN_API_KEY = "1002136947918553343"
-
-def get_prefectures():
-    url = "https://app.rakuten.co.jp/services/api/Travel/GetAreaClass/20131024"
+def search_hotels(keyword, page=1, hits=20):
+    url = "https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426"
     params = {
-        "applicationId": RAKUTEN_API_KEY,
-        "format": "json"
-    }
-    response = requests.get(url, params=params)
-    data = response.json()
-
-    prefectures = []
-
-    for large in data.get("largeClasses", []):
-        for middle in large.get("middleClasses", []):
-            for small in middle.get("smallClasses", []):
-                prefectures.append({
-                    "large": "domestic",   # 強制的に固定
-                    "middle": "japan",     # 強制的に固定
-                    "small": small["smallClassCode"],
-                    "name": small["smallClassName"]
-                })
-
-    return prefectures
-
-
-
-# ===============================
-# 宿泊検索フォーム
-# ===============================
-@app.route('/stay_search')
-def stay_search():
-    today = date.today().isoformat()
-    tomorrow = (date.today() + timedelta(days=1)).isoformat()
-
-    return render_template(
-        "stay_search.html",
-        prefectures=prefectures,
-        today=today,
-        tomorrow=tomorrow,
-    )
-
-
-
-# ===============================
-# 宿泊検索結果
-# ===============================
-@app.route("/stay_search_results", methods=["GET"])
-def stay_search_results():
-
-    large = request.args.get("large")
-    middle = request.args.get("middle")
-    small = request.args.get("small")
-
-    checkin_date = request.args.get("checkin_date")
-    checkout_date = request.args.get("checkout_date")
-    adults = request.args.get("adults", 1)
-
-    url = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
-
-    params = {
-        "applicationId": RAKUTEN_API_KEY,
+        "applicationId": APPLICATION_ID,
         "format": "json",
-        "largeClassCode": large,
-        "middleClassCode": middle,
-        "smallClassCode": small,
-        "checkinDate": checkin_date,
-        "checkoutDate": checkout_date,
-        "adultNum": adults,
-        "hits": 20,
-        "page": 1,
-        "sort": "+roomCharge",
+        "keyword": keyword,
+        "page": page,
+        "hits": hits,
+        "formatVersion": 2  # ネスト浅めの形式
     }
+    resp = requests.get(url, params=params)
+    data = resp.json()
+    return data.get("hotels", [])
 
-    response = requests.get(url, params=params)
-    data = response.json()
+@app.route("/hotel_search", methods=["GET", "POST"])
+def hotel_search():
+    if request.method == "POST":
+        kw = request.form.get("keyword", "").strip()
+        if not kw:
+            return render_template("hotel_search.html", error="キーワードを入力してください")
+        return redirect(url_for("hotel_results", keyword=kw))
+    return render_template("hotel_search.html")
 
-    hotels = []
-    error = None
-
-    if "error" in data:
-        error = data.get("error_description", "検索エラーが発生しました")
-    else:
-        for h in data.get("hotels", []):
-            # hotel は list の場合も dict の場合もあるので両方対応
-            hotel_info = h["hotel"][0]["hotelBasicInfo"]
-            hotels.append(hotel_info)
-
-    return render_template(
-        "stay_search_results.html",
-        hotels=hotels,
-        error=error,
-        checkin_date=checkin_date,
-        checkout_date=checkout_date,
-        adults=adults,
-    )
+@app.route("/hotel_results/<keyword>")
+def hotel_results(keyword):
+    hotels = search_hotels(keyword)
+    return render_template("hotel_results.html", hotels=hotels, keyword=keyword)
 
 # ===============================================================
 # イベント検索
