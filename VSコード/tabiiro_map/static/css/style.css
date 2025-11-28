@@ -3,10 +3,9 @@
  */
 
 /* ==================================== */
-/* 1. 基本レイアウト (base.html 関連) */
+/* 1. 基本設定・レイアウト               */
 /* ==================================== */
 
-/* 全体のリセットと基本設定 */
 body {
     margin: 0;
     font-family: sans-serif;
@@ -14,7 +13,6 @@ body {
     overflow: hidden;
 }
 
-/* ページ全体のレイアウト（左右2カラム） */
 .page-layout {
     display: flex;
     width: 100%;
@@ -23,14 +21,12 @@ body {
     box-sizing: border-box;
 }
 
-/* 左側のエリア */
 .page-left {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
-/* ヘッダー */
 .header-section {
     padding: 10px 20px;
     border-bottom: 1px solid #000;
@@ -38,14 +34,13 @@ body {
     font-size: 1.1em;
 }
 
-/* メインコンテンツ */
 .main-content-area {
     flex-grow: 1;
     overflow: auto;
 }
 
 /* ==================================== */
-/* 2. 右サイドバー */
+/* 2. サイドバー                        */
 /* ==================================== */
 
 .page-right-sidebar {
@@ -55,7 +50,6 @@ body {
     transition: width 0.3s ease, padding 0.3s ease;
 }
 
-/* 閉じた状態 */
 .page-right-sidebar.is-closed {
     width: 60px;
     padding-left: 0;
@@ -67,12 +61,6 @@ body {
     display: none;
 }
 
-.page-right-sidebar.is-closed .menu-icon-container {
-    text-align: center;
-    padding-right: 0;
-}
-
-/* ハンバーガー */
 .menu-icon-container {
     text-align: right;
     padding-right: 20px;
@@ -81,15 +69,12 @@ body {
 
 .menu-icon {
     font-size: 2.5em;
-    line-height: 0.5;
     cursor: pointer;
 }
 
-/* メニュー項目 */
 .menu-list {
     list-style: none;
     padding: 0 20px;
-    margin: 0;
 }
 
 .menu-list li {
@@ -99,36 +84,29 @@ body {
 .menu-list a {
     text-decoration: none;
     color: #000;
-    display: block;
 }
 
 /* ==================================== */
-/* 3. ホーム画面（地図エリア） */
+/* 3. ホーム画面・地図                   */
 /* ==================================== */
 
 .two-column-layout {
     display: flex;
-    padding: 20px;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
     gap: 20px;
+    padding: 20px;
+    height: 100%;
 }
 
-/* ======== ホーム画面：地図フィット調整 ======== */
-
-/* 地図を囲む黒枠（固定高さ） */
 .map-placeholder {
     flex-grow: 1;
     border: 1px solid #000;
+    height: 458px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 458px;         /* ← 黒枠の高さを完全一致 */
-    overflow: hidden;      /* ← はみ出しを完全遮断 */
+    overflow: hidden;
 }
 
-/* 地図コンテナ（object の親） */
 #japan-map-container {
     width: 100%;
     height: 100%;
@@ -138,15 +116,12 @@ body {
     overflow: hidden;
 }
 
-/* SVG を完全フィットさせる最重要コード */
 #japan-map {
     width: 100%;
     height: 100%;
-    object-fit: contain !important;  /* ← 絶対必要！切り取り防止＆枠内フィット */
-    object-position: center center;  /* ← 中央揃え */
-    display: block;
+    object-fit: contain !important;
+    object-position: center;
 }
-
 
 /* 右側3ブロック */
 .right-blocks-container {
@@ -157,12 +132,10 @@ body {
 }
 
 .block-item {
-    flex-grow: 1;
     border: 1px solid #000;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
     font-weight: bold;
 }
 
@@ -178,23 +151,21 @@ body {
 }
 
 /* ==================================== */
-/* 4. ロゴ */
+/* 4. ロゴ                              */
 /* ==================================== */
 
 .app-logo {
     height: 60px;
-    width: auto;
     display: block;
     margin: 0 auto;
 }
 
 .home-link:hover .app-logo {
     opacity: 0.85;
-    transition: 0.2s ease;
 }
 
 /* ==================================== */
-/* 5. ログイン / 新規登録 共通 */
+/* 5. ログイン / 新規登録 共通 UI       */
 /* ==================================== */
 
 .login-container,
@@ -202,7 +173,7 @@ body {
     max-width: 420px;
     margin: 40px auto;
     padding: 30px;
-    background: #ffffff;
+    background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
@@ -214,11 +185,9 @@ body {
     font-size: 1.8em;
 }
 
-.login-form,
-.register-form {
+.form-group {
     display: flex;
     flex-direction: column;
-    gap: 18px;
 }
 
 .form-group label {
@@ -232,16 +201,14 @@ body {
     padding: 10px;
     border-radius: 6px;
     border: 1px solid #bbb;
-    font-size: 1em;
 }
 
 .submit-button {
     background: #0078d7;
-    color: white;
+    color: #fff;
     padding: 12px;
-    font-size: 1.1em;
-    border: none;
     border-radius: 6px;
+    border: none;
     cursor: pointer;
 }
 
@@ -253,8 +220,8 @@ body {
     padding: 10px;
     margin-bottom: 12px;
     border-radius: 6px;
-    font-weight: bold;
     text-align: center;
+    font-weight: bold;
 }
 
 .flash-message.success {
@@ -268,31 +235,13 @@ body {
 }
 
 /* ==================================== */
-/* 6. 観光地一覧 */
+/* 6. 観光地一覧（カードUI）             */
 /* ==================================== */
 
 .spot-list-container {
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
-}
-
-.top-btn-wrapper {
-    text-align: right;
-    margin-bottom: 20px;
-}
-
-.add-button {
-    background: #ff7f50;
-    padding: 10px 18px;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.add-button:hover {
-    background: #ff9a72;
 }
 
 .spot-list {
@@ -302,26 +251,25 @@ body {
 }
 
 .spot-card {
-    background: white;
+    background: #fff;
     border-radius: 12px;
     box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     overflow: hidden;
-    transition: 0.3s;
+    transition: 0.25s;
 }
 
 .spot-card:hover {
     transform: translateY(-4px);
 }
 
-.spot-card img {
+.spot-card img,
+.no-photo {
     width: 100%;
     height: 180px;
     object-fit: cover;
 }
 
 .no-photo {
-    width: 100%;
-    height: 180px;
     background: #eee;
     display: flex;
     justify-content: center;
@@ -334,7 +282,7 @@ body {
 }
 
 /* ==================================== */
-/* 7. 詳細ページ */
+/* 7. 詳細ページ                        */
 /* ==================================== */
 
 .detail-container {
@@ -352,186 +300,17 @@ body {
 }
 
 .detail-info p {
-    font-size: 16px;
     margin: 10px 0;
-}
-
-.edit-button {
-    display: inline-block;
-    padding: 10px 18px;
-    background: #ff9800;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-}
-
-.edit-button:hover {
-    background: #ffb74d;
-}
-
-.back-button {
-    padding: 10px 18px;
-    background: #aaa;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-}
-
-.back-button:hover {
-    background: #888;
+    font-size: 1rem;
 }
 
 /* ==================================== */
-/* 8. 編集ページ */
+/* 8. グルメ（共通カード）              */
 /* ==================================== */
 
-.edit-container {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.save-button {
-    padding: 10px 20px;
-    background: #4caf50;
-    color: white;
-    border-radius: 6px;
-    border: none;
-}
-
-.save-button:hover {
-    background: #66bb6a;
-}
-
-.cancel-button {
-    padding: 10px 20px;
-    background: #aaa;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-}
-
-.cancel-button:hover {
-    background: #888;
-}
-
-/* ========================= */
-/* ⭐ 星評価 UI（必ず追加） */
-/* ========================= */
-.star-rating {
-    display: flex;
-    flex-direction: row-reverse;  /* 5 → 1 の順に自然に動かす */
-    gap: 5px;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-.star-rating span {
-    color: #ccc;  /* デフォルトの薄いグレー */
-    transition: color 0.2s;
-}
-
-/* クリック確定時 */
-.star-rating span.selected {
-    color: gold !important;
-}
-
-/* ホバー時 */
-.star-rating span.hover {
-    color: gold !important;
-}
-
-/* グルメ詳細ページ */
-.gourmet-detail-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.detail-photo {
-    width: 100%;
-    max-height: 380px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-
-.no-photo.big {
-    width: 100%;
-    height: 300px;
-    background: #eee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
-    color: #777;
-    font-size: 1.2em;
-    margin-bottom: 20px;
-}
-
-.detail-info p {
-    font-size: 16px;
-    margin: 10px 0;
-}
-
-.detail-buttons {
-    margin-top: 30px;
-    display: flex;
-    gap: 15px;
-}
-
-.delete-form {
-    display: inline;
-}
-
-.edit-button {
-    padding: 10px 18px;
-    background: #ff9800;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-}
-
-.edit-button:hover {
-    background: #ffb74d;
-}
-
-.delete-button {
-    padding: 10px 18px;
-    background: #e53935;
-    color: white;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-}
-
-.delete-button:hover {
-    background: #ef5350;
-}
-
-.back-button {
-    padding: 10px 18px;
-    background: #aaa;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-}
-
-.back-button:hover {
-    background: #888;
-}
-
-/* カード全体をリンク化 */
-.gourmet-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-/* カードのホバーアニメーション */
 .gourmet-card {
     cursor: pointer;
-    transition: transform 0.25s, box-shadow 0.25s;
+    transition: 0.25s;
 }
 
 .gourmet-card:hover {
@@ -539,60 +318,101 @@ body {
     box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
-.shop-detail-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
+.gourmet-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
-.sub-title {
-    margin-top: 20px;
+/* ==================================== */
+/* 9. イベント検索フォーム               */
+/* ==================================== */
+
+.event-search-form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 15px;
+    align-items: center;
+}
+
+.event-search-form label {
+    font-weight: bold;
+}
+
+.event-search-form select,
+.event-search-form input {
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.event-search-form button {
+    padding: 6px 14px;
+    background: #5ca9e8;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.event-search-form button:hover {
+    background: #4b94cf;
+}
+
+/* ==================================== */
+/* 10. イベント検索結果カード            */
+/* ==================================== */
+
+.event-results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.event-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    border-left: 6px solid #5ca9e8;
+    transition: 0.2s;
+}
+
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.20);
+}
+
+.event-title {
     font-size: 1.4em;
     font-weight: bold;
 }
 
-.visit-list {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.event-meta {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 6px;
 }
 
-.visit-card {
-    padding: 15px;
-    background: #fafafa;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+.event-tag-month {
+    background: #5ca9e8;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.85em;
+    margin-right: 6px;
 }
 
-.memo {
-    margin-top: 8px;
+.event-description {
+    margin: 10px 0;
 }
 
-.detail-link {
+.event-category-tag {
     display: inline-block;
-    margin-top: 8px;
-    color: #0078d7;
-}
-
-/* 写真なしの店舗カードデザイン */
-.no-photo-card {
-    padding: 20px;
-    text-align: center;
-}
-
-.no-photo-card .gourmet-name {
-    font-size: 1.3em;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.no-photo-card .rating {
-    margin: 8px 0;
-}
-
-.detail-button {
-    margin-top: 15px;
-    font-weight: bold;
-    color: #0078d7;
+    background: #ffb347;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.85em;
 }

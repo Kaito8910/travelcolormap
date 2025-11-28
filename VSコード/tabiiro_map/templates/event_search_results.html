@@ -1,26 +1,77 @@
 {% extends "base.html" %}
-{% block title %}イベント検索 | 旅色マップ{% endblock %}
+{% block title %}イベント検索結果 | 旅色マップ{% endblock %}
 
 {% block main_content %}
 <div class="register-container">
-    <h1>検索結果（{{ events|length }}件）</h1>
 
-    {% if events %}
-        <div class="result-cards">
-            {% for ev in events %}
-                <div class="spot-card">
-                    <h3>{{ ev.title }}</h3>
-                    {% if ev.started_at %}<p><strong>開始日時:</strong> {{ ev.started_at }}</p>{% endif %}
-                    {% if ev.ended_at %}<p><strong>終了日時:</strong> {{ ev.ended_at }}</p>{% endif %}
-                    {% if ev.place %}<p><strong>場所:</strong> {{ ev.place }}</p>{% endif %}
-                    {% if ev.address %}<p><strong>住所:</strong> {{ ev.address }}</p>{% endif %}
-                </div>
+    <h1>イベント検索結果（{{ results|length }}件）</h1>
+
+    <!-- 🔄 再検索フォーム -->
+    <form method="GET" action="{{ url_for('event_search_results') }}">
+
+        <label>都道府県</label>
+        <select name="prefecture">
+            <option value="">すべて</option>
+            {% for pref in prefectures %}
+                <option value="{{ pref }}" {% if request.args.get('prefecture') == pref %}selected{% endif %}>
+                    {{ pref }}
+                </option>
             {% endfor %}
-        </div>
+        </select>
+
+        <br><br>
+
+        <label>月</label>
+        <select name="month">
+            <option value="">すべて</option>
+            {% for m in months %}
+                <option value="{{ m }}" {% if request.args.get('month') == m|string %}selected{% endif %}>
+                    {{ m }}月
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label>開催時期</label>
+        <select name="period">
+            <option value="">すべて</option>
+            <option value="上旬" {% if request.args.get('period') == "上旬" %}selected{% endif %}>上旬</option>
+            <option value="中旬" {% if request.args.get('period') == "中旬" %}selected{% endif %}>中旬</option>
+            <option value="下旬" {% if request.args.get('period') == "下旬" %}selected{% endif %}>下旬</option>
+        </select>
+
+        <br><br>
+
+        <label>キーワード</label>
+        <input type="text" name="keyword" value="{{ request.args.get('keyword', '') }}">
+
+        <br><br>
+        <button type="submit">再検索</button>
+    </form>
+
+    <hr>
+
+    <!-- 🔽 検索結果一覧 -->
+    {% if results %}
+        <ul>
+            {% for ev in results %}
+                <li>
+                    <strong>{{ ev.event_name }}</strong><br>
+                    開催：{{ ev.month }}<br>
+                    都道府県：{{ ev.pref_name }}<br>
+                    市区町村：{{ ev.city }}<br>
+                    カテゴリ：{{ ev.category }}<br>
+                    説明：{{ ev.description }}<br>
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
-        <p>該当するイベントは見つかりませんでした。</p>
+        <p>該当するイベントがありません。</p>
     {% endif %}
 
-    <button onclick="history.back()" class="btn btn-secondary mt-3">検索画面に戻る</button>
+    <br>
+    <a href="{{ url_for('event_search') }}">検索フォームに戻る</a>
+
 </div>
 {% endblock %}

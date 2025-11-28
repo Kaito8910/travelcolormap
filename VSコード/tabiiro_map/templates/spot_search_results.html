@@ -3,6 +3,32 @@
 
 {% block main_content %}
 <div class="register-container">
+
+    <!-- ここに検索フォームを追加 -->
+    <form method="GET" action="{{ url_for('spot_search_results') }}">
+
+        <label for="prefecture">都道府県:</label>
+        <select name="prefecture" id="prefecture">
+            <option value="">すべて</option>
+            {% for pref in prefectures %}
+                <option value="{{ pref }}" {% if request.args.get('prefecture') == pref %}selected{% endif %}>
+                    {{ pref }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label for="keyword">キーワード:</label>
+        <input type="text" name="keyword" id="keyword" value="{{ request.args.get('keyword', '') }}">
+
+        <br><br>
+
+        <button type="submit">再検索</button>
+    </form>
+
+    <hr>
+
     <h1>検索結果（{{ results|length }}件）</h1>
 
     {% if results %}

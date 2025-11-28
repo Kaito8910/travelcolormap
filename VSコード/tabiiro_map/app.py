@@ -21,10 +21,23 @@ def load_spots_json():
     json_path = os.path.join(app.root_path, "static", "json", "spots.json")
     with open(json_path, "r", encoding="utf-8") as f:
         return json.load(f)
-
+    
+def load_events_json():
+    json_path = os.path.join(app.root_path, "static", "json", "events.json")
+    with open(json_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+    
+def get_prefecture_list():
+    data = load_spots_json()
+    return [p["pref_name_ja"] for p in data]
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
+
+# JSON をロード
+SPOTS_JSON = load_spots_json()
+EVENTS_JSON = load_events_json()
+
 
 
 # ===============================================================
@@ -856,22 +869,12 @@ def api_visit_data():
 # ===============================================================
 
 # ==== 検索フォーム ====
-@app.route('/spot-search', methods=['GET'])
+@app.route("/spot_search")
 def spot_search():
-    PREF_LIST = [
-        "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
-        "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
-        "新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県",
-        "静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県",
-        "奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県",
-        "徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県",
-        "熊本県","大分県","宮崎県","鹿児島県","沖縄県"
-    ]
+    prefectures = get_prefecture_list()
+    return render_template("spot_search.html", prefectures=prefectures)
 
-    return render_template(
-        'spot_search.html',
-        prefectures=PREF_LIST
-    )
+
 
 # ==== 検索結果 ====
 @app.route("/spot_search_results")
@@ -879,25 +882,23 @@ def spot_search_results():
     prefecture = request.args.get("prefecture", "")
     keyword = request.args.get("keyword", "").lower().strip()
 
-    data = load_spots_json()  # このJSONを読み込む
+    data = load_spots_json()
+
+    # 関数で都道府県一覧を取得
+    prefectures = get_prefecture_list()
 
     results = []
-
     for pref in data:
         pref_name = pref.get("pref_name_ja", "")
         spots = pref.get("spots", [])
 
-        # 都道府県フィルタ
         if prefecture and pref_name != prefecture:
             continue
 
-        # 各スポットごとに検索
         for s in spots:
 
-            # キーワード一致対象
             text = (
                 s.get("spot_name", "") +
-                pref_name +                     # 都道府県名も検索対象
                 s.get("city", "") +
                 s.get("category", "") +
                 s.get("description", "")
@@ -906,7 +907,6 @@ def spot_search_results():
             if keyword and keyword not in text:
                 continue
 
-            # 結果に「pref_name」を付けて返す
             results.append({
                 "spot_name": s.get("spot_name", ""),
                 "city": s.get("city", ""),
@@ -915,7 +915,12 @@ def spot_search_results():
                 "pref_name": pref_name
             })
 
-    return render_template("spot_search_results.html", results=results)
+    return render_template(
+        "spot_search_results.html",
+        results=results,
+        prefectures=prefectures
+    )
+
 
 # ===============================================================
 # 宿泊検索
@@ -957,12 +962,79 @@ def hotel_results(keyword):
 CONNPASS_API_URL = "https://connpass.com/api/v2/events/"
 API_TOKEN = "k0ojDAFr.NMjNt9vSGq9tjmx4JeKQQ6U97tkLSH7RRJNGgyCcUbo1U6Xi8lWIw7oc"
 
-@app.route('/event-search', methods=['GET'])
-def event_search():
-    return render_template('event_search.html')
-
-@app.route('/event-search/results', methods=['POST'])
+@app.route('/event-search-results')
 def event_search_results():
+    prefecture = request.args.get("prefecture", "")
+    month = request.args.get("month", "")
+    period = request.args.get("period", "")  # 上旬/中旬/下旬
+    keyword = request.args.get("keyword", "").strip()
+
+    results = []
+
+    for pref in EVENTS_JSON:
+        pref_name = pref["pref_name_ja"]
+
+        # 都道府県フィルタ
+        if prefecture and pref_name != prefecture:
+            continue
+
+        for ev in pref["events"]:
+            ev_month_full = ev.get("month", "")  # 例: "8月上旬"
+
+            # === 月の抽出 ===
+            ev_month_num = ""
+            for n in range(1, 13):
+                if f"{n}月" in ev_month_full:
+                    ev_month_num = str(n)
+                    break
+
+            # 月フィルタ
+            if month and month != ev_month_num:
+                continue
+
+            # 旬フィルタ
+            if period and period not in ev_month_full:
+                continue
+
+            # キーワードフィルタ
+            if keyword:
+                if (keyword not in ev.get("event_name", "")) and \
+                    (keyword not in ev.get("description", "")):
+                    continue
+
+            results.append({
+                "event_name": ev.get("event_name", ""),
+                "month": ev.get("month", ""),
+                "city": ev.get("city", ""),
+                "category": ev.get("category", ""),
+                "description": ev.get("description", ""),
+                "pref_name": pref_name
+            })
+
+    return render_template(
+        "event_search_results.html",
+        results=results,
+        prefectures=[p["pref_name_ja"] for p in EVENTS_JSON],
+        months=list(range(1, 13)),
+        periods=["上旬", "中旬", "下旬"]
+    )
+
+@app.route("/event_search")
+def event_search():
+    prefectures = get_prefecture_list()
+    months = list(range(1, 13))
+    periods = ["上旬", "中旬", "下旬"]
+    return render_template("event_search.html",
+                            prefectures=prefectures,
+                            months=months,
+                            periods=periods)
+
+@app.route('/event-search1', methods=['GET'])
+def event_search1():
+    return render_template('event_search1.html')
+
+@app.route('/event-search-results1', methods=['POST'])
+def event_search_results1():
     # フォーム入力を取得
     keyword = request.form.get('keyword', '').strip()
     ymd = request.form.get('ymd', '').strip()
@@ -1002,7 +1074,7 @@ def event_search_results():
     events = data.get("events", [])
 
     return render_template(
-        "event_search_results.html",
+        "event_search_results1.html",
         events=events,
         keyword=keyword,
         ymd=ymd,
