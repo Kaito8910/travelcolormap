@@ -910,6 +910,20 @@
         "city": "出雲市",
         "category": "寺社",
         "description": "縁結びの神様として全国から参拝客が訪れる古社。"
+      },
+      {
+        "spot_id":"32_002",
+        "spot_name":"松江城",
+        "city":"松江市",
+        "category":"城・歴史",
+        "description":"国宝に指定されている美しい城郭。"
+      },
+      {
+        "spot_id":"32_003",
+        "spot_name":"玉造温泉",
+        "city":"松江市",
+        "category":"温泉",
+        "description":"川沿いの足湯や温泉街の散策が楽しい。"
       }
     ]
   },
@@ -925,6 +939,20 @@
         "city": "岡山市",
         "category": "庭園・公園",
         "description": "日本三名園の一つ。岡山城とのセット観光もおすすめ。"
+      },
+      {
+        "spot_id":"33_002",
+        "spot_name":"倉敷美観地区",
+        "city":"倉敷市",
+        "category":"観光・体験",
+        "description":"4つの水族館があり、子どもから大人まで楽しめる。"
+      },
+      {
+        "spot_id":"32_003",
+        "spot_name":"岡山城",
+        "city":"岡山市",
+        "category":"城・歴史",
+        "description":"すぐそばの後楽園とセットで観光しやすい。"
       }
     ]
   },
@@ -940,6 +968,20 @@
         "city": "廿日市市",
         "category": "寺社・景観",
         "description": "海に浮かぶ大鳥居で知られる世界遺産の神社。"
+      },
+      {
+        "spot_id":"34_002",
+        "spot_name":"原爆ドーム",
+        "city":"広島市",
+        "category":"文化・歴史",
+        "description":"平和記念公園とあわせて訪れる定番スポット。"
+      },
+      {
+        "spot_id":"34_003",
+        "spot_name":"広島平和記念資料館",
+        "city":"広島市",
+        "category":"博物館",
+        "description":"被爆の歴史と平和の大切さを学べる場所。"
       }
     ]
   },
@@ -955,6 +997,20 @@
         "city": "長門市",
         "category": "景観・神社",
         "description": "海沿いに続く赤い鳥居が圧巻のフォトスポット。"
+      },
+      {
+        "spot_id":"35_002",
+        "spot_name":"角島大橋",
+        "city":"下関市",
+        "category":"観光・体験",
+        "description":"エメラルドブルーの海に伸びる絶景の橋。"
+      },
+      {
+        "spot_id":"35_002",
+        "spot_name":"秋芳洞",
+        "city":"美祢市",
+        "category":"景観・歴史",
+        "description":"日本最大級の鍾乳洞"
       }
     ]
   },
@@ -970,6 +1026,20 @@
         "city": "徳島市",
         "category": "文化・体験",
         "description": "阿波おどりの歴史紹介や実演が楽しめる施設。"
+      },
+      {
+        "spot_id":"36_002",
+        "spot_name":"鳴門の渦潮",
+        "city":"鳴門市",
+        "category":"湖",
+        "description":"世界最大級の渦潮が見られるスポット。"
+      },
+      {
+        "spot_id":"36_003",
+        "spot_name":"祖谷渓",
+        "city":"三好市",
+        "category":"自然景観",
+        "description":"日本三大秘境のひとつ。"
       }
     ]
   },
@@ -985,6 +1055,20 @@
         "city": "直島町",
         "category": "アート・島旅",
         "description": "瀬戸内海の美しい島で現代アートを楽しめるエリア。"
+      },
+      {
+        "spot_id":"37_002",
+        "spot_name":"栗林公園",
+        "city":"高松市",
+        "category":"景観・歴史",
+        "description":"広大な庭園を散策でき、四季の景色が美しい。"
+      },
+      {
+        "spot_id":"37_003",
+        "spot_name":"金刀比羅宮",
+        "city":"琴平町",
+        "category":"寺社・景観",
+        "description":"“こんぴらさん”として親しまれる人気の神社。"
       }
     ]
   },
@@ -1000,6 +1084,20 @@
         "city": "松山市",
         "category": "温泉",
         "description": "日本最古級の温泉ともいわれるレトロな共同浴場。"
+      },
+      {
+        "spot_id":"38_002",
+        "spot_name":"松山城",
+        "city":"松山市",
+        "category":"城・公園",
+        "description":"天守から松山市街と瀬戸内海を一望。"
+      },
+      {
+        "spot_id":"38_003",
+        "spot_name":"しまなみ海道",
+        "city":"今治市",
+        "category":"観光・体験",
+        "description":"美しい島々と橋の絶景が楽しめる。"
       }
     ]
   },
@@ -1015,6 +1113,20 @@
         "city": "高知市",
         "category": "海岸・景観",
         "description": "坂本龍馬像と太平洋の眺めが印象的な海岸。"
+      },
+      {
+        "spot_id":"39_002",
+        "spot_name":"高知城",
+        "city":"高知市",
+        "category":"城・歴史",
+        "description":"天守と本丸御殿が完全に残る貴重なお城。"
+      },
+      {
+        "spot_id":"39_003",
+        "spot_name":"四万十川",
+        "city":"四万十市",
+        "category":"観光・体験",
+        "description":"“日本最後の清流”と呼ばれる美しい川。"
       }
     ]
   },
@@ -1030,6 +1142,20 @@
         "city": "福岡市",
         "category": "寺社",
         "description": "学問の神様として受験生に人気の神社。梅の名所。"
+      },
+      {
+        "spot_id":"40_002",
+        "spot_name":"博多駅周辺",
+        "city":"福岡市",
+        "category":"観光・体験",
+        "description":"博多ラーメン・もつ鍋などグルメの中心地。"
+      },
+      {
+        "spot_id":"40_003",
+        "spot_name":"福岡タワー",
+        "city":"福岡市",
+        "category":"観光・体験",
+        "description":"夜景が美しいランドマーク。"
       }
     ]
   },
@@ -1045,6 +1171,20 @@
         "city": "有田町",
         "category": "テーマパーク",
         "description": "ヨーロッパ宮殿風の建物と有田焼の体験が楽しめる施設。"
+      },
+      {
+        "spot_id":"41_002",
+        "spot_name":"吉野ヶ里歴史公園",
+        "city":"吉野ヶ里町",
+        "category":"庭園・公園",
+        "description":"日本最大級の弥生時代遺跡。"
+      },
+      {
+        "spot_id":"41_003",
+        "spot_name":"唐津城",
+        "city":"唐津市",
+        "category":"城・歴史",
+        "description":"“舞鶴城”とも呼ばれる海沿いの美しい城。"
       }
     ]
   },
@@ -1060,6 +1200,20 @@
         "city": "長崎市",
         "category": "景観・歴史",
         "description": "長崎港を見下ろす洋館エリア。夜景スポットとしても人気。"
+      },
+      {
+        "spot_id":"42_002",
+        "spot_name":"ハウステンボス",
+        "city":"佐世保市",
+        "category":"テーマパーク",
+        "description":"花・光・音楽・アトラクションがそろう大型テーマパーク。"
+      },
+      {
+        "spot_id":"42_003",
+        "spot_name":"長崎平和公園・原爆資料館",
+        "city":"長崎市",
+        "category":"博物館",
+        "description":"原爆の歴史を伝える重要な場所。"
       }
     ]
   },
@@ -1075,6 +1229,20 @@
         "city": "熊本市",
         "category": "城・歴史",
         "description": "加藤清正が築いた堅牢な城。復旧が進む熊本の象徴。"
+      },
+      {
+        "spot_id":"43_002",
+        "spot_name":"阿蘇",
+        "city":"阿蘇市",
+        "category":"火山・景観",
+        "description":"世界有数のカルデラを持つ阿蘇山。"
+      },
+      {
+        "spot_id":"43_003",
+        "spot_name":"黒川温泉",
+        "city":"南小国町",
+        "category":"温泉",
+        "description":"「露天風呂めぐり」が楽しめる全国屈指の温泉地。"
       }
     ]
   },
@@ -1090,6 +1258,20 @@
         "city": "別府市",
         "category": "温泉・観光",
         "description": "色とりどりの源泉を巡る別府観光の定番コース。"
+      },
+      {
+        "spot_id":"44_002",
+        "spot_name":"由布院",
+        "city":"由布市",
+        "category":"観光・体験",
+        "description":"おしゃれな街並みと自然が調和した人気観光地"
+      },
+      {
+        "spot_id":"44_003",
+        "spot_name":"国東半島",
+        "city":"国東市",
+        "category":"自然景観",
+        "description":"六郷満山の歴史が残る神秘的なエリア。"
       }
     ]
   },
@@ -1105,6 +1287,27 @@
         "city": "高千穂町",
         "category": "渓谷・自然",
         "description": "柱状節理の渓谷とボート遊覧が人気のパワースポット。"
+      },
+      {
+        "spot_id":"45_002",
+        "spot_name":"松島",
+        "city":"松島町",
+        "category":"自然景観",
+        "description":"日本三景のひとつ。"
+      },
+      {
+        "spot_id":"45_002",
+        "spot_name":"仙台城跡",
+        "city":"仙台市",
+        "category":"城・公園",
+        "description":"伊達政宗像が立つ定番観光地。"
+      },
+      {
+        "spot_id":"45_003",
+        "spot_name":"秋保温泉",
+        "city":"仙台市",
+        "category":"温泉",
+        "description":"秋保大滝や温泉宿でゆったりできる。"
       }
     ]
   },
@@ -1120,6 +1323,20 @@
         "city": "鹿児島市",
         "category": "火山・景観",
         "description": "鹿児島市街の目の前にそびえる活火山。フェリー観光も。"
+      },
+      {
+        "spot_id":"46_002",
+        "spot_name":"指宿・砂むし温泉",
+        "city":"指宿市",
+        "category":"温泉",
+        "description":"世界的にも珍しい“砂に入る”温泉。"
+      },
+      {
+        "spot_id":"46_003",
+        "spot_name":"屋久島",
+        "city":"熊毛郡屋久島町",
+        "category":"観光・体験",
+        "description":"縄文杉、白谷雲水峡など神秘的な自然が魅力。"
       }
     ]
   },
@@ -1135,6 +1352,20 @@
         "city": "本部町",
         "category": "水族館",
         "description": "世界最大級の水槽でジンベエザメなどが見られる人気スポット。"
+      },
+      {
+        "spot_id":"47_002",
+        "spot_name":"首里城",
+        "city":"那覇市",
+        "category":"城・公園",
+        "description":"復元が進む中で歴史と文化を感じられるスポット。"
+      },
+      {
+        "spot_id":"47_003",
+        "spot_name":"古宇利島",
+        "city":"今帰仁村",
+        "category":"自然景観",
+        "description":"“恋の島”として有名。"
       }
     ]
   }
