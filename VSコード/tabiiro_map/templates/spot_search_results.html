@@ -41,6 +41,12 @@
                     カテゴリ：{{ spot.category }}<br>
                     説明：{{ spot.description }}
                 </li>
+                <button class="bookmark-btn"
+                    data-type="spot"
+                    data-id="{{ spot.spot_name }}"
+                    data-title="{{ spot.spot_name }}">
+                    ★ ブックマーク
+                </button>
             {% endfor %}
         </ul>
     {% else %}

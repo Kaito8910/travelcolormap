@@ -1238,6 +1238,56 @@ def bookmark_list():
 
     return render_template('bookmark_list.html', bookmarks=bookmarks)
 
+@app.route('/bookmark/add', methods=['POST'])
+def add_bookmark():
+    if not session.get('logged_in'):
+        return jsonify({"ok": False, "msg": "LOGIN_REQUIRED"})
+
+    user_id = session.get('user_id')
+    target_type = request.form.get("type")
+    target_id = request.form.get("id")
+    title = request.form.get("title")
+    thumb = request.form.get("thumb", "")
+
+    # すでに存在する場合は何もしない
+    existing = Bookmark.query.filter_by(
+        user_id=user_id, target_type=target_type, target_id=target_id
+    ).first()
+    if existing:
+        return jsonify({"ok": True, "msg": "ALREADY_EXISTS"})
+
+    new_bm = Bookmark(
+        user_id=user_id,
+        target_type=target_type,
+        target_id=target_id,
+        title=title,
+        thumb=thumb
+    )
+
+    db.session.add(new_bm)
+    db.session.commit()
+
+    return jsonify({"ok": True})
+
+@app.route('/bookmark/remove', methods=['POST'])
+def remove_bookmark():
+    if not session.get('logged_in'):
+        return jsonify({"ok": False, "msg": "LOGIN_REQUIRED"})
+
+    user_id = session.get('user_id')
+    target_type = request.form.get("type")
+    target_id = request.form.get("id")
+
+    bm = Bookmark.query.filter_by(
+        user_id=user_id, target_type=target_type, target_id=target_id
+    ).first()
+
+    if not bm:
+        return jsonify({"ok": False, "msg": "NOT_FOUND"})
+
+    db.session.delete(bm)
+    db.session.commit()
+    return jsonify({"ok": True})
 
 
 # ===============================================================

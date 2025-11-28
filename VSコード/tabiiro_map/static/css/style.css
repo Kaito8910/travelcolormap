@@ -349,16 +349,12 @@ body {
 
 .event-search-form button {
     padding: 6px 14px;
-    background: #5ca9e8;
     border: none;
     border-radius: 6px;
-    color: #fff;
+    color: #000;
     cursor: pointer;
 }
 
-.event-search-form button:hover {
-    background: #4b94cf;
-}
 
 /* ==================================== */
 /* 10. イベント検索結果カード            */
@@ -375,7 +371,6 @@ body {
     border-radius: 12px;
     padding: 18px 20px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    border-left: 6px solid #5ca9e8;
     transition: 0.2s;
 }
 
@@ -395,24 +390,105 @@ body {
     margin-bottom: 6px;
 }
 
-.event-tag-month {
-    background: #5ca9e8;
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 8px;
-    font-size: 0.85em;
-    margin-right: 6px;
-}
-
 .event-description {
     margin: 10px 0;
 }
 
-.event-category-tag {
+
+/* ==================================== */
+/* イベント結果ページコンテナ */
+/* ==================================== */
+.event-container {
+    max-width: 1000px;   /* 横幅を広く */
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+}
+
+/* ============================= */
+/* シンプルなイベント仕切り      */
+/* ============================= */
+
+.event-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;  /* 薄い区切り線 */
+    margin-bottom: 10px;            /* 少し余白 */
+}
+
+.event-item:last-child {
+    border-bottom: none;            /* 最後だけ線消す */
+}
+
+/* 開催地の横に置くコンパクトなカテゴリタグ */
+.event-category-tag-inline {
     display: inline-block;
     background: #ffb347;
-    color: #fff;
+    color: white;
     padding: 2px 8px;
     border-radius: 6px;
-    font-size: 0.85em;
+    font-size: 0.8em;
+    margin-left: 10px;   /* 開催地との間に余白 */
+}
+
+/* ============================= */
+/* ブックマーク一覧カード         */
+/* ============================= */
+
+.bookmark-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bookmark-card {
+    display: flex;
+    gap: 20px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    align-items: center;
+}
+
+.bookmark-thumb {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #eee;
+}
+
+.no-thumb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+}
+
+.bookmark-info {
+    flex-grow: 1;
+}
+
+.bookmark-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.bookmark-type {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.bookmark-delete-btn {
+    padding: 6px 12px;
+    background: #e53935;
+    border: none;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.bookmark-delete-btn:hover {
+    background: #c62828;
 }
