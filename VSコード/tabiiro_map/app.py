@@ -14,15 +14,10 @@ from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from spot_pref_map import SPOT_TO_PREF
-from datetime import datetime
-#import pandas as pd
+from datetime import datetime, date, timedelta
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
-
-
-API_KEY = "1002136947918553343"
-
 
 
 # ===============================================================
@@ -34,7 +29,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 db.init_app(app)
 migrate = Migrate(app, db)
-
 
 # ===============================================================
 # 🌟 DB モデル
@@ -55,7 +49,6 @@ class User(db.Model):
         db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False
     )
 
-
 # ---------------------------------------------------------------
 # 観光地管理テーブル（SPOT）
 # ---------------------------------------------------------------
@@ -65,14 +58,18 @@ class Spot(db.Model):
     spot_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("USER.id"), nullable=False)
     name = db.Column(db.String(100), nullable=False)
+    prefecture = db.Column(db.String(20), nullable=False)
     visit_date = db.Column(db.Date, nullable=False)
     photo = db.Column(db.String(255))
     comment = db.Column(db.Text)
+    weather = db.Column(db.String(50))   
+    temp_max = db.Column(db.Float)        
+    temp_min = db.Column(db.Float)         
+    precipitation = db.Column(db.Float)     
     created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
     updated_at = db.Column(
         db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False
     )
-
 
 # ---------------------------------------------------------------
 # グルメ記録テーブル（FOOD）
@@ -87,6 +84,7 @@ class Food(db.Model):
     visit_date = db.Column(db.Date, nullable=False)
     evaluation = db.Column(db.Integer)
     memo = db.Column(db.Text)
+    photo = db.Column(db.String(255))
     stay_id = db.Column(db.Integer, db.ForeignKey("STAY.stay_id"))
     created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
     updated_at = db.Column(
@@ -112,7 +110,6 @@ class Stay(db.Model):
         db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False
     )
 
-
 # ---------------------------------------------------------------
 # ブックマーク管理テーブル（BOOKMARK）
 # ---------------------------------------------------------------
@@ -127,7 +124,6 @@ class Bookmark(db.Model):
     thumb = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
 
-
 # ===============================================================
 # 🏠 ホーム
 # ===============================================================
@@ -135,7 +131,6 @@ class Bookmark(db.Model):
 def home():
     logged_in = session.get('logged_in', False)
     return render_template('home.html', logged_in=logged_in)
-
 
 # ===============================================================
 # 👤 ログイン
@@ -158,7 +153,6 @@ def login():
         return redirect(url_for('login'))
 
     return render_template('login.html')
-
 
 # ===============================================================
 # ⭐ 新規登録
@@ -203,7 +197,6 @@ def register():
 
     return render_template('register.html')
 
-
 # ===============================================================
 # 👤 ログアウト
 # ===============================================================
@@ -211,7 +204,6 @@ def register():
 def logout():
     session.clear()
     return render_template('logout.html')
-
 
 # ===============================================================
 # ⭐ ユーザー情報表示
@@ -223,7 +215,6 @@ def user_data():
 
     user = User.query.get(session.get('user_id'))
     return render_template('user_data.html', user=user)
-
 
 # ===============================================================
 # ⭐ ユーザー情報更新
@@ -251,7 +242,6 @@ def update_user_data():
     flash("ユーザー情報を更新しました！", "success")
     return redirect(url_for('user_data'))
 
-
 # ===============================================================
 # ⭐ アカウント削除
 # ===============================================================
@@ -269,7 +259,6 @@ def delete_account():
 
     flash("アカウントを削除しました。", "success")
     return redirect(url_for('home'))
-
 
 # ===============================================================
 # ⭐ パスワード変更
@@ -302,7 +291,6 @@ def change_pwd():
 
     return render_template('change_pwd.html')
 
-
 # ===============================================================
 # ⭐ パスワード再設定
 # ===============================================================
@@ -320,7 +308,6 @@ def forgot_password():
         return redirect(url_for('reset_password'))
 
     return render_template('forgot_password.html')
-
 
 @app.route('/reset-password', methods=['GET', 'POST'])
 def reset_password():
@@ -349,62 +336,401 @@ def reset_password():
 
     return render_template('reset_password.html')
 
-
 # ===============================================================
 # スポット登録
 # ===============================================================
-@app.route('/spot-register', methods=['GET', 'POST'])
+@app.route('/spot_register', methods=['GET', 'POST'])
 def spot_register():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
     if request.method == 'POST':
         user_id = session.get('user_id')
-        name = request.form.get('name')
-        visit_date = datetime.strptime(request.form.get('visit_date'), "%Y-%m-%d").date()
+
+        # --- フォームデータ ---
+        spot_name = request.form.get("spot_name")
+        pref_full = request.form.get("prefecture") 
+        visit_date_str = request.form.get('visit_date')
         comment = request.form.get('comment')
 
+        if not spot_name:
+            flash("観光地名を入力してください。", "error")
+            return redirect(url_for('spot_register'))
+
+        if not pref_full:
+            flash("都道府県を選択してください。", "error")
+            return redirect(url_for('spot_register'))
+
+        # ① 都道府県名を short_pref に変換
+        if pref_full == "北海道":
+            pref_short = "北海道"
+        else:
+            # 東京都→東京、青森県→青森、京都府→京都
+            pref_short = pref_full.replace("都", "").replace("府", "").replace("県", "")
+
+        # ② 日付変換
+        visit_date = datetime.strptime(visit_date_str, "%Y-%m-%d").date()
+
+        # --- 写真処理 ---
         photo_file = request.files.get('photo')
         filename = None
-
         if photo_file and photo_file.filename:
             upload_dir = os.path.join("static", "uploads")
             os.makedirs(upload_dir, exist_ok=True)
-            filename = f"{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
+            filename = (
+                f"{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
+            )
             photo_file.save(os.path.join(upload_dir, filename))
 
+        # --- 天気API ---
+        lat, lon = PREF_LATLON.get(pref_short, (None, None))
+        weather = None
+        temp_max = None
+        temp_min = None
+        precipitation = None
+
+        if lat and lon:
+            url = (
+                "https://archive-api.open-meteo.com/v1/archive"
+                f"?latitude={lat}&longitude={lon}"
+                f"&start_date={visit_date}&end_date={visit_date}"
+                "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum"
+                "&timezone=Asia/Tokyo"
+            )
+            try:
+                res = requests.get(url).json()
+                code = res["daily"]["weathercode"][0]
+                weather = convert_weather_icon(code)
+                temp_max = res["daily"]["temperature_2m_max"][0]
+                temp_min = res["daily"]["temperature_2m_min"][0]
+                precipitation = res["daily"]["precipitation_sum"][0]
+            except Exception as e:
+                print("天気取得失敗:", e)
+
+        # --- DB保存（short_pref を保存する） ---
         new_spot = Spot(
             user_id=user_id,
-            name=name,
+            name=spot_name,
+            prefecture=pref_short,
             visit_date=visit_date,
             photo=filename,
-            comment=comment
+            comment=comment,
+            weather=weather,
+            temp_max=temp_max,
+            temp_min=temp_min,
+            precipitation=precipitation,
         )
 
         db.session.add(new_spot)
         db.session.commit()
 
-        flash("登録しました！", "success")
-        return redirect(url_for('spot_register'))
+        flash("登録しました！（天気データも保存しました）", "success")
+        return redirect(url_for('spot_list'))
 
     return render_template("spot_register.html")
+
+
+# ===============================================================
+# グルメ記録一覧
+# ===============================================================
+@app.route('/gourmet_list')
+def gourmet_list():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+    foods = Food.query.filter_by(user_id=user_id).all()
+
+    # 店舗名 → 記録一覧
+    grouped = {}
+    for f in foods:
+        grouped.setdefault(f.shop_name, [])
+        grouped[f.shop_name].append(f)
+
+    # 店舗ごとの平均評価を計算
+    shop_summary = []
+    for shop, items in grouped.items():
+        avg = sum(i.evaluation for i in items) / len(items)
+
+        # 写真は代表として1枚（最新のにする）
+        thumbnail = next((i.photo for i in items if i.photo), None)
+
+        shop_summary.append({
+            "shop_name": shop,
+            "items": items,
+            "avg": round(avg, 1),   # 小数1桁
+            "count": len(items),
+            "thumbnail": thumbnail
+        })
+
+    return render_template(
+        'gourmet_list.html',
+        shop_summary=shop_summary
+    )
+
+# ===============================================================
+# グルメ記録店舗詳細
+# ===============================================================
+
+@app.route('/shop/<shop_name>')
+def shop_detail(shop_name):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+
+    items = Food.query.filter_by(user_id=user_id, shop_name=shop_name).all()
+
+    if not items:
+        flash("データが存在しません。", "error")
+        return redirect(url_for('gourmet_list'))
+
+    avg = sum(i.evaluation for i in items) / len(items)
+    avg = round(avg, 1)
+
+    # サムネイル
+    thumbnail = next((i.photo for i in items if i.photo), None)
+
+    return render_template(
+        'shop_detail.html',
+        shop_name=shop_name,
+        items=items,
+        avg=avg,
+        count=len(items),
+        thumbnail=thumbnail
+    )
 
 
 # ===============================================================
 #グルメ記録登録
 # ===============================================================
 
-@app.route('/gourmet-record')
+@app.route('/gourmet_record')
 def gourmet_record():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
     return render_template('gourmet_record.html')
 
+
 # ===============================================================
-# イベント検索
+# グルメ記録追加（POST処理）
+# ===============================================================
+@app.route('/add_gourmet', methods=['POST'])
+def add_gourmet():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+
+    shop_name = request.form.get('shop_name')
+    food_name = request.form.get('food_name')
+    visit_date = request.form.get('visit_date')
+    evaluation = int(request.form.get('evaluation'))
+    memo = request.form.get('memo')
+
+    # 日付変換
+    visit_date = datetime.strptime(visit_date, "%Y-%m-%d").date()
+
+    # 写真処理
+    photo_file = request.files.get("photo")
+    filename = None
+
+    if photo_file and photo_file.filename:
+        upload_dir = os.path.join("static", "uploads")
+        os.makedirs(upload_dir, exist_ok=True)
+
+        filename = (
+            f"{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
+        )
+        photo_file.save(os.path.join(upload_dir, filename))
+
+    new_food = Food(
+        user_id=user_id,
+        shop_name=shop_name,
+        food_name=food_name,
+        visit_date=visit_date,
+        evaluation=evaluation,
+        memo=memo,
+        photo=filename
+    )
+
+    db.session.add(new_food)
+    db.session.commit()
+
+    flash("グルメ記録を登録しました！", "success")
+    return redirect(url_for('gourmet_list'))
+
+
+# ===============================================================
+# グルメ記録更新
+# ===============================================================
+@app.route('/gourmet_edit/<int:food_id>', methods=['GET', 'POST'])
+def gourmet_edit(food_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    food = Food.query.get_or_404(food_id)
+
+    if request.method == 'POST':
+        food.shop_name = request.form.get('shop_name')
+        food.food_name = request.form.get('food_name')
+        food.evaluation = int(request.form.get('evaluation'))
+        food.memo = request.form.get('memo')
+
+        visit_date = request.form.get('visit_date')
+        food.visit_date = datetime.strptime(visit_date, "%Y-%m-%d").date()
+
+        # 写真更新
+        photo_file = request.files.get("photo")
+        if photo_file and photo_file.filename:
+            upload_dir = os.path.join("static", "uploads")
+            os.makedirs(upload_dir, exist_ok=True)
+
+            filename = (
+                f"{food.user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
+            )
+            photo_file.save(os.path.join(upload_dir, filename))
+            food.photo = filename
+
+        db.session.commit()
+
+        flash("グルメ記録を更新しました！", "success")
+        return redirect(url_for('gourmet_detail', food_id=food.food_id))
+
+    return render_template('gourmet_edit.html', food=food)
+
+# ===============================================================
+# グルメ記録詳細
 # ===============================================================
 
-@app.route('/event-search', methods=['GET'])
-def event_search():
-    return render_template('event_search.html')
+@app.route('/gourmet_detail/<int:food_id>')
+def gourmet_detail(food_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    food = Food.query.get_or_404(food_id)
+    return render_template('gourmet_detail.html', food=food)
+
+
+# ===============================================================
+# グルメ記録削除
+# ===============================================================
+@app.route('/gourmet_delete/<int:food_id>', methods=['POST'])
+def gourmet_delete(food_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    food = Food.query.get_or_404(food_id)
+
+    db.session.delete(food)
+    db.session.commit()
+
+    flash("グルメ記録を削除しました。", "success")
+    return redirect(url_for('gourmet_list'))
+
+
+
+# ===============================================================
+# スポット一覧
+# ===============================================================
+@app.route('/spot_list', methods=['GET'])
+def spot_list():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+    selected_pref = request.args.get('prefecture', '')
+
+    # 都道府県リスト（spot_register と統一）
+    PREF_LIST = [
+        "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
+        "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
+        "新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県",
+        "静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県",
+        "奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県",
+        "徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県",
+        "熊本県","大分県","宮崎県","鹿児島県","沖縄県"
+    ]
+
+    # --- 絞り込みあり ---
+    if selected_pref:
+        spots = Spot.query.filter_by(
+            user_id=user_id, prefecture=selected_pref
+        ).order_by(
+            Spot.prefecture.asc(), Spot.name.asc()
+        ).all()
+    else:
+        # --- 全件表示 ---
+        spots = Spot.query.filter_by(user_id=user_id).order_by(
+            Spot.prefecture.asc(), Spot.name.asc()
+        ).all()
+
+    return render_template(
+        'spot_list.html',
+        spots=spots,
+        prefectures=PREF_LIST,
+        selected_pref=selected_pref
+    )
+
+# ===============================================================
+# スポット一覧詳細
+# ===============================================================
+@app.route('/spot/<int:spot_id>')
+def spot_detail(spot_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    spot = Spot.query.get_or_404(spot_id)
+    return render_template('spot_detail.html', spot=spot)
+
+# ===============================================================
+# スポット編集
+# ==============================================================
+@app.route('/spot/<int:spot_id>/edit', methods=['GET', 'POST'])
+def spot_edit(spot_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    spot = Spot.query.get_or_404(spot_id)
+
+    if request.method == 'POST':
+
+        # --- 基本データ更新 ---
+        spot.name = request.form.get('spot_name')
+        pref_full = request.form.get('prefecture')  # HTML上の正式名称
+        visit_date_str = request.form.get("visit_date")
+        spot.comment = request.form.get('comment')
+
+        # --- 日付更新 ---
+        spot.visit_date = datetime.strptime(visit_date_str, "%Y-%m-%d").date()
+
+        # --- short_pref に変換（登録時と同じ処理） ---
+        if pref_full == "北海道":
+            pref_short = "北海道"
+        else:
+            pref_short = pref_full.replace("都", "").replace("府", "").replace("県", "")
+
+        spot.prefecture = pref_short
+
+        # --- 写真更新（選択された時だけ） ---
+        photo_file = request.files.get('photo')
+        if photo_file and photo_file.filename:
+            upload_dir = os.path.join("static", "uploads")
+            os.makedirs(upload_dir, exist_ok=True)
+            filename = (
+                f"{spot.user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
+            )
+            photo_file.save(os.path.join(upload_dir, filename))
+            spot.photo = filename
+
+        # --- DB反映 ---
+        db.session.commit()
+
+        flash("観光地情報を更新しました！", "success")
+        return redirect(url_for('spot_detail', spot_id=spot.spot_id))
+
+    # --- GET時（編集ページ表示） ---
+    return render_template("spot_edit.html", spot=spot)
 
 # ===============================================================
 # API（都道府県訪問記録）
@@ -432,19 +758,23 @@ def travel_records_db_api():
 
     return jsonify(data)
 
-
 # ===============================================================
 # API — 都道府県カウント
 # ===============================================================
 @app.route('/api/pref_counts')
 def api_pref_counts():
-    spots = Spot.query.all()
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({})
+
+    # ログインユーザーの観光地のみ取得
+    spots = Spot.query.filter_by(user_id=user_id).all()
+
     pref_counts = {}
 
     for spot in spots:
-        for keyword, pref in SPOT_TO_PREF.items():
-            if keyword in spot.name:
-                pref_counts[pref] = pref_counts.get(pref, 0) + 1
+        pref = spot.prefecture.strip()  # 念のためスペース除去
+        pref_counts[pref] = pref_counts.get(pref, 0) + 1
 
     return jsonify(pref_counts)
 
@@ -471,6 +801,49 @@ SPOT_DATA = [
     },
 ]
 
+EVENT_DATA = [
+    {
+        "name": "祭り",
+        "address": "東京都港区芝公園4-2-8",
+        "category": "観光地",
+        "description": "東京の iconic なランドマーク。",
+    },
+    {
+        "name": "お花見",
+        "address": "東京都台東区浅草2-3-1",
+        "category": "寺院",
+        "description": "国内外から人気の観光スポット。",
+    },
+    {
+        "name": "ショー",
+        "address": "大阪府大阪市此花区桜島2丁目",
+        "category": "テーマパーク",
+        "description": "映画の世界が楽しめる人気スポット。",
+    },
+]
+# ===============================================================
+# API — ユーザー訪問データ
+# ===============================================================
+
+@app.route('/api/visit_data')
+def api_visit_data():
+    if not session.get('logged_in'):
+        return jsonify({})  # ログインしてない場合は空を返す
+
+    user_id = session.get('user_id')
+
+    # DBからユーザーのスポット取得
+    spots = Spot.query.filter_by(user_id=user_id).all()
+
+    pref_counts = {}
+
+    for spot in spots:
+        pref = spot.prefecture  # short_pref（例：東京）
+        pref_counts[pref] = pref_counts.get(pref, 0) + 1
+
+    return jsonify(pref_counts)
+
+
 # ===============================================================
 # スポット検索
 # ===============================================================
@@ -478,13 +851,26 @@ SPOT_DATA = [
 # ==== 検索フォーム ====
 @app.route('/spot-search', methods=['GET'])
 def spot_search():
-    return render_template('spot_search.html')
+    PREF_LIST = [
+        "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
+        "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
+        "新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県",
+        "静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県",
+        "奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県",
+        "徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県",
+        "熊本県","大分県","宮崎県","鹿児島県","沖縄県"
+    ]
 
+    return render_template(
+        'spot_search.html',
+        prefectures=PREF_LIST
+    )
 
 # ==== 検索結果 ====
-@app.route('/spot-search-results', methods=['POST'])
+@app.route('/spot-search-results', methods=['GET'])
 def spot_search_results():
-    keyword = request.form.get('keyword', '').strip()
+    prefecture = request.args.get('prefecture', '')
+    keyword = request.args.get('keyword', '')
 
     # キーワードを含むものを検索
     results = []
@@ -498,90 +884,256 @@ def spot_search_results():
         results=results
     )
 
-# ===============================
-# 宿泊検索（検索フォーム）
-# ===============================
 
-RAKUTEN_API_KEY = "1002136947918553343"
+# ===============================================================
+# 宿泊検索
+# ===============================================================
 
-# ▼ 楽天公式の正しい都道府県コード（最低限版）
-PREFECTURES = [
-    {"name": "北海道", "large": "japan", "middle": "hokkaido", "small": "sapporo"},
-    {"name": "青森県", "large": "japan", "middle": "aomori", "small": "aomori"},
-    {"name": "岩手県", "large": "japan", "middle": "iwate", "small": "morioka"},
-    {"name": "宮城県", "large": "japan", "middle": "miyagi", "small": "sendai"},
-    {"name": "秋田県", "large": "japan", "middle": "akita", "small": "akita"},
-    {"name": "山形県", "large": "japan", "middle": "yamagata", "small": "yamagata"},
-    {"name": "福島県", "large": "japan", "middle": "fukushima", "small": "fukushima"},
-    {"name": "東京都", "large": "japan", "middle": "tokyo", "small": "tokyo"},
-    {"name": "神奈川県", "large": "japan", "middle": "kanagawa", "small": "yokohama"},
-    {"name": "千葉県", "large": "japan", "middle": "chiba", "small": "chiba"},
-]
+APPLICATION_ID = "1002136947918553343"
 
-# ===============================
-# 宿泊検索（検索フォーム）
-# ===============================
-@app.route("/stay_search", methods=["GET"])
-def stay_search():
-    return render_template("stay_search.html", prefectures=PREFECTURES)
-
-
-# ===============================
-# 宿泊検索結果
-# ===============================
-@app.route("/stay_search_results", methods=["GET"])
-def stay_search_results():
-
-    # HTML から受け取り
-    large = request.args.get("large")
-    middle = request.args.get("middle")
-    small = request.args.get("small")
-    checkin_date = request.args.get("checkin_date")
-    checkout_date = request.args.get("checkout_date")
-    adults = request.args.get("adults", 1)
-
-    url = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
-
+def search_hotels(keyword, page=1, hits=20):
+    url = "https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426"
     params = {
-        "applicationId": RAKUTEN_API_KEY,
+        "applicationId": APPLICATION_ID,
         "format": "json",
-        "largeClassCode": large,
-        "middleClassCode": middle,
-        "smallClassCode": small,
-        "checkinDate": checkin_date,
-        "checkoutDate": checkout_date,
-        "adultNum": adults,
-        "hits": 20,
-        "page": 1,
-        "sort": "+roomCharge"
+        "keyword": keyword,
+        "page": page,
+        "hits": hits,
+        "formatVersion": 2  # ネスト浅めの形式
     }
+    resp = requests.get(url, params=params)
+    data = resp.json()
+    return data.get("hotels", [])
 
-    response = requests.get(url, params=params)
-    data = response.json()
+@app.route("/hotel_search", methods=["GET", "POST"])
+def hotel_search():
+    if request.method == "POST":
+        kw = request.form.get("keyword", "").strip()
+        if not kw:
+            return render_template("hotel_search.html", error="キーワードを入力してください")
+        return redirect(url_for("hotel_results", keyword=kw))
+    return render_template("hotel_search.html")
 
-    hotels = data.get("hotels", [])
-    error = data.get("error")
-
-    # デバッグ表示（必要なら）
-    print("URL:", response.url)
-    print("DATA:", data)
-
-    return render_template(
-        "stay_search_results.html",
-        hotels=hotels,
-        error=error,
-        checkin_date=checkin_date,
-        checkout_date=checkout_date,
-        adults=adults,
-    )
-
+@app.route("/hotel_results/<keyword>")
+def hotel_results(keyword):
+    hotels = search_hotels(keyword)
+    return render_template("hotel_results.html", hotels=hotels, keyword=keyword)
 
 # ===============================================================
 # イベント検索
 # ===============================================================
-@app.route('/event_search_resultes', methods=['GET'])
+CONNPASS_API_URL = "https://connpass.com/api/v2/events/"
+API_TOKEN = "k0ojDAFr.NMjNt9vSGq9tjmx4JeKQQ6U97tkLSH7RRJNGgyCcUbo1U6Xi8lWIw7oc"
+
+@app.route('/event-search', methods=['GET'])
+def event_search():
+    return render_template('event_search.html')
+
+@app.route('/event-search/results', methods=['POST'])
 def event_search_results():
-    return render_template('event_search_results.html')
+    # フォーム入力を取得
+    keyword = request.form.get('keyword', '').strip()
+    ymd = request.form.get('ymd', '').strip()
+    prefecture = request.form.get('prefecture', '').strip()
+
+    # APIパラメータ
+    params = {
+        "count": 20,
+        "order": 1,
+    }
+    if keyword:
+        params["keyword"] = keyword
+    if ymd:
+        params["ymd"] = ymd
+    if prefecture:
+        params["prefecture"] = prefecture
+
+    headers = {
+        "X-API-Key": API_TOKEN,
+        "User-Agent": "PythonApp/1.0"  # ← ここを追加
+    }
+
+    try:
+        res = requests.get(CONNPASS_API_URL, params=params, headers=headers, timeout=10)
+        res.raise_for_status()
+        data = res.json()
+    except requests.exceptions.HTTPError:
+        flash(f"API呼び出しエラー: {res.status_code} {res.reason}", "danger")
+        return redirect(url_for('event_search'))
+    except requests.exceptions.RequestException as e:
+        flash(f"API呼び出しエラー: {e}", "danger")
+        return redirect(url_for('event_search'))
+    except ValueError as e:
+        flash(f"JSON解析エラー: {e}", "danger")
+        return redirect(url_for('event_search'))
+
+    events = data.get("events", [])
+
+    return render_template(
+        "event_search_results.html",
+        events=events,
+        keyword=keyword,
+        ymd=ymd,
+        prefecture=prefecture
+    )
+
+
+# ============================
+# 天気（Open-Meteo）
+# ============================
+
+import requests
+
+# ======================================
+# 都道府県 → 緯度経度
+# ======================================
+
+PREF_LATLON = {
+    "北海道": (43.06417, 141.34694),
+    "青森": (40.82444, 140.74),
+    "岩手": (39.70361, 141.1525),
+    "宮城": (38.26889, 140.87194),
+    "秋田": (39.71861, 140.1025),
+    "山形": (38.24056, 140.36333),
+    "福島": (37.75, 140.46778),
+    "茨城": (36.34139, 140.44667),
+    "栃木": (36.56583, 139.88361),
+    "群馬": (36.39111, 139.06083),
+    "埼玉": (35.85694, 139.64889),
+    "千葉": (35.60472, 140.12333),
+    "東京": (35.68944, 139.69167),
+    "神奈川": (35.44778, 139.6425),
+    "新潟": (37.90222, 139.02361),
+    "富山": (36.69528, 137.21139),
+    "石川": (36.59444, 136.62556),
+    "福井": (36.06528, 136.22194),
+    "山梨": (35.66389, 138.56833),
+    "長野": (36.65139, 138.18111),
+    "岐阜": (35.39111, 136.72222),
+    "静岡": (34.97694, 138.38306),
+    "愛知": (35.18028, 136.90667),
+    "三重": (34.73028, 136.50861),
+    "滋賀": (35.00444, 135.86833),
+    "京都": (35.02139, 135.75556),
+    "大阪": (34.68639, 135.52),
+    "兵庫": (34.69139, 135.18306),
+    "奈良": (34.68528, 135.83278),
+    "和歌山": (34.22611, 135.1675),
+    "鳥取": (35.50361, 134.23833),
+    "島根": (35.47222, 133.05056),
+    "岡山": (34.66167, 133.935),
+    "広島": (34.39639, 132.45944),
+    "山口": (34.18583, 131.47139),
+    "徳島": (34.06583, 134.55944),
+    "香川": (34.34028, 134.04333),
+    "愛媛": (33.84167, 132.76611),
+    "高知": (33.55972, 133.53111),
+    "福岡": (33.59028, 130.40194),
+    "佐賀": (33.24944, 130.29889),
+    "長崎": (32.74472, 129.87361),
+    "熊本": (32.78972, 130.74167),
+    "大分": (33.23806, 131.6125),
+    "宮崎": (31.91111, 131.42389),
+    "鹿児島": (31.56028, 130.55806),
+    "沖縄": (26.2125, 127.68111),
+}
+
+# ======================================
+# 天気（Open-Meteo + アイコン + 週間予報）
+# ======================================
+
+import requests
+
+def convert_weather_icon(code):
+    if code == 0: return "☀️"
+    if code == 1: return "🌤"
+    if code == 2: return "⛅"
+    if code == 3: return "☁️"
+    if code in [45, 48]: return "🌫"
+    if code in [51, 53, 55]: return "🌧"
+    if code in [61, 63, 65]: return "🌧"
+    if code in [66, 67]: return "🌧❄️"
+    if code in [71, 73, 75]: return "❄️"
+    if code == 77: return "🌨"
+    if code in [80, 81, 82]: return "🌦"
+    if code in [85, 86]: return "🌨"
+    if code == 95: return "⛈️"
+    if code in [96, 99]: return "⛈️"
+    return "❓"
+
+@app.route('/weather', methods=['GET', 'POST'])
+def weather():
+    weather_data = None
+    weekly = None
+    error = None
+
+    if request.method == "POST":
+        pref = request.form.get("prefecture")
+
+        if pref not in PREF_LATLON:
+            error = "都道府県を選択してください。"
+        else:
+            lat, lon = PREF_LATLON[pref]
+
+            url = (
+                "https://api.open-meteo.com/v1/forecast"
+                f"?latitude={lat}&longitude={lon}"
+                "&current_weather=true"
+                "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max"
+                "&timezone=Asia/Tokyo"
+            )
+
+            try:
+                res = requests.get(url).json()
+
+                # 現在の天気
+                code = res["current_weather"]["weathercode"]
+
+                weather_data = {
+                    "city_name": pref,
+                    "description": "現在の天気",
+                    "temp": res["current_weather"]["temperature"],
+                    "humidity": "-",  # ※後で時間別を追加できる
+                    "icon": convert_weather_icon(code),
+                }
+
+                # 週間データ
+                weekly = []
+                for i in range(7):
+                    w_code = res["daily"]["weathercode"][i]
+                    weekly.append({
+                        "date": res["daily"]["time"][i],
+                        "icon": convert_weather_icon(w_code),
+                        "max": res["daily"]["temperature_2m_max"][i],
+                        "min": res["daily"]["temperature_2m_min"][i],
+                        "precip": res["daily"]["precipitation_probability_max"][i],
+                    })
+
+            except Exception as e:
+                print(e)
+                error = "天気データの取得に失敗しました。"
+
+    return render_template(
+        "weather.html",
+        weather=weather_data,
+        weekly=weekly,
+        error=error,
+        prefectures=list(PREF_LATLON.keys())
+    )
+
+# ===============================================================
+# ブックマーク一覧
+# ===============================================================
+@app.route('/bookmark-list', methods=['GET'])
+def bookmark_list():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+    bookmarks = Bookmark.query.filter_by(user_id=user_id).all()
+
+    return render_template('bookmark_list.html', bookmarks=bookmarks)
+
 
 
 # ===============================================================

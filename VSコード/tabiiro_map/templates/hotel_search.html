@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}宿泊検索 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>宿泊検索</h1>
+
+    <!-- フラッシュメッセージ -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="flash-message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+  {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
+  <form method="post">
+    <input type="text" name="keyword" placeholder="例: 東京駅, 温泉旅館" required>
+    <button type="submit">検索</button>
+  </form>
+{% endblock %}

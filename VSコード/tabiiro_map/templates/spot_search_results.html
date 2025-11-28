@@ -4,18 +4,22 @@
 {% block main_content %}
 <div class="register-container">
     <h1>検索結果（{{ results|length }}件）</h1>
+
     {% if results %}
         <ul>
             {% for spot in results %}
                 <li>
-                    <strong>{{ spot.name }}</strong>（{{ spot.prefecture }}）<br>
-                    {{ spot.address }}
+                    <strong>{{ spot.name }}</strong><br>
+                    住所：{{ spot.address }}<br>
+                    カテゴリ：{{ spot.category }}<br>
+                    説明：{{ spot.description }}
                 </li>
             {% endfor %}
         </ul>
     {% else %}
         <p>条件に一致するスポットは見つかりませんでした。</p>
     {% endif %}
+
     <a href="{{ url_for('spot_search') }}">検索フォームに戻る</a>
 </div>
 {% endblock %}

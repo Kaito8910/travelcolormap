@@ -5,17 +5,9 @@
 <div class="register-container">
     <h1>スポット検索</h1>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <p class="flash-message {{ category }}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     <form method="GET" action="{{ url_for('spot_search_results') }}">
-        <!-- 都道府県ドロップダウン -->
-        <label for="prefecture">都道府県:</label><br>
+        
+        <label for="prefecture">都道府県:</label>
         <select name="prefecture" id="prefecture">
             <option value="">すべて</option>
             {% for pref in prefectures %}
@@ -25,8 +17,7 @@
 
         <br><br>
 
-        <!-- キーワード検索 -->
-        <label for="keyword">キーワード:</label><br>
+        <label for="keyword">キーワード:</label>
         <input type="text" name="keyword" id="keyword">
 
         <br><br>

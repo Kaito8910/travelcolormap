@@ -1,0 +1,1412 @@
+[
+  {
+    "pref_code": 1,
+    "pref_name_ja": "北海道",
+    "events": [
+      {
+        "event_id": "01_001",
+        "event_name": "さっぽろ雪まつり",
+        "city": "札幌市",
+        "month": "2月上旬",
+        "category": "祭り",
+        "description": "北海道で開催される代表的イベント「さっぽろ雪まつり」。"
+      },
+      {
+        "event_id": "01_002",
+        "event_name": "YOSAKOIソーラン祭り",
+        "city": "札幌市",
+        "month": "6月上旬",
+        "category": "祭り",
+        "description": "北海道で開催される代表的イベント「YOSAKOIソーラン祭り」。"
+      },
+      {
+        "event_id": "01_003",
+        "event_name": "旭川冬まつり",
+        "city": "旭川市",
+        "month": "2月上旬",
+        "category": "祭り",
+        "description": "北海道で開催される代表的イベント「旭川冬まつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 2,
+    "pref_name_ja": "青森県",
+    "events": [
+      {
+        "event_id": "02_001",
+        "event_name": "青森ねぶた祭",
+        "city": "青森市",
+        "month": "8月上旬",
+        "category": "祭り",
+        "description": "青森県で開催される代表的イベント「青森ねぶた祭」。"
+      },
+      {
+        "event_id": "02_002",
+        "event_name": "弘前さくらまつり",
+        "city": "弘前市",
+        "month": "4月下旬",
+        "category": "花見",
+        "description": "青森県で開催される代表的イベント「弘前さくらまつり」。"
+      },
+      {
+        "event_id": "02_003",
+        "event_name": "八戸えんぶり",
+        "city": "八戸市",
+        "month": "2月中旬",
+        "category": "伝統行事",
+        "description": "青森県で開催される代表的イベント「八戸えんぶり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 3,
+    "pref_name_ja": "岩手県",
+    "events": [
+      {
+        "event_id": "03_001",
+        "event_name": "盛岡さんさ踊り",
+        "city": "盛岡市",
+        "month": "8月上旬",
+        "category": "祭り",
+        "description": "岩手県で開催される代表的イベント「盛岡さんさ踊り」。"
+      },
+      {
+        "event_id": "03_002",
+        "event_name": "チャグチャグ馬コ",
+        "city": "滝沢市",
+        "month": "6月中旬",
+        "category": "伝統行事",
+        "description": "岩手県で開催される代表的イベント「チャグチャグ馬コ」。"
+      },
+      {
+        "event_id": "03_003",
+        "event_name": "北上みちのく芸能まつり",
+        "city": "北上市",
+        "month": "8月中旬",
+        "category": "郷土芸能",
+        "description": "岩手県で開催される代表的イベント「北上みちのく芸能まつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 4,
+    "pref_name_ja": "宮城県",
+    "events": [
+      {
+        "event_id": "04_001",
+        "event_name": "仙台七夕まつり",
+        "city": "仙台市",
+        "month": "8月上旬",
+        "category": "祭り",
+        "description": "宮城県で開催される代表的イベント「仙台七夕まつり」。"
+      },
+      {
+        "event_id": "04_002",
+        "event_name": "松島かき祭り",
+        "city": "松島町",
+        "month": "2月上旬",
+        "category": "グルメ",
+        "description": "宮城県で開催される代表的イベント「松島かき祭り」。"
+      },
+      {
+        "event_id": "04_003",
+        "event_name": "どんと祭",
+        "city": "仙台市",
+        "month": "1月中旬",
+        "category": "伝統行事",
+        "description": "宮城県で開催される代表的イベント「どんと祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 5,
+    "pref_name_ja": "秋田県",
+    "events": [
+      {
+        "event_id": "05_001",
+        "event_name": "竿燈まつり",
+        "city": "秋田市",
+        "month": "8月上旬",
+        "category": "祭り",
+        "description": "秋田県で開催される代表的イベント「竿燈まつり」。"
+      },
+      {
+        "event_id": "05_002",
+        "event_name": "大曲の花火",
+        "city": "大仙市",
+        "month": "8月下旬",
+        "category": "花火",
+        "description": "秋田県で開催される代表的イベント「大曲の花火」。"
+      },
+      {
+        "event_id": "05_003",
+        "event_name": "なまはげ柴灯まつり",
+        "city": "男鹿市",
+        "month": "2月上旬",
+        "category": "伝統行事",
+        "description": "秋田県で開催される代表的イベント「なまはげ柴灯まつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 6,
+    "pref_name_ja": "山形県",
+    "events": [
+      {
+        "event_id": "06_001",
+        "event_name": "山形花笠まつり",
+        "city": "山形市",
+        "month": "8月上旬",
+        "category": "祭り",
+        "description": "山形県で開催される代表的イベント「山形花笠まつり」。"
+      },
+      {
+        "event_id": "06_002",
+        "event_name": "酒田日和山桜まつり",
+        "city": "酒田市",
+        "month": "4月中旬",
+        "category": "花見",
+        "description": "山形県で開催される代表的イベント「酒田日和山桜まつり」。"
+      },
+      {
+        "event_id": "06_003",
+        "event_name": "新庄まつり",
+        "city": "新庄市",
+        "month": "8月下旬",
+        "category": "祭り",
+        "description": "山形県で開催される代表的イベント「新庄まつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 7,
+    "pref_name_ja": "福島県",
+    "events": [
+      {
+        "event_id": "07_001",
+        "event_name": "会津まつり",
+        "city": "会津若松市",
+        "month": "9月下旬",
+        "category": "歴史行列",
+        "description": "福島県で開催される代表的イベント「会津まつり」。"
+      },
+      {
+        "event_id": "07_002",
+        "event_name": "相馬野馬追",
+        "city": "南相馬市",
+        "month": "7月下旬",
+        "category": "武者行列",
+        "description": "福島県で開催される代表的イベント「相馬野馬追」。"
+      },
+      {
+        "event_id": "07_003",
+        "event_name": "二本松提灯祭り",
+        "city": "二本松市",
+        "month": "10月上旬",
+        "category": "祭り",
+        "description": "福島県で開催される代表的イベント「二本松提灯祭り」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 8,
+    "pref_name_ja": "茨城県",
+    "events": [
+      {
+        "event_id": "08_001",
+        "event_name": "水戸偕楽園梅まつり",
+        "city": "水戸市",
+        "month": "3月上旬",
+        "category": "花見",
+        "description": "茨城県で開催される代表的イベント「水戸偕楽園梅まつり」。"
+      },
+      {
+        "event_id": "08_002",
+        "event_name": "土浦全国花火競技大会",
+        "city": "土浦市",
+        "month": "10月下旬",
+        "category": "花火",
+        "description": "茨城県で開催される代表的イベント「土浦全国花火競技大会」。"
+      },
+      {
+        "event_id": "08_003",
+        "event_name": "笠間の陶炎祭",
+        "city": "笠間市",
+        "month": "5月上旬",
+        "category": "陶器市",
+        "description": "茨城県で開催される代表的イベント「笠間の陶炎祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 9,
+    "pref_name_ja": "栃木県",
+    "events": [
+      {
+        "event_id": "09_001",
+        "event_name": "日光東照宮 春季例大祭",
+        "city": "日光市",
+        "month": "5月上旬",
+        "category": "神事",
+        "description": "栃木県で開催される代表的イベント「日光東照宮 春季例大祭」。"
+      },
+      {
+        "event_id": "09_002",
+        "event_name": "宇都宮餃子祭り",
+        "city": "宇都宮市",
+        "month": "11月上旬",
+        "category": "グルメ",
+        "description": "栃木県で開催される代表的イベント「宇都宮餃子祭り」。"
+      },
+      {
+        "event_id": "09_003",
+        "event_name": "那須高原サマーイルミネーション",
+        "city": "那須町",
+        "month": "7月上旬",
+        "category": "ライトアップ",
+        "description": "栃木県で開催される代表的イベント「那須高原サマーイルミネーション」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 10,
+    "pref_name_ja": "群馬県",
+    "events": [
+      {
+        "event_id": "10_001",
+        "event_name": "草津温泉湯畑キャンドルライト",
+        "city": "草津町",
+        "month": "2月中旬",
+        "category": "ライトアップ",
+        "description": "群馬県で開催される代表的イベント「草津温泉湯畑キャンドルライト」。"
+      },
+      {
+        "event_id": "10_002",
+        "event_name": "前橋花火大会",
+        "city": "前橋市",
+        "month": "8月中旬",
+        "category": "花火",
+        "description": "群馬県で開催される代表的イベント「前橋花火大会」。"
+      },
+      {
+        "event_id": "10_003",
+        "event_name": "高崎まつり",
+        "city": "高崎市",
+        "month": "8月上旬",
+        "category": "祭り",
+        "description": "群馬県で開催される代表的イベント「高崎まつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 11,
+    "pref_name_ja": "埼玉県",
+    "events": [
+      {
+        "event_id": "11_001",
+        "event_name": "川越まつり",
+        "city": "川越市",
+        "month": "10月中旬",
+        "category": "祭り",
+        "description": "埼玉県で開催される代表的イベント「川越まつり」。"
+      },
+      {
+        "event_id": "11_002",
+        "event_name": "秩父夜祭",
+        "city": "秩父市",
+        "month": "12月上旬",
+        "category": "祭り",
+        "description": "埼玉県で開催される代表的イベント「秩父夜祭」。"
+      },
+      {
+        "event_id": "11_003",
+        "event_name": "熊谷うちわ祭",
+        "city": "熊谷市",
+        "month": "7月下旬",
+        "category": "祭り",
+        "description": "埼玉県で開催される代表的イベント「熊谷うちわ祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 12,
+    "pref_name_ja": "千葉県",
+    "events": [
+      {
+        "event_id": "12_001",
+        "event_name": "成田祇園祭",
+        "city": "成田市",
+        "month": "7月上旬",
+        "category": "祭り",
+        "description": "千葉県で開催される代表的イベント「成田祇園祭」。"
+      },
+      {
+        "event_id": "12_002",
+        "event_name": "勝浦ビッグひな祭り",
+        "city": "勝浦市",
+        "month": "2月下旬",
+        "category": "祭り",
+        "description": "千葉県で開催される代表的イベント「勝浦ビッグひな祭り」。"
+      },
+      {
+        "event_id": "12_003",
+        "event_name": "佐原の大祭",
+        "city": "香取市",
+        "month": "10月中旬",
+        "category": "祭り",
+        "description": "千葉県で開催される代表的イベント「佐原の大祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 13,
+    "pref_name_ja": "東京都",
+    "events": [
+      {
+        "event_id": "13_001",
+        "event_name": "隅田川花火大会",
+        "city": "台東区",
+        "month": "7月下旬",
+        "category": "花火",
+        "description": "東京都で開催される代表的イベント「隅田川花火大会」。"
+      },
+      {
+        "event_id": "13_002",
+        "event_name": "三社祭",
+        "city": "台東区",
+        "month": "5月中旬",
+        "category": "祭り",
+        "description": "東京都で開催される代表的イベント「三社祭」。"
+      },
+      {
+        "event_id": "13_003",
+        "event_name": "神田祭",
+        "city": "千代田区",
+        "month": "5月中旬",
+        "category": "祭り",
+        "description": "東京都で開催される代表的イベント「神田祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 14,
+    "pref_name_ja": "神奈川県",
+    "events": [
+      {
+        "event_id": "14_001",
+        "event_name": "横浜開港祭",
+        "city": "横浜市",
+        "month": "6月上旬",
+        "category": "祭り",
+        "description": "神奈川県で開催される代表的イベント「横浜開港祭」。"
+      },
+      {
+        "event_id": "14_002",
+        "event_name": "湘南ひらつか七夕まつり",
+        "city": "平塚市",
+        "month": "7月上旬",
+        "category": "祭り",
+        "description": "神奈川県で開催される代表的イベント「湘南ひらつか七夕まつり」。"
+      },
+      {
+        "event_id": "14_003",
+        "event_name": "川崎ハロウィン",
+        "city": "川崎市",
+        "month": "10月下旬",
+        "category": "祭り",
+        "description": "神奈川県で開催される代表的イベント「川崎ハロウィン」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 15,
+    "pref_name_ja": "新潟県",
+    "events": [
+      {
+        "event_id": "15_001",
+        "event_name": "長岡まつり大花火大会",
+        "city": "長岡市",
+        "month": "8月上旬",
+        "category": "花火",
+        "description": "新潟県で開催される代表的イベント「長岡まつり大花火大会」。"
+      },
+      {
+        "event_id": "15_002",
+        "event_name": "十日町雪まつり",
+        "city": "十日町市",
+        "month": "2月中旬",
+        "category": "雪まつり",
+        "description": "新潟県で開催される代表的イベント「十日町雪まつり」。"
+      },
+      {
+        "event_id": "15_003",
+        "event_name": "佐渡薪能",
+        "city": "佐渡市",
+        "month": "8月中旬",
+        "category": "伝統芸能",
+        "description": "新潟県で開催される代表的イベント「佐渡薪能」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 16,
+    "pref_name_ja": "富山県",
+    "events": [
+      {
+        "event_id": "16_001",
+        "event_name": "おわら風の盆",
+        "city": "富山市",
+        "month": "9月上旬",
+        "category": "踊り",
+        "description": "富山県で開催される代表的イベント「おわら風の盆」。"
+      },
+      {
+        "event_id": "16_002",
+        "event_name": "高岡御車山祭",
+        "city": "高岡市",
+        "month": "5月上旬",
+        "category": "祭り",
+        "description": "富山県で開催される代表的イベント「高岡御車山祭」。"
+      },
+      {
+        "event_id": "16_003",
+        "event_name": "砺波チューリップフェア",
+        "city": "砺波市",
+        "month": "5月上旬",
+        "category": "花イベント",
+        "description": "富山県で開催される代表的イベント「砺波チューリップフェア」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 17,
+    "pref_name_ja": "石川県",
+    "events": [
+      {
+        "event_id": "17_001",
+        "event_name": "金沢百万石まつり",
+        "city": "金沢市",
+        "month": "6月上旬",
+        "category": "祭り",
+        "description": "石川県で開催される代表的イベント「金沢百万石まつり」。"
+      },
+      {
+        "event_id": "17_002",
+        "event_name": "氷室の日",
+        "city": "金沢市",
+        "month": "7月上旬",
+        "category": "伝統行事",
+        "description": "石川県で開催される代表的イベント「氷室の日」。"
+      },
+      {
+        "event_id": "17_003",
+        "event_name": "輪島大祭",
+        "city": "輪島市",
+        "month": "8月下旬",
+        "category": "祭り",
+        "description": "石川県で開催される代表的イベント「輪島大祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 18,
+    "pref_name_ja": "福井県",
+    "events": [
+      {
+        "event_id": "18_001",
+        "event_name": "福井フェニックス花火",
+        "city": "福井市",
+        "month": "8月上旬",
+        "category": "花火",
+        "description": "福井県で開催される代表的イベント「福井フェニックス花火」。"
+      },
+      {
+        "event_id": "18_002",
+        "event_name": "越前朝倉まつり",
+        "city": "福井市",
+        "month": "8月中旬",
+        "category": "祭り",
+        "description": "福井県で開催される代表的イベント「越前朝倉まつり」。"
+      },
+      {
+        "event_id": "18_003",
+        "event_name": "三国祭",
+        "city": "坂井市",
+        "month": "5月中旬",
+        "category": "祭り",
+        "description": "福井県で開催される代表的イベント「三国祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 19,
+    "pref_name_ja": "山梨県",
+    "events": [
+      {
+        "event_id": "19_001",
+        "event_name": "信玄公祭り",
+        "city": "甲府市",
+        "month": "4月上旬",
+        "category": "祭り",
+        "description": "山梨県で開催される代表的イベント「信玄公祭り」。"
+      },
+      {
+        "event_id": "19_002",
+        "event_name": "甲府えびす講祭り",
+        "city": "甲府市",
+        "month": "11月下旬",
+        "category": "祭り",
+        "description": "山梨県で開催される代表的イベント「甲府えびす講祭り」。"
+      },
+      {
+        "event_id": "19_003",
+        "event_name": "富士吉田火祭り",
+        "city": "富士吉田市",
+        "month": "8月下旬",
+        "category": "祭り",
+        "description": "山梨県で開催される代表的イベント「富士吉田火祭り」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 20,
+    "pref_name_ja": "長野県",
+    "events": [
+      {
+        "event_id": "20_001",
+        "event_name": "諏訪湖祭湖上花火大会",
+        "city": "諏訪市",
+        "month": "8月中旬",
+        "category": "花火",
+        "description": "長野県で開催される代表的イベント「諏訪湖祭湖上花火大会」。"
+      },
+      {
+        "event_id": "20_002",
+        "event_name": "御柱祭（上社）",
+        "city": "諏訪市",
+        "month": "4月上旬",
+        "category": "祭り",
+        "description": "長野県で開催される代表的イベント「御柱祭（上社）」。"
+      },
+      {
+        "event_id": "20_003",
+        "event_name": "善光寺御開帳（開催年）",
+        "city": "長野市",
+        "month": "4月中旬",
+        "category": "寺の行事",
+        "description": "長野県で開催される代表的イベント「善光寺御開帳（開催年）」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 21,
+    "pref_name_ja": "岐阜県",
+    "events": [
+      {
+        "event_id": "21_001",
+        "event_name": "高山祭（春）",
+        "city": "高山市",
+        "month": "4月上旬",
+        "category": "祭り",
+        "description": "岐阜県で開催される代表的イベント「高山祭（春）」。"
+      },
+      {
+        "event_id": "21_002",
+        "event_name": "郡上おどり",
+        "city": "郡上市",
+        "month": "7月下旬",
+        "category": "踊り",
+        "description": "岐阜県で開催される代表的イベント「郡上おどり」。"
+      },
+      {
+        "event_id": "21_003",
+        "event_name": "下呂温泉花火物語",
+        "city": "下呂市",
+        "month": "8月中旬",
+        "category": "花火",
+        "description": "岐阜県で開催される代表的イベント「下呂温泉花火物語」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 22,
+    "pref_name_ja": "静岡県",
+    "events": [
+      {
+        "event_id": "22_001",
+        "event_name": "大道芸ワールドカップin静岡",
+        "city": "静岡市",
+        "month": "11月上旬",
+        "category": "パフォーマンス",
+        "description": "静岡県で開催される代表的イベント「大道芸ワールドカップin静岡」。"
+      },
+      {
+        "event_id": "22_002",
+        "event_name": "浜松まつり",
+        "city": "浜松市",
+        "month": "5月上旬",
+        "category": "祭り",
+        "description": "静岡県で開催される代表的イベント「浜松まつり」。"
+      },
+      {
+        "event_id": "22_003",
+        "event_name": "熱海海上花火大会",
+        "city": "熱海市",
+        "month": "7月中旬",
+        "category": "花火",
+        "description": "静岡県で開催される代表的イベント「熱海海上花火大会」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 23,
+    "pref_name_ja": "愛知県",
+    "events": [
+      {
+        "event_id": "23_001",
+        "event_name": "名古屋まつり",
+        "city": "名古屋市",
+        "month": "10月中旬",
+        "category": "祭り",
+        "description": "愛知県で開催される代表的イベント「名古屋まつり」。"
+      },
+      {
+        "event_id": "23_002",
+        "event_name": "犬山祭",
+        "city": "犬山市",
+        "month": "4月上旬",
+        "category": "祭り",
+        "description": "愛知県で開催される代表的イベント「犬山祭」。"
+      },
+      {
+        "event_id": "23_003",
+        "event_name": "豊田おいでんまつり",
+        "city": "豊田市",
+        "month": "7月下旬",
+        "category": "祭り",
+        "description": "愛知県で開催される代表的イベント「豊田おいでんまつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 24,
+    "pref_name_ja": "三重県",
+    "events": [
+      {
+        "event_id": "24_001",
+        "event_name": "伊勢神宮奉納花火大会",
+        "city": "伊勢市",
+        "month": "7月中旬",
+        "category": "花火",
+        "description": "三重県で開催される代表的イベント「伊勢神宮奉納花火大会」。"
+      },
+      {
+        "event_id": "24_002",
+        "event_name": "鳥羽みなとまつり",
+        "city": "鳥羽市",
+        "month": "7月下旬",
+        "category": "祭り",
+        "description": "三重県で開催される代表的イベント「鳥羽みなとまつり」。"
+      },
+      {
+        "event_id": "24_003",
+        "event_name": "おかげ横丁春まつり",
+        "city": "伊勢市",
+        "month": "4月上旬",
+        "category": "祭り",
+        "description": "三重県で開催される代表的イベント「おかげ横丁春まつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 25,
+    "pref_name_ja": "滋賀県",
+    "events": [
+      {
+        "event_id": "25_001",
+        "event_name": "長浜曳山まつり",
+        "city": "長浜市",
+        "month": "4月中旬",
+        "category": "祭り",
+        "description": "滋賀県で開催される代表的イベント「長浜曳山まつり」。"
+      },
+      {
+        "event_id": "25_002",
+        "event_name": "大津祭",
+        "city": "大津市",
+        "month": "10月上旬",
+        "category": "祭り",
+        "description": "滋賀県で開催される代表的イベント「大津祭」。"
+      },
+      {
+        "event_id": "25_003",
+        "event_name": "近江八幡左義長まつり",
+        "city": "近江八幡市",
+        "month": "3月上旬",
+        "category": "祭り",
+        "description": "滋賀県で開催される代表的イベント「近江八幡左義長まつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 26,
+    "pref_name_ja": "京都府",
+    "events": [
+      {
+        "event_id": "26_001",
+        "event_name": "祇園祭",
+        "city": "京都市",
+        "month": "7月中旬",
+        "category": "祭り",
+        "description": "京都府で開催される代表的イベント「祇園祭」。"
+      },
+      {
+        "event_id": "26_002",
+        "event_name": "葵祭",
+        "city": "京都市",
+        "month": "5月中旬",
+        "category": "祭り",
+        "description": "京都府で開催される代表的イベント「葵祭」。"
+      },
+      {
+        "event_id": "26_003",
+        "event_name": "時代祭",
+        "city": "京都市",
+        "month": "10月下旬",
+        "category": "祭り",
+        "description": "京都府で開催される代表的イベント「時代祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 27,
+    "pref_name_ja": "大阪府",
+    "events": [
+      {
+        "event_id": "27_001",
+        "event_name": "天神祭",
+        "city": "大阪市",
+        "month": "7月下旬",
+        "category": "祭り",
+        "description": "大阪府で開催される代表的イベント「天神祭」。"
+      },
+      {
+        "event_id": "27_002",
+        "event_name": "岸和田だんじり祭",
+        "city": "岸和田市",
+        "month": "9月中旬",
+        "category": "祭り",
+        "description": "大阪府で開催される代表的イベント「岸和田だんじり祭」。"
+      },
+      {
+        "event_id": "27_003",
+        "event_name": "住吉祭",
+        "city": "大阪市",
+        "month": "7月下旬",
+        "category": "祭り",
+        "description": "大阪府で開催される代表的イベント「住吉祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 28,
+    "pref_name_ja": "兵庫県",
+    "events": [
+      {
+        "event_id": "28_001",
+        "event_name": "神戸ルミナリエ",
+        "city": "神戸市",
+        "month": "12月上旬",
+        "category": "イルミネーション",
+        "description": "兵庫県で開催される代表的イベント「神戸ルミナリエ」。"
+      },
+      {
+        "event_id": "28_002",
+        "event_name": "姫路ゆかたまつり",
+        "city": "姫路市",
+        "month": "6月下旬",
+        "category": "祭り",
+        "description": "兵庫県で開催される代表的イベント「姫路ゆかたまつり」。"
+      },
+      {
+        "event_id": "28_003",
+        "event_name": "城崎温泉夏物語",
+        "city": "豊岡市",
+        "month": "8月上旬",
+        "category": "祭り",
+        "description": "兵庫県で開催される代表的イベント「城崎温泉夏物語」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 29,
+    "pref_name_ja": "奈良県",
+    "events": [
+      {
+        "event_id": "29_001",
+        "event_name": "若草山焼き",
+        "city": "奈良市",
+        "month": "1月下旬",
+        "category": "火祭り",
+        "description": "奈良県で開催される代表的イベント「若草山焼き」。"
+      },
+      {
+        "event_id": "29_002",
+        "event_name": "お水取り（修二会）",
+        "city": "奈良市",
+        "month": "3月上旬",
+        "category": "寺の行事",
+        "description": "奈良県で開催される代表的イベント「お水取り（修二会）」。"
+      },
+      {
+        "event_id": "29_003",
+        "event_name": "なら燈花会",
+        "city": "奈良市",
+        "month": "8月上旬",
+        "category": "ライトアップ",
+        "description": "奈良県で開催される代表的イベント「なら燈花会」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 30,
+    "pref_name_ja": "和歌山県",
+    "events": [
+      {
+        "event_id": "30_001",
+        "event_name": "熊野古道ウォークイベント",
+        "city": "田辺市",
+        "month": "5月上旬",
+        "category": "ハイキング",
+        "description": "和歌山県で開催される代表的イベント「熊野古道ウォークイベント」。"
+      },
+      {
+        "event_id": "30_002",
+        "event_name": "白浜花火大会",
+        "city": "白浜町",
+        "month": "7月下旬",
+        "category": "花火",
+        "description": "和歌山県で開催される代表的イベント「白浜花火大会」。"
+      },
+      {
+        "event_id": "30_003",
+        "event_name": "海南七夕まつり",
+        "city": "海南市",
+        "month": "7月上旬",
+        "category": "祭り",
+        "description": "和歌山県で開催される代表的イベント「海南七夕まつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 31,
+    "pref_name_ja": "鳥取県",
+    "events": [
+      {
+        "event_id": "31_001",
+        "event_name": "鳥取しゃんしゃん祭",
+        "city": "鳥取市",
+        "month": "8月中旬",
+        "category": "祭り",
+        "description": "鳥取県で開催される代表的イベント「鳥取しゃんしゃん祭」。"
+      },
+      {
+        "event_id": "31_002",
+        "event_name": "水木しげるロードイルミネーション",
+        "city": "境港市",
+        "month": "12月上旬",
+        "category": "イルミネーション",
+        "description": "鳥取県で開催される代表的イベント「水木しげるロードイルミネーション」。"
+      },
+      {
+        "event_id": "31_003",
+        "event_name": "大山夏山開き祭",
+        "city": "大山町",
+        "month": "6月上旬",
+        "category": "祭り",
+        "description": "鳥取県で開催される代表的イベント「大山夏山開き祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 32,
+    "pref_name_ja": "島根県",
+    "events": [
+      {
+        "event_id": "32_001",
+        "event_name": "出雲大社 神在祭",
+        "city": "出雲市",
+        "month": "11月中旬",
+        "category": "神事",
+        "description": "島根県で開催される代表的イベント「出雲大社 神在祭」。"
+      },
+      {
+        "event_id": "32_002",
+        "event_name": "松江鼕行列",
+        "city": "松江市",
+        "month": "10月中旬",
+        "category": "祭り",
+        "description": "島根県で開催される代表的イベント「松江鼕行列」。"
+      },
+      {
+        "event_id": "32_003",
+        "event_name": "安来節全国大会",
+        "city": "安来市",
+        "month": "4月下旬",
+        "category": "伝統芸能",
+        "description": "島根県で開催される代表的イベント「安来節全国大会」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 33,
+    "pref_name_ja": "岡山県",
+    "events": [
+      {
+        "event_id": "33_001",
+        "event_name": "倉敷天領夏祭り",
+        "city": "倉敷市",
+        "month": "7月下旬",
+        "category": "祭り",
+        "description": "岡山県で開催される代表的イベント「倉敷天領夏祭り」。"
+      },
+      {
+        "event_id": "33_002",
+        "event_name": "うらじゃ祭り",
+        "city": "岡山市",
+        "month": "8月上旬",
+        "category": "踊り",
+        "description": "岡山県で開催される代表的イベント「うらじゃ祭り」。"
+      },
+      {
+        "event_id": "33_003",
+        "event_name": "おかやま桃太郎まつり",
+        "city": "岡山市",
+        "month": "8月上旬",
+        "category": "祭り",
+        "description": "岡山県で開催される代表的イベント「おかやま桃太郎まつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 34,
+    "pref_name_ja": "広島県",
+    "events": [
+      {
+        "event_id": "34_001",
+        "event_name": "ひろしまフラワーフェスティバル",
+        "city": "広島市",
+        "month": "5月上旬",
+        "category": "祭り",
+        "description": "広島県で開催される代表的イベント「ひろしまフラワーフェスティバル」。"
+      },
+      {
+        "event_id": "34_002",
+        "event_name": "宮島水中花火大会",
+        "city": "廿日市市",
+        "month": "8月中旬",
+        "category": "花火",
+        "description": "広島県で開催される代表的イベント「宮島水中花火大会」。"
+      },
+      {
+        "event_id": "34_003",
+        "event_name": "尾道灯りまつり",
+        "city": "尾道市",
+        "month": "10月下旬",
+        "category": "ライトアップ",
+        "description": "広島県で開催される代表的イベント「尾道灯りまつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 35,
+    "pref_name_ja": "山口県",
+    "events": [
+      {
+        "event_id": "35_001",
+        "event_name": "錦帯橋まつり",
+        "city": "岩国市",
+        "month": "4月下旬",
+        "category": "祭り",
+        "description": "山口県で開催される代表的イベント「錦帯橋まつり」。"
+      },
+      {
+        "event_id": "35_002",
+        "event_name": "萩時代まつり",
+        "city": "萩市",
+        "month": "11月上旬",
+        "category": "祭り",
+        "description": "山口県で開催される代表的イベント「萩時代まつり」。"
+      },
+      {
+        "event_id": "35_003",
+        "event_name": "元乃隅神社 夏祭り",
+        "city": "長門市",
+        "month": "7月上旬",
+        "category": "祭り",
+        "description": "山口県で開催される代表的イベント「元乃隅神社 夏祭り」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 36,
+    "pref_name_ja": "徳島県",
+    "events": [
+      {
+        "event_id": "36_001",
+        "event_name": "阿波おどり",
+        "city": "徳島市",
+        "month": "8月中旬",
+        "category": "踊り",
+        "description": "徳島県で開催される代表的イベント「阿波おどり」。"
+      },
+      {
+        "event_id": "36_002",
+        "event_name": "鳴門市納涼花火大会",
+        "city": "鳴門市",
+        "month": "7月下旬",
+        "category": "花火",
+        "description": "徳島県で開催される代表的イベント「鳴門市納涼花火大会」。"
+      },
+      {
+        "event_id": "36_003",
+        "event_name": "祖谷平家まつり",
+        "city": "三好市",
+        "month": "10月中旬",
+        "category": "祭り",
+        "description": "徳島県で開催される代表的イベント「祖谷平家まつり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 37,
+    "pref_name_ja": "香川県",
+    "events": [
+      {
+        "event_id": "37_001",
+        "event_name": "さぬき高松まつり",
+        "city": "高松市",
+        "month": "8月中旬",
+        "category": "祭り",
+        "description": "香川県で開催される代表的イベント「さぬき高松まつり」。"
+      },
+      {
+        "event_id": "37_002",
+        "event_name": "金刀比羅宮 例大祭",
+        "city": "琴平町",
+        "month": "10月上旬",
+        "category": "神事",
+        "description": "香川県で開催される代表的イベント「金刀比羅宮 例大祭」。"
+      },
+      {
+        "event_id": "37_003",
+        "event_name": "瀬戸内国際芸術祭（開催年）",
+        "city": "直島町",
+        "month": "8月中旬",
+        "category": "アートイベント",
+        "description": "香川県で開催される代表的イベント「瀬戸内国際芸術祭（開催年）」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 38,
+    "pref_name_ja": "愛媛県",
+    "events": [
+      {
+        "event_id": "38_001",
+        "event_name": "道後温泉まつり",
+        "city": "松山市",
+        "month": "3月上旬",
+        "category": "祭り",
+        "description": "愛媛県で開催される代表的イベント「道後温泉まつり」。"
+      },
+      {
+        "event_id": "38_002",
+        "event_name": "松山春まつり",
+        "city": "松山市",
+        "month": "4月上旬",
+        "category": "祭り",
+        "description": "愛媛県で開催される代表的イベント「松山春まつり」。"
+      },
+      {
+        "event_id": "38_003",
+        "event_name": "今治おんまく",
+        "city": "今治市",
+        "month": "8月上旬",
+        "category": "祭り",
+        "description": "愛媛県で開催される代表的イベント「今治おんまく」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 39,
+    "pref_name_ja": "高知県",
+    "events": [
+      {
+        "event_id": "39_001",
+        "event_name": "よさこい祭り",
+        "city": "高知市",
+        "month": "8月上旬",
+        "category": "踊り",
+        "description": "高知県で開催される代表的イベント「よさこい祭り」。"
+      },
+      {
+        "event_id": "39_002",
+        "event_name": "土佐のおきゃく",
+        "city": "高知市",
+        "month": "3月上旬",
+        "category": "グルメ",
+        "description": "高知県で開催される代表的イベント「土佐のおきゃく」。"
+      },
+      {
+        "event_id": "39_003",
+        "event_name": "四万十川花火大会",
+        "city": "四万十市",
+        "month": "8月中旬",
+        "category": "花火",
+        "description": "高知県で開催される代表的イベント「四万十川花火大会」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 40,
+    "pref_name_ja": "福岡県",
+    "events": [
+      {
+        "event_id": "40_001",
+        "event_name": "博多どんたく港まつり",
+        "city": "福岡市",
+        "month": "5月上旬",
+        "category": "祭り",
+        "description": "福岡県で開催される代表的イベント「博多どんたく港まつり」。"
+      },
+      {
+        "event_id": "40_002",
+        "event_name": "筥崎宮 放生会",
+        "city": "福岡市",
+        "month": "9月中旬",
+        "category": "祭り",
+        "description": "福岡県で開催される代表的イベント「筥崎宮 放生会」。"
+      },
+      {
+        "event_id": "40_003",
+        "event_name": "門司港グランマーケット",
+        "city": "北九州市",
+        "month": "11月上旬",
+        "category": "マーケット",
+        "description": "福岡県で開催される代表的イベント「門司港グランマーケット」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 41,
+    "pref_name_ja": "佐賀県",
+    "events": [
+      {
+        "event_id": "41_001",
+        "event_name": "佐賀インターナショナルバルーンフェスタ",
+        "city": "佐賀市",
+        "month": "11月上旬",
+        "category": "イベント",
+        "description": "佐賀県で開催される代表的イベント「佐賀インターナショナルバルーンフェスタ」。"
+      },
+      {
+        "event_id": "41_002",
+        "event_name": "唐津くんち",
+        "city": "唐津市",
+        "month": "11月上旬",
+        "category": "祭り",
+        "description": "佐賀県で開催される代表的イベント「唐津くんち」。"
+      },
+      {
+        "event_id": "41_003",
+        "event_name": "祐徳稲荷神社 初詣",
+        "city": "鹿島市",
+        "month": "1月上旬",
+        "category": "神事",
+        "description": "佐賀県で開催される代表的イベント「祐徳稲荷神社 初詣」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 42,
+    "pref_name_ja": "長崎県",
+    "events": [
+      {
+        "event_id": "42_001",
+        "event_name": "長崎ランタンフェスティバル",
+        "city": "長崎市",
+        "month": "2月上旬",
+        "category": "祭り",
+        "description": "長崎県で開催される代表的イベント「長崎ランタンフェスティバル」。"
+      },
+      {
+        "event_id": "42_002",
+        "event_name": "精霊流し",
+        "city": "長崎市",
+        "month": "8月中旬",
+        "category": "行事",
+        "description": "長崎県で開催される代表的イベント「精霊流し」。"
+      },
+      {
+        "event_id": "42_003",
+        "event_name": "ハウステンボス 光の王国",
+        "city": "佐世保市",
+        "month": "12月上旬",
+        "category": "イルミネーション",
+        "description": "長崎県で開催される代表的イベント「ハウステンボス 光の王国」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 43,
+    "pref_name_ja": "熊本県",
+    "events": [
+      {
+        "event_id": "43_001",
+        "event_name": "熊本城 春のくまもとお城まつり",
+        "city": "熊本市",
+        "month": "3月下旬",
+        "category": "祭り",
+        "description": "熊本県で開催される代表的イベント「熊本城 春のくまもとお城まつり」。"
+      },
+      {
+        "event_id": "43_002",
+        "event_name": "阿蘇火振り神事",
+        "city": "阿蘇市",
+        "month": "3月中旬",
+        "category": "神事",
+        "description": "熊本県で開催される代表的イベント「阿蘇火振り神事」。"
+      },
+      {
+        "event_id": "43_003",
+        "event_name": "黒川温泉 湯あかり",
+        "city": "南小国町",
+        "month": "12月上旬",
+        "category": "ライトアップ",
+        "description": "熊本県で開催される代表的イベント「黒川温泉 湯あかり」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 44,
+    "pref_name_ja": "大分県",
+    "events": [
+      {
+        "event_id": "44_001",
+        "event_name": "別府八湯温泉まつり",
+        "city": "別府市",
+        "month": "4月上旬",
+        "category": "祭り",
+        "description": "大分県で開催される代表的イベント「別府八湯温泉まつり」。"
+      },
+      {
+        "event_id": "44_002",
+        "event_name": "大分七夕まつり",
+        "city": "大分市",
+        "month": "8月上旬",
+        "category": "祭り",
+        "description": "大分県で開催される代表的イベント「大分七夕まつり」。"
+      },
+      {
+        "event_id": "44_003",
+        "event_name": "日田川開き観光祭",
+        "city": "日田市",
+        "month": "5月下旬",
+        "category": "祭り",
+        "description": "大分県で開催される代表的イベント「日田川開き観光祭」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 45,
+    "pref_name_ja": "宮崎県",
+    "events": [
+      {
+        "event_id": "45_001",
+        "event_name": "青島神社 初詣",
+        "city": "宮崎市",
+        "month": "1月上旬",
+        "category": "神事",
+        "description": "宮崎県で開催される代表的イベント「青島神社 初詣」。"
+      },
+      {
+        "event_id": "45_002",
+        "event_name": "高千穂夜神楽",
+        "city": "高千穂町",
+        "month": "11月下旬",
+        "category": "伝統芸能",
+        "description": "宮崎県で開催される代表的イベント「高千穂夜神楽」。"
+      },
+      {
+        "event_id": "45_003",
+        "event_name": "みやざき納涼花火大会",
+        "city": "宮崎市",
+        "month": "7月中旬",
+        "category": "花火",
+        "description": "宮崎県で開催される代表的イベント「みやざき納涼花火大会」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 46,
+    "pref_name_ja": "鹿児島県",
+    "events": [
+      {
+        "event_id": "46_001",
+        "event_name": "鹿児島マラソン",
+        "city": "鹿児島市",
+        "month": "3月上旬",
+        "category": "スポーツイベント",
+        "description": "鹿児島県で開催される代表的イベント「鹿児島マラソン」。"
+      },
+      {
+        "event_id": "46_002",
+        "event_name": "六月灯",
+        "city": "鹿児島市",
+        "month": "7月中旬",
+        "category": "祭り",
+        "description": "鹿児島県で開催される代表的イベント「六月灯」。"
+      },
+      {
+        "event_id": "46_003",
+        "event_name": "指宿菜の花マラソン",
+        "city": "指宿市",
+        "month": "1月上旬",
+        "category": "スポーツイベント",
+        "description": "鹿児島県で開催される代表的イベント「指宿菜の花マラソン」。"
+      }
+    ]
+  },
+  {
+    "pref_code": 47,
+    "pref_name_ja": "沖縄県",
+    "events": [
+      {
+        "event_id": "47_001",
+        "event_name": "那覇大綱挽まつり",
+        "city": "那覇市",
+        "month": "10月上旬",
+        "category": "祭り",
+        "description": "沖縄県で開催される代表的イベント「那覇大綱挽まつり」。"
+      },
+      {
+        "event_id": "47_002",
+        "event_name": "沖縄全島エイサーまつり",
+        "city": "沖縄市",
+        "month": "8月上旬",
+        "category": "踊り",
+        "description": "沖縄県で開催される代表的イベント「沖縄全島エイサーまつり」。"
+      },
+      {
+        "event_id": "47_003",
+        "event_name": "海洋博公園花火大会",
+        "city": "本部町",
+        "month": "7月下旬",
+        "category": "花火",
+        "description": "沖縄県で開催される代表的イベント「海洋博公園花火大会」。"
+      }
+    ]
+  }
+]

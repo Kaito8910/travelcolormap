@@ -28,7 +28,7 @@
         </div>
 
         <!-- 右側のメニュー/サイドバー部分 -->
-        <aside class="page-right-sidebar" id="menu-sidebar">
+        <aside class="page-right-sidebar is-closed" id="menu-sidebar">
             <!-- ハンバーガーメニューアイコン -->
             <div class="menu-icon-container">
                 <div class="menu-icon" id="menu-toggle-button">&#x2261;</div>
@@ -37,11 +37,12 @@
             <!-- メニューリスト -->
             <nav class="menu-nav" id="menu-list-container">
                 <ul class="menu-list">
-                    <li><a href="{{ url_for('spot_register') }}">観光地登録</a></li>
-                    <li><a href="{{ url_for('gourmet_record') }}">グルメ記録</a></li>
-                    <li><a href="{{ url_for('stay_search') }}">宿泊検索</a></li>
+                    <li><a href="{{ url_for('spot_list') }}">観光登録一覧</a></li>
+                    <li><a href="{{ url_for('gourmet_list') }}">グルメ記録一覧</a></li>
+                    <li><a href="{{ url_for('hotel_search') }}">宿泊検索</a></li>
                     <li><a href="{{ url_for('event_search') }}">イベント検索</a></li>
                     <li><a href="{{ url_for('spot_search') }}">スポット検索</a></li>
+                    <li><a href="{{ url_for('bookmark_list') }}">ブックマーク一覧</a></li>
                     <li><a href="{{ url_for('user_data') }}">アカウント情報</a></li>
                     {% if session.get('logged_in') %}
                         <li><a href="{{ url_for('logout') }}">ログアウト</a></li>

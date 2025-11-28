@@ -15,9 +15,10 @@
         </div>
     </div>
 
+
     <!-- 右側のメニュー -->
     <div class="right-blocks-container">
-        <div class="info-block block-item"><a href="#">情報</a></div>
+        <div class="info-block block-item"><a href="{{ url_for('weather') }}">天気</a></div>
         <div class="search-block block-item"><a href="#">検索</a></div>
         <div class="record-block block-item"><a href="#">記録</a></div>
     </div>
@@ -26,71 +27,55 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
 {{ super() }}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
 $(document).ready(function() {
-
-    // 色決定関数
     function getColor(count) {
-        if (count === 0) return "#EEEEEE"; // 未訪問
+        if (count === 0) return "#EEEEEE";
         if (count === 1) return "#A8DADC";
         if (count === 2) return "#74B3C6";
         if (count === 3) return "#457B9D";
-        return "#1D3557";  // 4回以上
+        return "#1D3557";
     }
 
-    // 都道府県の「初期訪問カウント」 + 「クリックカウント」
     const totalCount = {};
 
-    // SVG が読み込まれた後
     $("#japan-map").on("load", async function () {
         const svgDoc = this.contentDocument;
 
-        // ▼ ① Spot の観光地名から推定した「都道府県 → 訪問回数」を取得
         const response = await fetch("/api/pref_counts");
-        const prefVisited = await response.json();  
-        // 例: {"北海道":2,"東京":1}
+        const prefVisited = await response.json();
 
-        // ▼ 初期データを totalCount に反映
         Object.keys(prefVisited).forEach(pref => {
             totalCount[pref] = prefVisited[pref];
         });
 
-        // ▼ ② クリックで増えるカウントも別で持つ
         const clickCount = {};
-
-        // ▼ ③ SVG の都道府県グループ取得
         const prefectures = svgDoc.querySelectorAll("g.prefecture");
 
         prefectures.forEach(pref => {
-
-            // title（例: "北海道 / Hokkaido"）から都道府県名を取得
             const titleTag = pref.querySelector("title");
             if (!titleTag) return;
 
             const fullTitle = titleTag.textContent.trim();
-            const prefName = fullTitle.split("/")[0].trim();  // "北海道"
+            const prefName = fullTitle.split("/")[0].trim();
 
-            // 初期化（未訪問なら0）
             if (!(prefName in totalCount)) totalCount[prefName] = 0;
             clickCount[prefName] = 0;
 
-            // ▼ ④初期訪問数に応じて色を塗る
             const initial = totalCount[prefName];
             pref.querySelectorAll("polygon, path").forEach(elem => {
                 elem.style.fill = getColor(initial);
             });
 
-            // ▼ ⑤クリック時の処理
             pref.addEventListener("click", () => {
                 clickCount[prefName] += 1;
 
-                // 合計 = 初期訪問 + クリック回数
                 const sum = totalCount[prefName] + clickCount[prefName];
 
-                // 色更新
                 pref.querySelectorAll("polygon, path").forEach(elem => {
                     elem.style.fill = getColor(sum);
                 });
