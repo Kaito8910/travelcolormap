@@ -21,15 +21,16 @@
 
     <div class="form-group">
         <label>評価</label>
-        <select name="evaluation">
-            {% for i in range(1,6) %}
-                <option value="{{ i }}" 
-                    {% if i == food.evaluation %}selected{% endif %}>
-                    {{ "★" * i }}{{ "☆" * (5-i) }}
-                </option>
-            {% endfor %}
-        </select>
+        <div class="star-rating">
+            <span data-value="5">★</span>
+            <span data-value="4">★</span>
+            <span data-value="3">★</span>
+            <span data-value="2">★</span>
+            <span data-value="1">★</span>
+        </div>
+        <input type="hidden" id="evaluation" name="evaluation" value="{{ food.evaluation }}">
     </div>
+
 
     <div class="form-group">
         <label>訪問日</label>
@@ -53,5 +54,45 @@
     <button type="submit" class="submit-btn">更新</button>
 
 </form>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const stars = document.querySelectorAll(".star-rating span");
+    const evaluationInput = document.getElementById("evaluation");
+
+    let currentValue = parseInt(evaluationInput.value);
+
+    // 初期表示（編集中の評価を反映）
+    highlightStars(currentValue);
+
+    stars.forEach(star => {
+        star.addEventListener("mouseenter", () => {
+            const val = parseInt(star.dataset.value);
+            highlightStars(val);
+        });
+
+        star.addEventListener("click", () => {
+            currentValue = parseInt(star.dataset.value);
+            evaluationInput.value = currentValue;
+            highlightStars(currentValue);
+        });
+    });
+
+    document.querySelector(".star-rating").addEventListener("mouseleave", () => {
+        highlightStars(currentValue);
+    });
+
+    function highlightStars(val) {
+        stars.forEach(s => {
+            const starVal = parseInt(s.dataset.value);
+            if (starVal <= val) {
+                s.classList.add("selected");
+            } else {
+                s.classList.remove("selected");
+            }
+        });
+    }
+});
+</script>
 
 {% endblock %}

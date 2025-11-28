@@ -14,12 +14,18 @@ from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from spot_pref_map import SPOT_TO_PREF
-from datetime import datetime
+from datetime import datetime, date, timedelta
+import json
+
+def load_spots_json():
+    json_path = os.path.join(app.root_path, "static", "json", "spots.json")
+    with open(json_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-API_KEY = "1002136947918553343"
 
 # ===============================================================
 # ✨ データベース & マイグレーション設定
@@ -442,7 +448,65 @@ def gourmet_list():
     user_id = session.get('user_id')
     foods = Food.query.filter_by(user_id=user_id).all()
 
-    return render_template('gourmet_list.html', foods=foods)
+    # 店舗名 → 記録一覧
+    grouped = {}
+    for f in foods:
+        grouped.setdefault(f.shop_name, [])
+        grouped[f.shop_name].append(f)
+
+    # 店舗ごとの平均評価を計算
+    shop_summary = []
+    for shop, items in grouped.items():
+        avg = sum(i.evaluation for i in items) / len(items)
+
+        # 写真は代表として1枚（最新のにする）
+        thumbnail = next((i.photo for i in items if i.photo), None)
+
+        shop_summary.append({
+            "shop_name": shop,
+            "items": items,
+            "avg": round(avg, 1),   # 小数1桁
+            "count": len(items),
+            "thumbnail": thumbnail
+        })
+
+    return render_template(
+        'gourmet_list.html',
+        shop_summary=shop_summary
+    )
+
+# ===============================================================
+# グルメ記録店舗詳細
+# ===============================================================
+
+@app.route('/shop/<shop_name>')
+def shop_detail(shop_name):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+
+    items = Food.query.filter_by(user_id=user_id, shop_name=shop_name).all()
+
+    if not items:
+        flash("データが存在しません。", "error")
+        return redirect(url_for('gourmet_list'))
+
+    avg = sum(i.evaluation for i in items) / len(items)
+    avg = round(avg, 1)
+
+    # サムネイル
+    thumbnail = next((i.photo for i in items if i.photo), None)
+
+    return render_template(
+        'shop_detail.html',
+        shop_name=shop_name,
+        items=items,
+        avg=avg,
+        count=len(items),
+        thumbnail=thumbnail
+    )
+
 
 # ===============================================================
 #グルメ記録登録
@@ -450,7 +514,10 @@ def gourmet_list():
 
 @app.route('/gourmet_record')
 def gourmet_record():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
     return render_template('gourmet_record.html')
+
 
 # ===============================================================
 # グルメ記録追加（POST処理）
@@ -465,7 +532,7 @@ def add_gourmet():
     shop_name = request.form.get('shop_name')
     food_name = request.form.get('food_name')
     visit_date = request.form.get('visit_date')
-    evaluation = request.form.get('evaluation')
+    evaluation = int(request.form.get('evaluation'))
     memo = request.form.get('memo')
 
     # 日付変換
@@ -499,6 +566,7 @@ def add_gourmet():
 
     flash("グルメ記録を登録しました！", "success")
     return redirect(url_for('gourmet_list'))
+
 
 # ===============================================================
 # グルメ記録更新
@@ -537,6 +605,19 @@ def gourmet_edit(food_id):
         return redirect(url_for('gourmet_detail', food_id=food.food_id))
 
     return render_template('gourmet_edit.html', food=food)
+
+# ===============================================================
+# グルメ記録詳細
+# ===============================================================
+
+@app.route('/gourmet_detail/<int:food_id>')
+def gourmet_detail(food_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    food = Food.query.get_or_404(food_id)
+    return render_template('gourmet_detail.html', food=food)
+
 
 # ===============================================================
 # グルメ記録削除
@@ -793,122 +874,141 @@ def spot_search():
     )
 
 # ==== 検索結果 ====
-@app.route('/spot-search-results', methods=['GET'])
+@app.route("/spot_search_results")
 def spot_search_results():
-    prefecture = request.args.get('prefecture', '')
-    keyword = request.args.get('keyword', '')
+    prefecture = request.args.get("prefecture", "")
+    keyword = request.args.get("keyword", "").lower().strip()
 
-    # キーワードを含むものを検索
+    data = load_spots_json()  # このJSONを読み込む
+
     results = []
-    for s in SPOT_DATA:
-        if keyword in s["name"] or keyword in s["address"] or keyword in s["category"]:
-            results.append(s)
 
-    return render_template(
-        "spot_search_results.html",
-        keyword=keyword,
-        results=results
-    )
+    for pref in data:
+        pref_name = pref.get("pref_name_ja", "")
+        spots = pref.get("spots", [])
 
-# ===============================
-# 宿泊検索（検索フォーム）
-# ===============================
+        # 都道府県フィルタ
+        if prefecture and pref_name != prefecture:
+            continue
 
-RAKUTEN_API_KEY = "1002136947918553343"
+        # 各スポットごとに検索
+        for s in spots:
 
-# ▼ 楽天公式の正しい都道府県コード（最低限版）
-PREFECTURES = [
-    {"name": "北海道", "large": "japan", "middle": "hokkaido", "small": "sapporo"},
-    {"name": "青森県", "large": "japan", "middle": "aomori", "small": "aomori"},
-    {"name": "岩手県", "large": "japan", "middle": "iwate", "small": "morioka"},
-    {"name": "宮城県", "large": "japan", "middle": "miyagi", "small": "sendai"},
-    {"name": "秋田県", "large": "japan", "middle": "akita", "small": "akita"},
-    {"name": "山形県", "large": "japan", "middle": "yamagata", "small": "yamagata"},
-    {"name": "福島県", "large": "japan", "middle": "fukushima", "small": "fukushima"},
-    {"name": "東京都", "large": "japan", "middle": "tokyo", "small": "tokyo"},
-    {"name": "神奈川県", "large": "japan", "middle": "kanagawa", "small": "yokohama"},
-    {"name": "千葉県", "large": "japan", "middle": "chiba", "small": "chiba"},
-]
+            # キーワード一致対象
+            text = (
+                s.get("spot_name", "") +
+                pref_name +                     # 都道府県名も検索対象
+                s.get("city", "") +
+                s.get("category", "") +
+                s.get("description", "")
+            ).lower()
 
-# ===============================
-# 宿泊検索（検索フォーム）
-# ===============================
-@app.route("/stay_search", methods=["GET"])
-def stay_search():
-    return render_template("stay_search.html", prefectures=PREFECTURES)
+            if keyword and keyword not in text:
+                continue
 
-# ===============================
-# 宿泊検索結果
-# ===============================
-@app.route("/stay_search_results", methods=["GET"])
-def stay_search_results():
+            # 結果に「pref_name」を付けて返す
+            results.append({
+                "spot_name": s.get("spot_name", ""),
+                "city": s.get("city", ""),
+                "category": s.get("category", ""),
+                "description": s.get("description", ""),
+                "pref_name": pref_name
+            })
 
-    # HTML から受け取り
-    large = request.args.get("large")
-    middle = request.args.get("middle")
-    small = request.args.get("small")
-    checkin_date = request.args.get("checkin_date")
-    checkout_date = request.args.get("checkout_date")
-    adults = request.args.get("adults", 1)
+    return render_template("spot_search_results.html", results=results)
 
-    url = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
+# ===============================================================
+# 宿泊検索
+# ===============================================================
 
+APPLICATION_ID = "1002136947918553343"
+
+def search_hotels(keyword, page=1, hits=20):
+    url = "https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426"
     params = {
-        "applicationId": RAKUTEN_API_KEY,
+        "applicationId": APPLICATION_ID,
         "format": "json",
-        "largeClassCode": large,
-        "middleClassCode": middle,
-        "smallClassCode": small,
-        "checkinDate": checkin_date,
-        "checkoutDate": checkout_date,
-        "adultNum": adults,
-        "hits": 20,
-        "page": 1,
-        "sort": "+roomCharge"
+        "keyword": keyword,
+        "page": page,
+        "hits": hits,
+        "formatVersion": 2  # ネスト浅めの形式
     }
+    resp = requests.get(url, params=params)
+    data = resp.json()
+    return data.get("hotels", [])
 
-    response = requests.get(url, params=params)
-    data = response.json()
+@app.route("/hotel_search", methods=["GET", "POST"])
+def hotel_search():
+    if request.method == "POST":
+        kw = request.form.get("keyword", "").strip()
+        if not kw:
+            return render_template("hotel_search.html", error="キーワードを入力してください")
+        return redirect(url_for("hotel_results", keyword=kw))
+    return render_template("hotel_search.html")
 
-    hotels = data.get("hotels", [])
-    error = data.get("error")
-
-    # デバッグ表示（必要なら）
-    print("URL:", response.url)
-    print("DATA:", data)
-
-    return render_template(
-        "stay_search_results.html",
-        hotels=hotels,
-        error=error,
-        checkin_date=checkin_date,
-        checkout_date=checkout_date,
-        adults=adults,
-    )
+@app.route("/hotel_results/<keyword>")
+def hotel_results(keyword):
+    hotels = search_hotels(keyword)
+    return render_template("hotel_results.html", hotels=hotels, keyword=keyword)
 
 # ===============================================================
 # イベント検索
 # ===============================================================
+CONNPASS_API_URL = "https://connpass.com/api/v2/events/"
+API_TOKEN = "k0ojDAFr.NMjNt9vSGq9tjmx4JeKQQ6U97tkLSH7RRJNGgyCcUbo1U6Xi8lWIw7oc"
 
 @app.route('/event-search', methods=['GET'])
 def event_search():
     return render_template('event_search.html')
 
-@app.route('/event-search-results', methods=['POST'])
+@app.route('/event-search/results', methods=['POST'])
 def event_search_results():
+    # フォーム入力を取得
     keyword = request.form.get('keyword', '').strip()
+    ymd = request.form.get('ymd', '').strip()
+    prefecture = request.form.get('prefecture', '').strip()
 
-    # キーワードを含むものを検索
-    results = []
-    for s in EVENT_DATA:
-        if keyword in s["name"] or keyword in s["address"] or keyword in s["category"]:
-            results.append(s)
+    # APIパラメータ
+    params = {
+        "count": 20,
+        "order": 1,
+    }
+    if keyword:
+        params["keyword"] = keyword
+    if ymd:
+        params["ymd"] = ymd
+    if prefecture:
+        params["prefecture"] = prefecture
+
+    headers = {
+        "X-API-Key": API_TOKEN,
+        "User-Agent": "PythonApp/1.0"  # ← ここを追加
+    }
+
+    try:
+        res = requests.get(CONNPASS_API_URL, params=params, headers=headers, timeout=10)
+        res.raise_for_status()
+        data = res.json()
+    except requests.exceptions.HTTPError:
+        flash(f"API呼び出しエラー: {res.status_code} {res.reason}", "danger")
+        return redirect(url_for('event_search'))
+    except requests.exceptions.RequestException as e:
+        flash(f"API呼び出しエラー: {e}", "danger")
+        return redirect(url_for('event_search'))
+    except ValueError as e:
+        flash(f"JSON解析エラー: {e}", "danger")
+        return redirect(url_for('event_search'))
+
+    events = data.get("events", [])
 
     return render_template(
         "event_search_results.html",
+        events=events,
         keyword=keyword,
-        results=results
+        ymd=ymd,
+        prefecture=prefecture
     )
+
 
 # ============================
 # 天気（Open-Meteo）

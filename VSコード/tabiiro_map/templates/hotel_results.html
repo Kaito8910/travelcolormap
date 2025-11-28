@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}宿泊検索 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>宿泊検索</h1>
+
+    <!-- フラッシュメッセージ -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="flash-message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- 検索フォーム -->
+    <form method="post" action="{{ url_for('hotel_search') }}">
+        <input type="text" name="keyword" placeholder="例: 東京駅, 温泉旅館" required
+               value="{{ keyword|default('') }}">
+        <button type="submit">検索</button>
+    </form>
+
+    {% if hotels %}
+        <h2>「{{ keyword }}」の検索結果</h2>
+        <ul>
+        {% for hotel_wrapper in hotels %}
+            {% set info = hotel_wrapper[0].hotelBasicInfo %}
+            <li>
+                <strong>{{ info.hotelName }}</strong><br>
+                住所: {{ info.address1 }} {{ info.address2 }}<br>
+                最寄駅: {{ info.nearestStation }}<br>
+                最安料金: {{ info.hotelMinCharge }}円<br>
+                <a href="{{ info.hotelInformationUrl }}" target="_blank">詳細ページ</a>
+            </li>
+        {% else %}
+            <li>検索結果が見つかりませんでした</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

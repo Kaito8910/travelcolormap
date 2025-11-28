@@ -3,46 +3,41 @@
 {% block title %}グルメ一覧 | 旅色マップ{% endblock %}
 
 {% block main_content %}
-<div class="gourmet-list-container">
-    <h1>グルメ記録</h1>
+
+<div class="spot-list-container">  <!-- ←観光地一覧と同じクラス -->
+    <h1>グルメ店舗一覧</h1>
 
     <div class="top-btn-wrapper">
         <a href="{{ url_for('gourmet_record') }}" class="add-button">新規追加</a>
     </div>
 
-    {% if gourmet_list|length == 0 %}
-        <p class="no-data">まだグルメ情報が登録されていません。</p>
+    {% if shop_summary|length == 0 %}
+        <p class="no-data">まだグルメ情報がありません。</p>
     {% else %}
-        <div class="gourmet-grid">
-            {% for g in gourmet_list %}
-            <div class="gourmet-card">
-                
-                {% if g.photo_url %}
-                    <img src="{{ g.photo_url }}" alt="{{ g.shop_name }}" class="gourmet-photo">
-                {% else %}
-                    <div class="no-photo">写真なし</div>
-                {% endif %}
+        <div class="spot-list">   <!-- ← グリッドも観光地と同じ -->
 
-                <h2 class="gourmet-name">{{ g.shop_name }}</h2>
+            {% for shop in shop_summary %}
+            <a href="{{ url_for('shop_detail', shop_name=shop.shop_name) }}"
+                class="spot-card-link">
 
-                <p class="dish-name"><strong>料理名：</strong>{{ g.dish_name }}</p>
+                <div class="spot-card">   <!-- ← 観光地一覧と同じカードUI -->
 
-                <p class="rating">
-                    <strong>評価：</strong>
-                    {% for i in range(g.rating) %}★{% endfor %}
-                    {% for i in range(5 - g.rating) %}☆{% endfor %}
-                </p>
+                    <div class="spot-info">
+                        <h2>{{ shop.shop_name }}</h2>
 
-                <p class="gourmet-date"><strong>訪問日：</strong>{{ g.date }}</p>
+                        <p><strong>平均評価：</strong> ★{{ shop.avg }}</p>
+                        <p><strong>訪問回数：</strong> {{ shop.count }} 回</p>
 
-                <p class="gourmet-price"><strong>金額：</strong>{{ g.price }} 円</p>
+                        <p class="detail-btn">店舗ページ →</p>
+                    </div>
 
-                <p class="gourmet-comment">{{ g.comment }}</p>
+                </div>
 
-                <a href="{{ url_for('gourmet_detail', gourmet_id=g.id) }}" class="detail-button">詳細を見る →</a>
-            </div>
+            </a>
             {% endfor %}
+
         </div>
     {% endif %}
 </div>
+
 {% endblock %}
