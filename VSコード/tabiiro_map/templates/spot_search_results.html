@@ -9,8 +9,9 @@
         <ul>
             {% for spot in results %}
                 <li>
-                    <strong>{{ spot.name }}</strong><br>
-                    住所：{{ spot.address }}<br>
+                    <strong>{{ spot.spot_name }}</strong><br>
+                    都道府県：{{ spot.pref_name }}<br>
+                    市区町村：{{ spot.city }}<br>
                     カテゴリ：{{ spot.category }}<br>
                     説明：{{ spot.description }}
                 </li>

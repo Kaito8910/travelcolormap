@@ -15,6 +15,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from spot_pref_map import SPOT_TO_PREF
 from datetime import datetime, date, timedelta
+import json
+
+def load_spots_json():
+    json_path = os.path.join(app.root_path, "static", "json", "spots.json")
+    with open(json_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -867,23 +874,48 @@ def spot_search():
     )
 
 # ==== 検索結果 ====
-@app.route('/spot-search-results', methods=['GET'])
+@app.route("/spot_search_results")
 def spot_search_results():
-    prefecture = request.args.get('prefecture', '')
-    keyword = request.args.get('keyword', '')
+    prefecture = request.args.get("prefecture", "")
+    keyword = request.args.get("keyword", "").lower().strip()
 
-    # キーワードを含むものを検索
+    data = load_spots_json()  # このJSONを読み込む
+
     results = []
-    for s in SPOT_DATA:
-        if keyword in s["name"] or keyword in s["address"] or keyword in s["category"]:
-            results.append(s)
 
-    return render_template(
-        "spot_search_results.html",
-        keyword=keyword,
-        results=results
-    )
+    for pref in data:
+        pref_name = pref.get("pref_name_ja", "")
+        spots = pref.get("spots", [])
 
+        # 都道府県フィルタ
+        if prefecture and pref_name != prefecture:
+            continue
+
+        # 各スポットごとに検索
+        for s in spots:
+
+            # キーワード一致対象
+            text = (
+                s.get("spot_name", "") +
+                pref_name +                     # 都道府県名も検索対象
+                s.get("city", "") +
+                s.get("category", "") +
+                s.get("description", "")
+            ).lower()
+
+            if keyword and keyword not in text:
+                continue
+
+            # 結果に「pref_name」を付けて返す
+            results.append({
+                "spot_name": s.get("spot_name", ""),
+                "city": s.get("city", ""),
+                "category": s.get("category", ""),
+                "description": s.get("description", ""),
+                "pref_name": pref_name
+            })
+
+    return render_template("spot_search_results.html", results=results)
 
 # ===============================================================
 # 宿泊検索
