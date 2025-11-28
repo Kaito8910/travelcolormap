@@ -14,7 +14,6 @@
                     {% if ev.ended_at %}<p><strong>終了日時:</strong> {{ ev.ended_at }}</p>{% endif %}
                     {% if ev.place %}<p><strong>場所:</strong> {{ ev.place }}</p>{% endif %}
                     {% if ev.address %}<p><strong>住所:</strong> {{ ev.address }}</p>{% endif %}
-                    <a href="{{ ev.event_url }}" class="btn btn-primary" target="_blank">イベント詳細を見る</a>
                 </div>
             {% endfor %}
         </div>
