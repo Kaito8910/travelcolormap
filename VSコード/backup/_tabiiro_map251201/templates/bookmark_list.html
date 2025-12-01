@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}ブックマーク一覧 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<h1 style="margin: 20px 0;">ブックマーク一覧</h1>
+
+{% if bookmarks %}
+<div class="bookmark-list-container">
+    {% for bm in bookmarks %}
+    <div class="bookmark-card">
+
+        <!-- サムネイル（ホテル検索などで写真がある場合） -->
+        {% if bm.thumb %}
+            <img src="{{ bm.thumb }}" class="bookmark-thumb">
+        {% else %}
+            <div class="bookmark-thumb no-thumb">No Image</div>
+        {% endif %}
+
+        <div class="bookmark-info">
+            <div class="bookmark-title">{{ bm.title }}</div>
+
+            <div class="bookmark-type">
+                種別：{{ bm.target_type }}
+            </div>
+
+            <!-- 削除ボタン -->
+            <form method="POST" action="{{ url_for('bookmark_delete') }}">
+                <input type="hidden" name="type" value="{{ bm.target_type }}">
+                <input type="hidden" name="id" value="{{ bm.target_id }}">
+                <button class="bookmark-delete-btn">削除</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<p>まだブックマークはありません。</p>
+{% endif %}
+
+{% endblock %}
