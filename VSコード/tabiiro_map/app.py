@@ -31,6 +31,15 @@ def get_prefecture_list():
     data = load_spots_json()
     return [p["pref_name_ja"] for p in data]
 
+def extract_hotel_info(raw_hotels):
+    hotels = []
+    for wrapper in raw_hotels:
+        if isinstance(wrapper, list) and len(wrapper) > 0:
+            info = wrapper[0].get("hotelBasicInfo", {})
+            hotels.append(info)
+    return hotels
+
+
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
@@ -953,8 +962,30 @@ def hotel_search():
 
 @app.route("/hotel_results/<keyword>")
 def hotel_results(keyword):
-    hotels = search_hotels(keyword)
-    return render_template("hotel_results.html", hotels=hotels, keyword=keyword)
+    user_id = session.get("user_id")
+
+    # API 結果取得（ネストされた raw データ）
+    raw_hotels = search_hotels(keyword)
+
+    # hotelBasicInfo だけを取り出してフラットにする
+    hotels = extract_hotel_info(raw_hotels)
+
+    # すでにブックマークされているID取得
+    bookmarked = Bookmark.query.filter_by(
+        user_id=user_id,
+        target_type="hotel"
+    ).all()
+    bookmarked_ids = {str(bm.target_id) for bm in bookmarked}
+
+    # フラグ追加
+    for h in hotels:
+        hotel_id = str(h.get("hotelNo"))
+        h["is_bookmarked"] = hotel_id in bookmarked_ids
+
+    return render_template("hotel_results.html",
+                            hotels=hotels,
+                            keyword=keyword)
+
 
 # ===============================================================
 # イベント検索
@@ -1288,6 +1319,32 @@ def remove_bookmark():
     db.session.delete(bm)
     db.session.commit()
     return jsonify({"ok": True})
+
+@app.route('/bookmark/delete', methods=['POST'])
+def bookmark_delete():
+    if not session.get('logged_in'):
+        flash("ログインしてください", "error")
+        return redirect(url_for('login'))
+
+    user_id = session.get('user_id')
+    target_type = request.form.get("type")
+    target_id = request.form.get("id")
+
+    bm = Bookmark.query.filter_by(
+        user_id=user_id,
+        target_type=target_type,
+        target_id=target_id
+    ).first()
+
+    if not bm:
+        flash("ブックマークが見つかりません", "error")
+        return redirect(url_for('bookmark_list'))
+
+    db.session.delete(bm)
+    db.session.commit()
+
+    flash("ブックマークを削除しました", "success")
+    return redirect(url_for('bookmark_list'))
 
 
 # ===============================================================

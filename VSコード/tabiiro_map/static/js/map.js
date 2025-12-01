@@ -52,10 +52,5 @@ document.addEventListener("DOMContentLoaded", async () => {
         pref.querySelectorAll("polygon, path").forEach(elem => {
             elem.style.fill = getColor(count);
         });
-
-        // クリックで詳細表示
-        pref.addEventListener("click", () => {
-            alert(`${prefName}：${count}回訪問`);
-        });
     });
 });

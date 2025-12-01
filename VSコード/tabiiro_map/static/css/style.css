@@ -123,14 +123,6 @@ body {
     object-position: center;
 }
 
-/* 右側3ブロック */
-.right-blocks-container {
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
 .block-item {
     border: 1px solid #000;
     display: flex;
@@ -154,15 +146,18 @@ body {
 /* 4. ロゴ                              */
 /* ==================================== */
 
-.app-logo {
-    height: 60px;
-    display: block;
-    margin: 0 auto;
+/* ロゴを左寄せにする */
+.app-title {
+    text-align: left !important;
+    display: flex;
+    align-items: center;
+    padding-left: 20px; /* 任意で調整 */
 }
 
-.home-link:hover .app-logo {
-    opacity: 0.85;
+.app-logo {
+    height: 50px; /* 必要に応じて調整 */
 }
+
 
 /* ==================================== */
 /* 5. ログイン / 新規登録 共通 UI       */
@@ -509,4 +504,14 @@ body {
     border-color: #e6b800;
     color: #6b4f00;
     font-weight: bold;
+}
+
+/* 900px以上の画面では最初から開く */
+@media (min-width: 900px) {
+    #menu-sidebar {
+        transform: translateX(0) !important;
+    }
+    #menu-sidebar.is-closed {
+        transform: translateX(0) !important;
+    }
 }

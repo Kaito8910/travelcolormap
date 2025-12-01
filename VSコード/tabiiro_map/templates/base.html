@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}旅色マップ{% endblock %}</title>
+
+    <!-- ファビコン -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+
     <!-- CSSの参照 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="page-layout">
         <div class="page-left">
@@ -42,6 +47,7 @@
                     <li><a href="{{ url_for('hotel_search') }}">宿泊検索</a></li>
                     <li><a href="{{ url_for('event_search') }}">イベント検索</a></li>
                     <li><a href="{{ url_for('spot_search') }}">スポット検索</a></li>
+                    <li><a href="{{ url_for('weather') }}">天気予報</a></li>
                     <li><a href="{{ url_for('bookmark_list') }}">ブックマーク一覧</a></li>
                     <li><a href="{{ url_for('user_data') }}">アカウント情報</a></li>
                     {% if session.get('logged_in') %}
@@ -58,19 +64,42 @@
     </div>
 
     {% block scripts %}
-        <!-- トグル機能用JavaScript -->
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const toggleButton = document.getElementById('menu-toggle-button');
+            document.addEventListener('DOMContentLoaded', () => {
                 const sidebar = document.getElementById('menu-sidebar');
-                
-                if (toggleButton && sidebar) {
-                    toggleButton.addEventListener('click', function() {
-                        sidebar.classList.toggle('is-closed');
-                    });
+                const toggleButton = document.getElementById('menu-toggle-button');
+                const currentPage = "{{ request.endpoint }}";
+
+                function updateSidebarState() {
+                    const isMobile = window.innerWidth < 900;
+
+                    if (isMobile) {
+                        // 📱 スマホは常に閉じる
+                        sidebar.classList.add('is-closed');
+                    } else {
+                        // 💻 PCなら home のときだけ開く
+                        if (currentPage === "home") {
+                            sidebar.classList.remove('is-closed');
+                        } else {
+                            sidebar.classList.add('is-closed');
+                        }
+                    }
                 }
+
+                // 初期設定
+                updateSidebarState();
+
+                // リサイズ時に再判定
+                window.addEventListener('resize', updateSidebarState);
+
+                // ハンバーガーメニュー操作
+                toggleButton.addEventListener('click', () => {
+                    sidebar.classList.toggle('is-closed');
+                });
             });
         </script>
+
+
     {% endblock %}
 <script src="{{ url_for('static', filename='js/bookmark.js') }}"></script>
 </body>

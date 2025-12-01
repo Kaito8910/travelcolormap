@@ -24,20 +24,25 @@
     {% if hotels %}
         <h2>「{{ keyword }}」の検索結果</h2>
         <ul>
-        {% for hotel_wrapper in hotels %}
-            {% set info = hotel_wrapper[0].hotelBasicInfo %}
+        {% for info in hotels %}
             <li>
                 <strong>{{ info.hotelName }}</strong><br>
                 住所: {{ info.address1 }} {{ info.address2 }}<br>
                 最寄駅: {{ info.nearestStation }}<br>
                 最安料金: {{ info.hotelMinCharge }}円<br>
                 <a href="{{ info.hotelInformationUrl }}" target="_blank">詳細ページ</a>
+
+                <!-- ボタン：状態ごとに表示切り替え -->
                 <button class="bookmark-btn"
                     data-type="hotel"
                     data-id="{{ info.hotelNo }}"
                     data-title="{{ info.hotelName }}"
                     data-thumb="{{ info.hotelImageUrl }}">
-                    ★ ブックマーク
+                    {% if info.is_bookmarked %}
+                        ★ 登録済み
+                    {% else %}
+                        ☆ ブックマーク
+                    {% endif %}
                 </button>
             </li>
         {% else %}

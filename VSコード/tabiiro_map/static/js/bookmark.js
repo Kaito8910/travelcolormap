@@ -1,51 +1,42 @@
-// ================================
-//  ⭐ ブックマーク共通 JS
-//  add/remove & toggle ☆ ⇄ ★
-// ================================
-
 document.addEventListener("click", async (e) => {
-    const btn = e.target.closest(".bookmark-btn");
-    if (!btn) return;
 
+    // ===== ブックマーク一覧の削除ボタンは JS 無視 =====
+    if (e.target.classList.contains("bookmark-delete-btn")) {
+        return;  // フォーム送信に任せる
+    }
+
+    // ===== ここから下は宿泊検索などのブックマーク用 =====
+    if (!e.target.classList.contains("bookmark-btn")) return;
+
+    e.stopImmediatePropagation();   // 多重発火防止
+
+    const btn = e.target;
     const type = btn.dataset.type;
     const id = btn.dataset.id;
     const title = btn.dataset.title;
-    const thumb = btn.dataset.thumb || "";
+    const thumb = btn.dataset.thumb;
 
-    // ★ なら削除
-    if (btn.classList.contains("active")) {
-        const fd = new FormData();
-        fd.append("type", type);
-        fd.append("id", id);
+    const currentText = btn.textContent.trim();
 
-        const res = await fetch("/bookmark/remove", {
+    // 追加（☆）
+    if (currentText === "☆ ブックマーク") {
+        let res = await fetch("/bookmark/add", {
             method: "POST",
-            body: fd
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `type=${encodeURIComponent(type)}&id=${encodeURIComponent(id)}&title=${encodeURIComponent(title)}&thumb=${encodeURIComponent(thumb)}`
         });
-        const json = await res.json();
-
-        if (json.ok) {
-            btn.classList.remove("active");
-            btn.innerHTML = "☆ ブックマーク";
-        }
-        return;
+        let data = await res.json();
+        if (data.ok) btn.textContent = "★ 登録済み";
     }
 
-    // ☆ なら追加
-    const fd = new FormData();
-    fd.append("type", type);
-    fd.append("id", id);
-    fd.append("title", title);
-    fd.append("thumb", thumb);
-
-    const res = await fetch("/bookmark/add", {
-        method: "POST",
-        body: fd
-    });
-    const json = await res.json();
-
-    if (json.ok) {
-        btn.classList.add("active");
-        btn.innerHTML = "★ 登録済み";
+    // 削除（★）
+    else if (currentText === "★ 登録済み") {
+        let res = await fetch("/bookmark/remove", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `type=${encodeURIComponent(type)}&id=${encodeURIComponent(id)}`
+        });
+        let data = await res.json();
+        if (data.ok) btn.textContent = "☆ ブックマーク";
     }
 });
