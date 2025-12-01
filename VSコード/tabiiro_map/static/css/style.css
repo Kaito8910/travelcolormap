@@ -492,3 +492,21 @@ body {
 .bookmark-delete-btn:hover {
     background: #c62828;
 }
+
+/* ブックマークボタン */
+.bookmark-btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #888;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+/* 登録済み（★状態） */
+.bookmark-btn.active {
+    background: #ffe7a3;
+    border-color: #e6b800;
+    color: #6b4f00;
+    font-weight: bold;
+}
