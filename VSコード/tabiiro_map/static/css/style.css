@@ -515,3 +515,140 @@ body {
         transform: translateX(0) !important;
     }
 }
+
+/* 新規追加ボタンの位置調整 */
+.add-button-wrapper {
+    margin-bottom: 20px;
+}
+
+/* グルメカード（観光地カードの画像無しバージョンに最適化） */
+.spot-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.2s;
+    height: auto; /* ← 高さ可変に */
+}
+
+.spot-card:hover {
+    transform: translateY(-3px);
+}
+
+/* グルメ専用：情報しかないカードの調整 */
+.spot-card .spot-info {
+    padding: 10px 5px;
+}
+
+/* 店舗名（観光地と同じ太さ） */
+.spot-card .spot-info h2 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+}
+
+/* 店舗ページリンク風ボタン */
+.detail-btn {
+    margin-top: 10px;
+    color: #4a32c4;
+    font-weight: bold;
+}
+.detail-btn:hover {
+    text-decoration: underline;
+}
+
+/* カードの外側リンク処理（観光地の仕様と同じ） */
+.spot-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 星の基本デザイン */
+.star-rating span {
+    font-size: 30px;
+    cursor: pointer;
+    color: #ccc;        /* 選択されていない星はグレー */
+    transition: color 0.2s;
+    margin-right: 5px;
+}
+
+/* 選択されている星：黄色で表示 */
+.star-rating span.selected {
+    color: #ffcc00;
+}
+
+/* ---------- グルメ詳細 スライダー ---------- */
+
+.gallery-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.swiper {
+    width: 90%;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+/* ---------- 編集ページ 写真一覧 ---------- */
+.photo-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.photo-item {
+    text-align: center;
+}
+
+.photo-thumb {
+    width: 120px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.delete-btn {
+    margin-top: 5px;
+    background: #ff5555;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #ff3333;
+}
+
+.food-detail-box {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.gallery-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.edit-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #0095ff;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.link-btn {
+    color: #0066cc;
+    text-decoration: underline;
+}
+
+.food-detail-box p {
+    margin: 5px 0;
+}

@@ -1,96 +1,104 @@
 {% extends "base.html" %}
-
 {% block title %}グルメ編集 | 旅色マップ{% endblock %}
 
 {% block main_content %}
 
 <h1>グルメ編集</h1>
 
+<!-- ============================== -->
+<!-- グルメ編集フォーム（メイン） -->
+<!-- ============================== -->
 <form action="{{ url_for('gourmet_edit', food_id=food.food_id) }}"
     method="POST" enctype="multipart/form-data" class="gourmet-form">
 
+    <!-- 店舗名 -->
     <div class="form-group">
         <label>店舗名</label>
         <input type="text" name="shop_name" value="{{ food.shop_name }}" required>
     </div>
 
+    <!-- 料理名 -->
     <div class="form-group">
         <label>料理名</label>
         <input type="text" name="food_name" value="{{ food.food_name }}" required>
     </div>
 
+    <!-- 評価 -->
     <div class="form-group">
         <label>評価</label>
-        <div class="star-rating">
-            <span data-value="5">★</span>
-            <span data-value="4">★</span>
-            <span data-value="3">★</span>
-            <span data-value="2">★</span>
-            <span data-value="1">★</span>
-        </div>
-        <input type="hidden" id="evaluation" name="evaluation" value="{{ food.evaluation }}">
+        <select name="evaluation" required>
+            <option value="1" {% if food.evaluation == 1 %}selected{% endif %}>★☆☆☆☆</option>
+            <option value="2" {% if food.evaluation == 2 %}selected{% endif %}>★★☆☆☆</option>
+            <option value="3" {% if food.evaluation == 3 %}selected{% endif %}>★★★☆☆</option>
+            <option value="4" {% if food.evaluation == 4 %}selected{% endif %}>★★★★☆</option>
+            <option value="5" {% if food.evaluation == 5 %}selected{% endif %}>★★★★★</option>
+        </select>
     </div>
 
-
+    <!-- 訪問日 -->
     <div class="form-group">
         <label>訪問日</label>
-        <input type="date" name="visit_date" value="{{ food.visit_date }}">
+        <input type="date" name="visit_date"
+            value="{{ food.visit_date.strftime('%Y-%m-%d') }}" required>
     </div>
 
+    <!-- メモ -->
     <div class="form-group">
         <label>メモ</label>
-        <textarea name="memo" rows="4">{{ food.memo }}</textarea>
+        <textarea name="memo">{{ food.memo }}</textarea>
     </div>
 
+    <!-- ============================== -->
+    <!-- 写真一覧（削除ボタン付き） -->
+    <!-- ============================== -->
+    <h3>登録済みの写真</h3>
+    <div class="photo-list">
+        {% for p in food.photos %}
+        <div class="photo-item">
+            <img src="{{ url_for('static', filename='uploads/' + p.filename) }}"
+                class="photo-thumb">
+            <!-- 削除ボタン（form禁止 → JSで処理） -->
+            <button type="button"
+                    class="delete-photo-btn"
+                    data-photo-id="{{ p.photo_id }}">
+                削除
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- ============================== -->
+    <!-- 新しい画像追加（複数） -->
+    <!-- ============================== -->
     <div class="form-group">
-        <label>写真変更</label><br>
-        {% if food.photo %}
-            <img src="{{ url_for('static', filename='uploads/' + food.photo) }}"
-                class="edit-photo-preview">
-        {% endif %}
-        <input type="file" name="photo" accept="image/*">
+        <label>写真を追加</label>
+        <input type="file" name="photos[]" multiple accept="image/*">
+        <p>※複数枚選択できます</p>
     </div>
 
     <button type="submit" class="submit-btn">更新</button>
 
 </form>
 
+
+<!-- ============================== -->
+<!-- 写真削除処理 JS/AJAX -->
+<!-- ============================== -->
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const stars = document.querySelectorAll(".star-rating span");
-    const evaluationInput = document.getElementById("evaluation");
+document.addEventListener("click", async (e) => {
+    if (!e.target.classList.contains("delete-photo-btn")) return;
 
-    let currentValue = parseInt(evaluationInput.value);
+    const photoId = e.target.dataset.photoId;
+    if (!confirm("この写真を削除しますか？")) return;
 
-    // 初期表示（編集中の評価を反映）
-    highlightStars(currentValue);
-
-    stars.forEach(star => {
-        star.addEventListener("mouseenter", () => {
-            const val = parseInt(star.dataset.value);
-            highlightStars(val);
-        });
-
-        star.addEventListener("click", () => {
-            currentValue = parseInt(star.dataset.value);
-            evaluationInput.value = currentValue;
-            highlightStars(currentValue);
-        });
+    const res = await fetch(`/delete_food_photo/${photoId}`, {
+        method: "POST"
     });
 
-    document.querySelector(".star-rating").addEventListener("mouseleave", () => {
-        highlightStars(currentValue);
-    });
-
-    function highlightStars(val) {
-        stars.forEach(s => {
-            const starVal = parseInt(s.dataset.value);
-            if (starVal <= val) {
-                s.classList.add("selected");
-            } else {
-                s.classList.remove("selected");
-            }
-        });
+    if (res.ok) {
+        location.reload();
+    } else {
+        alert("削除に失敗しました。");
     }
 });
 </script>

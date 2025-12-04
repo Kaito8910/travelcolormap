@@ -3,22 +3,64 @@
 {% block title %}{{ spot.name }} の詳細 | 旅色マップ{% endblock %}
 
 {% block main_content %}
+
 <div class="detail-container">
 
     <h1>{{ spot.name }}</h1>
 
-    <!-- 写真 -->
-    {% if spot.photo %}
-        <img class="detail-photo"
-            src="{{ url_for('static', filename='uploads/' + spot.photo) }}"
-            alt="{{ spot.name }}">
+    <!-- =============================== -->
+    <!-- 写真スライダー（PHOTO対応） -->
+    <!-- =============================== -->
+    {% if spot.photos %}
+        <!-- Swiper CSS -->
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                {% for p in spot.photos %}
+                <div class="swiper-slide">
+                    <img src="{{ url_for('static', filename='uploads/' + p.filename) }}"
+                        class="detail-photo">
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- ナビ -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+
+            <!-- ドット -->
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+            const swiper = new Swiper(".mySwiper", {
+                loop: true,
+                pagination: {
+                    el: ".swiper-pagination",
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            });
+        </script>
+
     {% else %}
         <div class="no-photo detail-no-photo">写真なし</div>
     {% endif %}
 
+
+    <!-- =============================== -->
+    <!-- 基本情報 -->
+    <!-- =============================== -->
     <div class="detail-info">
         <p><strong>都道府県:</strong> {{ spot.prefecture }}</p>
         <p><strong>訪問日:</strong> {{ spot.visit_date }}</p>
+
         {% if spot.weather %}
             <p><strong>天気:</strong> {{ spot.weather }}</p>
         {% endif %}
@@ -37,7 +79,18 @@
         {% endif %}
     </div>
 
-    <a href="{{ url_for('spot_edit', spot_id=spot.spot_id) }}" class="edit-button">編集</a>
-    <a href="{{ url_for('spot_list') }}" class="back-button">一覧へ戻る</a>
+    <button type="button"
+        onclick="location.href='{{ url_for('spot_edit', spot_id=spot.spot_id) }}'"
+        class="edit-button">
+        編集
+    </button>
+
+    <button type="button"
+        onclick="location.href='{{ url_for('spot_list')}}'"
+        class="back-button">
+        一覧へ戻る
+    </button>
+
 </div>
+
 {% endblock %}

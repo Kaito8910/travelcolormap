@@ -1,52 +1,77 @@
 {% extends "base.html" %}
-
-{% block title %}グルメ詳細 | 旅色マップ{% endblock %}
+{% block title %}グルメ詳細{% endblock %}
 
 {% block main_content %}
 
-<div class="gourmet-detail-container">
+<h1>{{ food.shop_name }} - {{ food.food_name }}</h1>
 
-    <h1 class="page-title">グルメ詳細</h1>
+<!-- 基本情報 -->
+<div class="food-info">
+    <p><strong>訪問日:</strong> {{ food.visit_date.strftime('%Y-%m-%d') }}</p>
 
-    <!-- 写真 -->
-    {% if food.photo %}
-        <img src="{{ url_for('static', filename='uploads/' ~ food.photo) }}"
-            alt="{{ food.shop_name }}" class="detail-photo">
-    {% else %}
-        <div class="no-photo big">写真なし</div>
+    <p><strong>評価:</strong>
+        {% for i in range(food.evaluation) %}★{% endfor %}
+        {% for i in range(5 - food.evaluation) %}☆{% endfor %}
+        （{{ food.evaluation }} / 5）
+    </p>
+
+    {% if food.memo %}
+    <p><strong>メモ:</strong> {{ food.memo }}</p>
     {% endif %}
 
-    <div class="detail-info">
+    <p>
+        <a href="{{ url_for('shop_detail', shop_name=food.shop_name) }}" class="btn-link">
+            この店舗の全記録を見る
+        </a>
+        &nbsp;｜&nbsp;
+        <a href="https://www.google.com/maps/search/{{ food.shop_name }}" target="_blank" class="btn-link">
+            Googleマップで見る
+        </a>
+    </p>
 
-        <p><strong>店舗名：</strong>{{ food.shop_name }}</p>
+    <p><strong>同じ店の訪問回数:</strong> {{ related_count }} 回</p>
+    <p><strong>この店の平均評価:</strong> {{ related_avg|round(1) }} / 5</p>
+</div>
 
-        <p><strong>料理名：</strong>{{ food.food_name }}</p>
+<hr>
 
-        <p><strong>評価：</strong>
-            {% for i in range(food.evaluation) %}★{% endfor %}
-            {% for i in range(5 - food.evaluation) %}☆{% endfor %}
-        </p>
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
-        <p><strong>訪問日：</strong>{{ food.visit_date }}</p>
-
-        {% if food.memo %}
-            <p><strong>コメント：</strong><br>{{ food.memo }}</p>
-        {% endif %}
+<!-- スライダー -->
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        {% for p in food.photos %}
+        <div class="swiper-slide">
+            <img src="{{ url_for('static', filename='uploads/' + p.filename) }}" class="gallery-img">
+        </div>
+        {% endfor %}
     </div>
 
-    <div class="detail-buttons">
-        <a href="{{ url_for('gourmet_edit', food_id=food.food_id) }}" class="edit-button">編集する</a>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+</div>
 
-        <form method="POST"
-            action="{{ url_for('gourmet_delete', food_id=food.food_id) }}"
-            onsubmit="return confirm('この記録を削除しますか？');"
-            class="delete-form">
-            <button type="submit" class="delete-button">削除する</button>
-        </form>
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-        <a href="{{ url_for('gourmet_list') }}" class="back-button">一覧へ戻る</a>
-    </div>
+<script>
+const swiper = new Swiper(".mySwiper", {
+    loop: true,
+    pagination: { el: ".swiper-pagination" },
+    navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+    },
+});
+</script>
 
+<!-- 編集ボタン -->
+<div class="edit-area">
+    <a href="{{ url_for('gourmet_edit', food_id=food.food_id) }}" class="edit-btn">
+        編集する
+    </a>
 </div>
 
 {% endblock %}

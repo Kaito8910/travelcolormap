@@ -43,8 +43,9 @@
                 </li>
                 <button class="bookmark-btn"
                     data-type="spot"
-                    data-id="{{ spot.spot_name }}"
-                    data-title="{{ spot.spot_name }}">
+                    data-id="{{ spot.spot_id }}"
+                    data-title="{{ spot.name }}"
+                    data-url="/spot/{{ spot.spot_id }}">
                     ☆ ブックマーク
                 </button>
             {% endfor %}

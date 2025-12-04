@@ -89,7 +89,7 @@ class Spot(db.Model):
     name = db.Column(db.String(100), nullable=False)
     prefecture = db.Column(db.String(20), nullable=False)
     visit_date = db.Column(db.Date, nullable=False)
-    photo = db.Column(db.String(255))
+    photos = db.relationship("Photo", backref="spot", cascade="all, delete", lazy=True)
     comment = db.Column(db.Text)
     weather = db.Column(db.String(50))   
     temp_max = db.Column(db.Float)        
@@ -113,7 +113,7 @@ class Food(db.Model):
     visit_date = db.Column(db.Date, nullable=False)
     evaluation = db.Column(db.Integer)
     memo = db.Column(db.Text)
-    photo = db.Column(db.String(255))
+    photos = db.relationship("Photo", backref="food", cascade="all, delete", lazy=True)
     stay_id = db.Column(db.Integer, db.ForeignKey("STAY.stay_id"))
     created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
     updated_at = db.Column(
@@ -152,6 +152,21 @@ class Bookmark(db.Model):
     title = db.Column(db.String(100))
     thumb = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
+    detail_url = db.Column(db.String(500))
+
+# ---------------------------------------------------------------
+# 写真テーブル（PHOTO）
+# ---------------------------------------------------------------
+class Photo(db.Model):
+    __tablename__ = "PHOTO"
+
+    photo_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("USER.id"), nullable=False)
+    spot_id = db.Column(db.Integer, db.ForeignKey("SPOT.spot_id"))
+    food_id = db.Column(db.Integer, db.ForeignKey("FOOD.food_id"))
+    stay_id = db.Column(db.Integer, db.ForeignKey("STAY.stay_id"))
+    filename = db.Column(db.String(255), nullable=False)
+    uploaded_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
 
 # ===============================================================
 # 🏠 ホーム
@@ -378,7 +393,7 @@ def spot_register():
 
         # --- フォームデータ ---
         spot_name = request.form.get("spot_name")
-        pref_full = request.form.get("prefecture") 
+        pref_full = request.form.get("prefecture")
         visit_date_str = request.form.get('visit_date')
         comment = request.form.get('comment')
 
@@ -390,26 +405,14 @@ def spot_register():
             flash("都道府県を選択してください。", "error")
             return redirect(url_for('spot_register'))
 
-        # ① 都道府県名を short_pref に変換
+        # 都道府県名を短縮
         if pref_full == "北海道":
             pref_short = "北海道"
         else:
-            # 東京都→東京、青森県→青森、京都府→京都
             pref_short = pref_full.replace("都", "").replace("府", "").replace("県", "")
 
-        # ② 日付変換
+        # 日付変換
         visit_date = datetime.strptime(visit_date_str, "%Y-%m-%d").date()
-
-        # --- 写真処理 ---
-        photo_file = request.files.get('photo')
-        filename = None
-        if photo_file and photo_file.filename:
-            upload_dir = os.path.join("static", "uploads")
-            os.makedirs(upload_dir, exist_ok=True)
-            filename = (
-                f"{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
-            )
-            photo_file.save(os.path.join(upload_dir, filename))
 
         # --- 天気API ---
         lat, lon = PREF_LATLON.get(pref_short, (None, None))
@@ -436,13 +439,12 @@ def spot_register():
             except Exception as e:
                 print("天気取得失敗:", e)
 
-        # --- DB保存（short_pref を保存する） ---
+        # --- Spot を保存（ここでは「写真なし」で保存） ---
         new_spot = Spot(
             user_id=user_id,
             name=spot_name,
             prefecture=pref_short,
             visit_date=visit_date,
-            photo=filename,
             comment=comment,
             weather=weather,
             temp_max=temp_max,
@@ -451,13 +453,35 @@ def spot_register():
         )
 
         db.session.add(new_spot)
+        db.session.flush()  # ★ spot_id を取得するため必須！
+
+        # --- 写真複数保存 ---
+        photos = request.files.getlist("photos[]")
+        upload_dir = os.path.join("static", "uploads")
+        os.makedirs(upload_dir, exist_ok=True)
+
+        for p in photos:
+            if not p or not p.filename:
+                continue
+            
+            filename = f"{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{p.filename}"
+            p.save(os.path.join(upload_dir, filename))
+
+            # Photo レコード作成
+            new_photo = Photo(
+                user_id=user_id,
+                spot_id=new_spot.spot_id,
+                filename=filename
+            )
+            db.session.add(new_photo)
+
+        # --- DB確定 ---
         db.session.commit()
 
-        flash("登録しました！（天気データも保存しました）", "success")
+        flash("観光地を登録しました！（写真・天気データ含む）", "success")
         return redirect(url_for('spot_list'))
 
     return render_template("spot_register.html")
-
 
 # ===============================================================
 # グルメ記録一覧
@@ -482,7 +506,10 @@ def gourmet_list():
         avg = sum(i.evaluation for i in items) / len(items)
 
         # 写真は代表として1枚（最新のにする）
-        thumbnail = next((i.photo for i in items if i.photo), None)
+        # 写真は代表として1枚（最新の）
+        thumbnail = None
+        if items and items[0].photos:
+            thumbnail = items[0].photos[-1].filename
 
         shop_summary.append({
             "shop_name": shop,
@@ -518,7 +545,12 @@ def shop_detail(shop_name):
     avg = round(avg, 1)
 
     # サムネイル
-    thumbnail = next((i.photo for i in items if i.photo), None)
+    thumbnail = None
+    for f in items:
+        if f.photos:
+            thumbnail = f.photos[-1].filename
+            break
+
 
     return render_template(
         'shop_detail.html',
@@ -557,38 +589,47 @@ def add_gourmet():
     evaluation = int(request.form.get('evaluation'))
     memo = request.form.get('memo')
 
-    # 日付変換
     visit_date = datetime.strptime(visit_date, "%Y-%m-%d").date()
 
-    # 写真処理
-    photo_file = request.files.get("photo")
-    filename = None
-
-    if photo_file and photo_file.filename:
-        upload_dir = os.path.join("static", "uploads")
-        os.makedirs(upload_dir, exist_ok=True)
-
-        filename = (
-            f"{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
-        )
-        photo_file.save(os.path.join(upload_dir, filename))
-
+    # ----------- グルメ記録本体を先に保存 -----------
     new_food = Food(
         user_id=user_id,
         shop_name=shop_name,
         food_name=food_name,
         visit_date=visit_date,
         evaluation=evaluation,
-        memo=memo,
-        photo=filename
+        memo=memo
     )
 
     db.session.add(new_food)
+    db.session.flush()  # ★ food_idを取得するため必須！
+
+    # ----------- 写真複数アップロード -----------
+    upload_dir = os.path.join("static", "uploads")
+    os.makedirs(upload_dir, exist_ok=True)
+
+    photos = request.files.getlist("photos[]")  # ★ 複数取得
+
+    for p in photos:
+        if not p.filename:
+            continue
+
+        filename = (
+            f"{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{p.filename}"
+        )
+        p.save(os.path.join(upload_dir, filename))
+
+        new_photo = Photo(
+            user_id=user_id,
+            food_id=new_food.food_id,
+            filename=filename
+        )
+        db.session.add(new_photo)
+
     db.session.commit()
 
     flash("グルメ記録を登録しました！", "success")
     return redirect(url_for('gourmet_list'))
-
 
 # ===============================================================
 # グルメ記録更新
@@ -606,24 +647,34 @@ def gourmet_edit(food_id):
         food.evaluation = int(request.form.get('evaluation'))
         food.memo = request.form.get('memo')
 
-        visit_date = request.form.get('visit_date')
-        food.visit_date = datetime.strptime(visit_date, "%Y-%m-%d").date()
+        # ★ visit_date が文字列で来るので必ず変換
+        visit_date_str = request.form.get('visit_date')
+        food.visit_date = datetime.strptime(visit_date_str, "%Y-%m-%d").date()
 
-        # 写真更新
-        photo_file = request.files.get("photo")
-        if photo_file and photo_file.filename:
-            upload_dir = os.path.join("static", "uploads")
-            os.makedirs(upload_dir, exist_ok=True)
+        # ----- 写真追加 -----
+        upload_dir = os.path.join("static", "uploads")
+        os.makedirs(upload_dir, exist_ok=True)
 
-            filename = (
-                f"{food.user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
+        photos = request.files.getlist("photos[]")
+        for p in photos:
+            if not p.filename:
+                continue
+
+            filename = f"{food.user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{p.filename}"
+            p.save(os.path.join(upload_dir, filename))
+
+            new_photo = Photo(
+                user_id=food.user_id,
+                food_id=food.food_id,
+                filename=filename
             )
-            photo_file.save(os.path.join(upload_dir, filename))
-            food.photo = filename
+            db.session.add(new_photo)
 
         db.session.commit()
 
         flash("グルメ記録を更新しました！", "success")
+
+        # ★ ここを必ず修正
         return redirect(url_for('gourmet_detail', food_id=food.food_id))
 
     return render_template('gourmet_edit.html', food=food)
@@ -638,8 +689,22 @@ def gourmet_detail(food_id):
         return redirect(url_for('login'))
 
     food = Food.query.get_or_404(food_id)
-    return render_template('gourmet_detail.html', food=food)
 
+    # 同じ店舗の記録一覧を取得
+    related = Food.query.filter_by(
+        user_id=food.user_id, 
+        shop_name=food.shop_name
+    ).all()
+
+    related_count = len(related)
+    related_avg = sum(f.evaluation for f in related) / related_count
+
+    return render_template(
+        'gourmet_detail.html',
+        food=food,
+        related_count=related_count,
+        related_avg=related_avg
+    )
 
 # ===============================================================
 # グルメ記録削除
@@ -657,6 +722,34 @@ def gourmet_delete(food_id):
     flash("グルメ記録を削除しました。", "success")
     return redirect(url_for('gourmet_list'))
 
+@app.route('/delete_food_photo/<int:photo_id>', methods=['POST'])
+def delete_food_photo(photo_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    photo = Photo.query.get_or_404(photo_id)
+    user_id = session.get('user_id')
+
+    # 他人の写真は削除不可
+    if photo.user_id != user_id:
+        flash("削除権限がありません。", "error")
+        return redirect(url_for('gourmet_list'))
+
+    # 写真ファイルのパス
+    file_path = os.path.join("static", "uploads", photo.filename)
+
+    # ファイルが存在すれば削除
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+    # photo レコード削除
+    db.session.delete(photo)
+    db.session.commit()
+
+    flash("写真を削除しました！", "success")
+
+    # 元の編集画面へリダイレクト
+    return redirect(url_for('gourmet_edit', food_id=photo.food_id))
 
 
 # ===============================================================
@@ -715,51 +808,83 @@ def spot_detail(spot_id):
 # ===============================================================
 # スポット編集
 # ==============================================================
-@app.route('/spot/<int:spot_id>/edit', methods=['GET', 'POST'])
+@app.route('/spot_edit/<int:spot_id>', methods=['GET', 'POST'])
 def spot_edit(spot_id):
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
     spot = Spot.query.get_or_404(spot_id)
 
+    # 都道府県のリスト（spot_register と合わせる）
+    prefectures = [
+        "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
+        "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
+        "新潟県","富山県","石川県","福井県","山梨県","長野県",
+        "岐阜県","静岡県","愛知県","三重県",
+        "滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県",
+        "鳥取県","島根県","岡山県","広島県","山口県",
+        "徳島県","香川県","愛媛県","高知県",
+        "福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県",
+        "沖縄県"
+    ]
+
     if request.method == 'POST':
-
-        # --- 基本データ更新 ---
         spot.name = request.form.get('spot_name')
-        pref_full = request.form.get('prefecture')  # HTML上の正式名称
-        visit_date_str = request.form.get("visit_date")
-        spot.comment = request.form.get('comment')
+        prefecture_full = request.form.get('prefecture')
 
-        # --- 日付更新 ---
+        # 北海道以外の都道府県は短縮する
+        if prefecture_full == "北海道":
+            spot.prefecture = "北海道"
+        else:
+            spot.prefecture = prefecture_full.replace("都","").replace("府","").replace("県","")
+
+        visit_date_str = request.form.get('visit_date')
         spot.visit_date = datetime.strptime(visit_date_str, "%Y-%m-%d").date()
 
-        # --- short_pref に変換（登録時と同じ処理） ---
-        if pref_full == "北海道":
-            pref_short = "北海道"
-        else:
-            pref_short = pref_full.replace("都", "").replace("府", "").replace("県", "")
+        spot.comment = request.form.get('comment')
 
-        spot.prefecture = pref_short
+        # --- 写真追加 ---
+        photos = request.files.getlist('photos[]')
+        upload_dir = os.path.join("static", "uploads")
+        os.makedirs(upload_dir, exist_ok=True)
 
-        # --- 写真更新（選択された時だけ） ---
-        photo_file = request.files.get('photo')
-        if photo_file and photo_file.filename:
-            upload_dir = os.path.join("static", "uploads")
-            os.makedirs(upload_dir, exist_ok=True)
-            filename = (
-                f"{spot.user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo_file.filename}"
+        for p in photos:
+            if not p.filename:
+                continue
+
+            filename = f"{spot.user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{p.filename}"
+            p.save(os.path.join(upload_dir, filename))
+
+            new_photo = Photo(
+                user_id=spot.user_id,
+                spot_id=spot.spot_id,
+                filename=filename
             )
-            photo_file.save(os.path.join(upload_dir, filename))
-            spot.photo = filename
+            db.session.add(new_photo)
 
-        # --- DB反映 ---
         db.session.commit()
 
-        flash("観光地情報を更新しました！", "success")
+        flash("観光地情報を更新しました。", "success")
         return redirect(url_for('spot_detail', spot_id=spot.spot_id))
 
-    # --- GET時（編集ページ表示） ---
-    return render_template("spot_edit.html", spot=spot)
+    return render_template('spot_edit.html', spot=spot, prefectures=prefectures)
+
+@app.route('/delete_spot_photo/<int:photo_id>', methods=['POST'])
+def delete_spot_photo(photo_id):
+    if not session.get('logged_in'):
+        return "Unauthorized", 401
+
+    photo = Photo.query.get_or_404(photo_id)
+
+    # ファイル削除
+    filepath = os.path.join("static", "uploads", photo.filename)
+    if os.path.exists(filepath):
+        os.remove(filepath)
+
+    db.session.delete(photo)
+    db.session.commit()
+
+    return "OK", 200
 
 # ===============================================================
 # API（都道府県訪問記録）
@@ -1034,13 +1159,16 @@ def event_search_results():
                     continue
 
             results.append({
+                "event_id": ev.get("event_id", ""),          # ★追加
                 "event_name": ev.get("event_name", ""),
                 "month": ev.get("month", ""),
                 "city": ev.get("city", ""),
                 "category": ev.get("category", ""),
                 "description": ev.get("description", ""),
-                "pref_name": pref_name
+                "pref_name": pref_name,
+                "event_url": ev.get("event_url", "")         # ★追加
             })
+
 
     return render_template(
         "event_search_results.html",
@@ -1055,10 +1183,7 @@ def event_search():
     prefectures = get_prefecture_list()
     months = list(range(1, 13))
     periods = ["上旬", "中旬", "下旬"]
-    return render_template("event_search.html",
-                            prefectures=prefectures,
-                            months=months,
-                            periods=periods)
+    return render_template("event_search.html", prefectures=prefectures, months=months, periods=periods)
 
 @app.route('/event-search1', methods=['GET'])
 def event_search1():
@@ -1265,9 +1390,27 @@ def bookmark_list():
         return redirect(url_for('login'))
 
     user_id = session.get('user_id')
-    bookmarks = Bookmark.query.filter_by(user_id=user_id).all()
+    filter_type = request.args.get('filter', 'all')
 
-    return render_template('bookmark_list.html', bookmarks=bookmarks)
+    query = Bookmark.query.filter_by(user_id=user_id)
+    if filter_type != 'all':
+        query = query.filter_by(target_type=filter_type)
+
+    bookmarks = query.all()
+
+    # URLはDBに保存されているものをそのまま使う
+    for bm in bookmarks:
+        if not bm.detail_url:
+            # スポットだけ内部リンクを自動生成
+            if bm.target_type == "spot":
+                bm.detail_url = url_for("spot_detail", spot_id=bm.target_id)
+        # hotel, event は DB の URL をそのまま使用
+
+    return render_template(
+        'bookmark_list.html',
+        bookmarks=bookmarks,
+        filter=filter_type
+    )
 
 @app.route('/bookmark/add', methods=['POST'])
 def add_bookmark():
@@ -1279,6 +1422,7 @@ def add_bookmark():
     target_id = request.form.get("id")
     title = request.form.get("title")
     thumb = request.form.get("thumb", "")
+    detail_url = request.form.get("url", "")   # ★追加
 
     # すでに存在する場合は何もしない
     existing = Bookmark.query.filter_by(
@@ -1292,7 +1436,8 @@ def add_bookmark():
         target_type=target_type,
         target_id=target_id,
         title=title,
-        thumb=thumb
+        thumb=thumb,
+        detail_url=detail_url  # ★保存
     )
 
     db.session.add(new_bm)

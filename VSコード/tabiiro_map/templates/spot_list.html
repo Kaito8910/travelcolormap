@@ -22,27 +22,36 @@
         {% if selected_pref %}
             <a href="{{ url_for('spot_list') }}" class="reset-button">リセット</a>
         {% endif %}
+
+        <button type="button"
+                onclick="location.href='{{ url_for('spot_register') }}'"
+                class="filter-button">
+            新規追加
+        </button>
     </form>
 
-    <div class="top-btn-wrapper">
-        <a href="{{ url_for('spot_register') }}" class="add-button">新規追加</a>
-    </div>
+    {% if spots %}
+        <div class="spot-list">
 
-        {% if spots %}
-            <div class="spot-list">
-                {% for spot in spots %}
-                    <div class="spot-card" onclick="location.href='{{ url_for('spot_detail', spot_id=spot.spot_id) }}'">
-                {% if spot.photo %}
-                    <img src="{{ url_for('static', filename='uploads/' + spot.photo) }}" alt="{{ spot.name }}">
+            {% for spot in spots %}
+            <div class="spot-card"
+                onclick="location.href='{{ url_for('spot_detail', spot_id=spot.spot_id) }}'">
+
+                {% if spot.photos %}
+                    <img src="{{ url_for('static', filename='uploads/' + spot.photos[-1].filename) }}"
+                        alt="{{ spot.name }}">
                 {% else %}
                     <div class="no-photo">写真なし</div>
                 {% endif %}
+
                 <div class="spot-info">
                     <h2>{{ spot.name }}</h2>
                     <p><strong>訪問日:</strong> {{ spot.visit_date }}</p>
                 </div>
+
             </div>
             {% endfor %}
+
         </div>
     {% else %}
         <p>まだ登録された観光地はありません。</p>

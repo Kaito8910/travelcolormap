@@ -8,7 +8,7 @@
     <h1>グルメ店舗一覧</h1>
 
     <div class="top-btn-wrapper">
-        <a href="{{ url_for('gourmet_record') }}" class="add-button">新規追加</a>
+        <button onclick="location.href='{{ url_for('gourmet_record') }}'" class="add-button">新規追加</button>
     </div>
 
     {% if shop_summary|length == 0 %}

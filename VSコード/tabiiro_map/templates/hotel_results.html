@@ -37,7 +37,9 @@
                     data-type="hotel"
                     data-id="{{ info.hotelNo }}"
                     data-title="{{ info.hotelName }}"
-                    data-thumb="{{ info.hotelImageUrl }}">
+                    data-thumb="{{ info.hotelImageUrl }}"
+                    data-url="{{ info.hotelInformationUrl }}">
+
                     {% if info.is_bookmarked %}
                         ★ 登録済み
                     {% else %}
