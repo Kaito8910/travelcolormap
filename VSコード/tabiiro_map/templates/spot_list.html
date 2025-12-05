@@ -7,7 +7,7 @@
     <h1>観光地一覧</h1>
 
     <!-- 絞り込みエリア -->
-    <form method="GET" action="{{ url_for('spot_list') }}" class="filter-form">
+    <form method="GET" action="{{ url_for('spot.spot_list') }}" class="filter-form">
         <select name="prefecture" class="pref-select">
             <option value="">全ての都道府県</option>
             {% for p in prefectures %}
@@ -20,11 +20,11 @@
         <button type="submit" class="filter-button">絞り込み</button>
 
         {% if selected_pref %}
-            <a href="{{ url_for('spot_list') }}" class="reset-button">リセット</a>
+            <a href="{{ url_for('spot.spot_list') }}" class="reset-button">リセット</a>
         {% endif %}
 
         <button type="button"
-                onclick="location.href='{{ url_for('spot_register') }}'"
+                onclick="location.href='{{ url_for('spot.spot_register') }}'"
                 class="filter-button">
             新規追加
         </button>
@@ -35,11 +35,11 @@
 
             {% for spot in spots %}
             <div class="spot-card"
-                onclick="location.href='{{ url_for('spot_detail', spot_id=spot.spot_id) }}'">
+                 onclick="location.href='{{ url_for('spot.spot_detail', spot_id=spot.spot_id) }}'">
 
                 {% if spot.photos %}
                     <img src="{{ url_for('static', filename='uploads/' + spot.photos[-1].filename) }}"
-                        alt="{{ spot.name }}">
+                         alt="{{ spot.name }}">
                 {% else %}
                     <div class="no-photo">写真なし</div>
                 {% endif %}

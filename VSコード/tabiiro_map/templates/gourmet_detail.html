@@ -20,9 +20,11 @@
     {% endif %}
 
     <p>
-        <a href="{{ url_for('shop_detail', shop_name=food.shop_name) }}" class="btn-link">
+        <!-- 🔥 Blueprint 対応 -->
+        <a href="{{ url_for('food.shop_detail', shop_name=food.shop_name) }}" class="btn-link">
             この店舗の全記録を見る
         </a>
+
         &nbsp;｜&nbsp;
         <a href="https://www.google.com/maps/search/{{ food.shop_name }}" target="_blank" class="btn-link">
             Googleマップで見る
@@ -69,7 +71,9 @@ const swiper = new Swiper(".mySwiper", {
 
 <!-- 編集ボタン -->
 <div class="edit-area">
-    <a href="{{ url_for('gourmet_edit', food_id=food.food_id) }}" class="edit-btn">
+
+    <!-- 🔥 Blueprint 対応 -->
+    <a href="{{ url_for('food.gourmet_edit', food_id=food.food_id) }}" class="edit-btn">
         編集する
     </a>
 </div>

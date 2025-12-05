@@ -5,7 +5,6 @@
 <div class="register-container">
     <h1>宿泊検索</h1>
 
-    <!-- フラッシュメッセージ -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -15,7 +14,7 @@
     {% endwith %}
 
     <!-- 検索フォーム -->
-    <form method="post" action="{{ url_for('hotel_search') }}">
+    <form method="post" action="{{ url_for('hotel.hotel_search') }}">
         <input type="text" name="keyword" placeholder="例: 東京駅, 温泉旅館" required
                 value="{{ keyword|default('') }}">
         <button type="submit">検索</button>
@@ -32,7 +31,6 @@
                 最安料金: {{ info.hotelMinCharge }}円<br>
                 <a href="{{ info.hotelInformationUrl }}" target="_blank">詳細ページ</a>
 
-                <!-- ボタン：状態ごとに表示切り替え -->
                 <button class="bookmark-btn"
                     data-type="hotel"
                     data-id="{{ info.hotelNo }}"
@@ -53,4 +51,9 @@
         </ul>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/bookmark.js') }}"></script>
 {% endblock %}

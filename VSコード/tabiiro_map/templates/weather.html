@@ -10,7 +10,7 @@
     <h1 style="text-align:center;">🌤 天気予報（Open-Meteo）</h1>
 
     <!-- フォーム -->
-    <form method="POST" action="{{ url_for('weather') }}" style="text-align:center; margin-bottom:25px;">
+    <form method="POST" action="{{ url_for('weather.weather') }}" style="text-align:center; margin-bottom:25px;">
         <select name="prefecture" required style="padding:8px; font-size:1em;">
             <option value="">都道府県を選択</option>
             {% for pref in prefectures %}

@@ -8,7 +8,7 @@
 <!-- ============================== -->
 <!-- グルメ編集フォーム（メイン） -->
 <!-- ============================== -->
-<form action="{{ url_for('gourmet_edit', food_id=food.food_id) }}"
+<form action="{{ url_for('food.gourmet_edit', food_id=food.food_id) }}"
     method="POST" enctype="multipart/form-data" class="gourmet-form">
 
     <!-- 店舗名 -->
@@ -57,7 +57,6 @@
         <div class="photo-item">
             <img src="{{ url_for('static', filename='uploads/' + p.filename) }}"
                 class="photo-thumb">
-            <!-- 削除ボタン（form禁止 → JSで処理） -->
             <button type="button"
                     class="delete-photo-btn"
                     data-photo-id="{{ p.photo_id }}">
@@ -67,9 +66,7 @@
         {% endfor %}
     </div>
 
-    <!-- ============================== -->
     <!-- 新しい画像追加（複数） -->
-    <!-- ============================== -->
     <div class="form-group">
         <label>写真を追加</label>
         <input type="file" name="photos[]" multiple accept="image/*">
@@ -80,27 +77,8 @@
 
 </form>
 
+{% endblock %}
 
-<!-- ============================== -->
-<!-- 写真削除処理 JS/AJAX -->
-<!-- ============================== -->
-<script>
-document.addEventListener("click", async (e) => {
-    if (!e.target.classList.contains("delete-photo-btn")) return;
-
-    const photoId = e.target.dataset.photoId;
-    if (!confirm("この写真を削除しますか？")) return;
-
-    const res = await fetch(`/delete_food_photo/${photoId}`, {
-        method: "POST"
-    });
-
-    if (res.ok) {
-        location.reload();
-    } else {
-        alert("削除に失敗しました。");
-    }
-});
-</script>
-
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/gourmet_edit.js') }}"></script>
 {% endblock %}

@@ -6,7 +6,7 @@
 <h1 style="margin: 20px 0;">ブックマーク一覧</h1>
 
 <!-- ★★★★★ 絞り込みUI ★★★★★ -->
-<form method="GET" action="{{ url_for('bookmark_list') }}" style="margin-bottom: 20px;">
+<form method="GET" action="{{ url_for('bookmark.bookmark_list') }}" style="margin-bottom: 20px;">
     <label>種別で絞り込み：</label>
     <select name="filter" onchange="this.form.submit()">
         <option value="all"   {% if filter == 'all' %}selected{% endif %}>すべて</option>
@@ -25,7 +25,7 @@
 
         <!-- ★ 削除ボタン（カード上に表示） -->
         <form method="POST"
-                action="{{ url_for('bookmark_delete') }}"
+                action="{{ url_for('bookmark.bookmark_delete') }}"
                 class="bookmark-delete-form">
             <input type="hidden" name="type" value="{{ bm.target_type }}">
             <input type="hidden" name="id" value="{{ bm.target_id }}">

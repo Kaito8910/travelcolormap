@@ -4,23 +4,25 @@
 
 {% block main_content %}
 
-<div class="spot-list-container">  <!-- ←観光地一覧と同じクラス -->
+<div class="spot-list-container">
     <h1>グルメ店舗一覧</h1>
 
     <div class="top-btn-wrapper">
-        <button onclick="location.href='{{ url_for('gourmet_record') }}'" class="add-button">新規追加</button>
+        <button onclick="location.href='{{ url_for('food.gourmet_record') }}'" class="add-button">
+            新規追加
+        </button>
     </div>
 
     {% if shop_summary|length == 0 %}
         <p class="no-data">まだグルメ情報がありません。</p>
     {% else %}
-        <div class="spot-list">   <!-- ← グリッドも観光地と同じ -->
+        <div class="spot-list">
 
             {% for shop in shop_summary %}
-            <a href="{{ url_for('shop_detail', shop_name=shop.shop_name) }}"
-                class="spot-card-link">
+            <a href="{{ url_for('food.shop_detail', shop_name=shop.shop_name) }}"
+               class="spot-card-link">
 
-                <div class="spot-card">   <!-- ← 観光地一覧と同じカードUI -->
+                <div class="spot-card">
 
                     <div class="spot-info">
                         <h2>{{ shop.shop_name }}</h2>

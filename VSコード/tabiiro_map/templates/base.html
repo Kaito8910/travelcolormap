@@ -8,99 +8,78 @@
     <!-- ファビコン -->
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
 
-    <!-- CSSの参照 -->
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
     <div class="page-layout">
         <div class="page-left">
-            <!-- ヘッダーセクション -->
+            <!-- ヘッダー -->
             <header class="header-section">
                 <div class="app-title">
                     <a href="{{ url_for('home') }}" class="home-link">
                         <img src="{{ url_for('static', filename='images/tabiiro_rogo.png') }}" 
-                            alt="旅色マップロゴ" class="app-logo">
+                             alt="旅色マップロゴ" class="app-logo">
                     </a>
                 </div>
             </header>
-            
-            <!-- メインコンテンツ領域 -->
+
+            <!-- メイン -->
             <main class="main-content-area">
-                {% block main_content %}
-                {% endblock %}
+                {% block main_content %}{% endblock %}
             </main>
         </div>
 
-        <!-- 右側のメニュー/サイドバー部分 -->
+        <!-- サイドバー -->
         <aside class="page-right-sidebar is-closed" id="menu-sidebar">
-            <!-- ハンバーガーメニューアイコン -->
             <div class="menu-icon-container">
                 <div class="menu-icon" id="menu-toggle-button">&#x2261;</div>
             </div>
-            
-            <!-- メニューリスト -->
+
             <nav class="menu-nav" id="menu-list-container">
                 <ul class="menu-list">
-                    <li><a href="{{ url_for('spot_list') }}">観光登録一覧</a></li>
-                    <li><a href="{{ url_for('gourmet_list') }}">グルメ記録一覧</a></li>
-                    <li><a href="{{ url_for('hotel_search') }}">宿泊検索</a></li>
-                    <li><a href="{{ url_for('event_search') }}">イベント検索</a></li>
-                    <li><a href="{{ url_for('spot_search') }}">スポット検索</a></li>
-                    <li><a href="{{ url_for('weather') }}">天気予報</a></li>
-                    <li><a href="{{ url_for('bookmark_list') }}">ブックマーク一覧</a></li>
-                    <li><a href="{{ url_for('user_data') }}">アカウント情報</a></li>
+
+                    <!-- 記録系 -->
+                    <li class="menu-group-title">記録</li>
+                    <li><a href="{{ url_for('spot.spot_list') }}">観光登録一覧</a></li>
+                    <li><a href="{{ url_for('food.gourmet_list') }}">グルメ記録一覧</a></li>
+
+                    <!-- 検索系 -->
+                    <li class="menu-group-title">検索</li>
+                    <li><a href="{{ url_for('hotel.hotel_search') }}">宿泊検索</a></li>
+                    <li><a href="{{ url_for('event.event_search') }}">イベント検索</a></li>
+                    <li><a href="{{ url_for('spot.spot_search') }}">スポット検索</a></li>
+                    <li><a href="{{ url_for('weather.weather') }}">天気予報</a></li>
+                    <li><a href="{{ url_for('bookmark.bookmark_list') }}">ブックマーク一覧</a></li>
+
+                    <!-- アカウント系 -->
+                    <li class="menu-group-title">アカウント</li>
                     {% if session.get('logged_in') %}
-                        <li><a href="{{ url_for('logout') }}">ログアウト</a></li>
+                        <li><a href="{{ url_for('user.user_data') }}">アカウント情報</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">ログアウト</a></li>
                     {% else %}
-                        <li><a href="{{ url_for('login') }}">ログイン</a></li>
+                        <li><a href="{{ url_for('auth.login') }}">ログイン</a></li>
                     {% endif %}
                 </ul>
             </nav>
 
-            {% block sidebar_content %}
-            {% endblock %}
+
+            {% block sidebar_content %}{% endblock %}
         </aside>
     </div>
 
-    {% block scripts %}
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const sidebar = document.getElementById('menu-sidebar');
-                const toggleButton = document.getElementById('menu-toggle-button');
-                const currentPage = "{{ request.endpoint }}";
+    <!-- 現在のページ名を JS へ渡す -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sidebar = document.getElementById("menu-sidebar");
+            sidebar.dataset.currentPage = "{{ request.endpoint }}";
+        });
+    </script>
 
-                function updateSidebarState() {
-                    const isMobile = window.innerWidth < 900;
+    <!-- 外部 JS -->
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bookmark.js') }}"></script>
 
-                    if (isMobile) {
-                        // 📱 スマホは常に閉じる
-                        sidebar.classList.add('is-closed');
-                    } else {
-                        // 💻 PCなら home のときだけ開く
-                        if (currentPage === "home") {
-                            sidebar.classList.remove('is-closed');
-                        } else {
-                            sidebar.classList.add('is-closed');
-                        }
-                    }
-                }
-
-                // 初期設定
-                updateSidebarState();
-
-                // リサイズ時に再判定
-                window.addEventListener('resize', updateSidebarState);
-
-                // ハンバーガーメニュー操作
-                toggleButton.addEventListener('click', () => {
-                    sidebar.classList.toggle('is-closed');
-                });
-            });
-        </script>
-
-
-    {% endblock %}
-<script src="{{ url_for('static', filename='js/bookmark.js') }}"></script>
 </body>
 </html>

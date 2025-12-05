@@ -15,7 +15,7 @@
         {% endif %}
     {% endwith %}
 
-    <form method="POST" action="{{ url_for('spot_register') }}" enctype="multipart/form-data" class="spot-form">
+    <form method="POST" action="{{ url_for('spot.spot_register') }}" enctype="multipart/form-data" class="spot-form">
 
         <!-- 観光地名 -->
         <div class="form-group">
@@ -53,7 +53,6 @@
             <label for="photo">写真</label>
             <input type="file" name="photos[]" multiple accept="image/*">
         </div>
-
 
         <!-- コメント -->
         <div class="form-group">

@@ -5,7 +5,8 @@
 <div class="register-container">
     <h1>イベント検索</h1>
 
-    <form method="GET" action="{{ url_for('event_search_results') }}">
+    <!-- 🔥 Blueprint 対応（event.event_search_results に修正） -->
+    <form method="GET" action="{{ url_for('event.event_search_results') }}">
 
         <!-- 都道府県 -->
         <label for="prefecture">都道府県:</label>

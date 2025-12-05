@@ -38,13 +38,13 @@
                     <p class="memo">{{ f.memo }}</p>
                 {% endif %}
 
-                <a href="{{ url_for('gourmet_detail', food_id=f.food_id) }}"
+                <a href="{{ url_for('food.gourmet_detail', food_id=f.food_id) }}"
                     class="detail-link">→ この記録の詳細を見る</a>
             </div>
         {% endfor %}
     </div>
 
-    <a href="{{ url_for('gourmet_list') }}" class="back-button">一覧へ戻る</a>
+    <a href="{{ url_for('food.gourmet_list') }}" class="back-button">一覧へ戻る</a>
 
 </div>
 

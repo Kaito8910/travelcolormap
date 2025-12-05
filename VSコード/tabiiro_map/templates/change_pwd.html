@@ -13,7 +13,7 @@
         {% endif %}
     {% endwith %}
 
-    <form method="POST" action="{{ url_for('change_pwd') }}" class="register-form">
+    <form method="POST" action="{{ url_for('auth.change_pwd') }}" class="register-form">
         <div class="form-group">
             <label for="current_pwd">現在のパスワード</label>
             <input type="password" id="current_pwd" name="current_pwd" required>
@@ -29,8 +29,8 @@
             <input type="password" id="confirm_pwd" name="confirm_pwd" required>
         </div>
 
-        <button type="submit" class="submit-button">変更する。</button>
-        <a href="{{ url_for('user_data') }}" class="cancel-button">戻る</a>
+        <button type="submit" class="submit-button">変更する</button>
+        <a href="{{ url_for('user.user_data') }}" class="cancel-button">戻る</a>
     </form>
 </div>
 {% endblock %}
