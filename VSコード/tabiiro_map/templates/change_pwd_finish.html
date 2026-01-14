@@ -1,21 +1,15 @@
-{% extends "commons/base.html" %}
+{% extends "base.html" %}
 
-{% block title %}パスワード変更完了{% endblock %}
+{% block title %}パスワード変更完了 | 旅色マップ{% endblock %}
 
-{% block styles %}
-{% endblock %}
+{% block main_content %}
+<div class="register-container">
+    <h1>パスワード変更完了</h1>
 
-{% block headertitle %}パスワード変更完了{% endblock %}
-
-{% block content %}
-<div class="row justify-content-md-center">
-  <div  class="col-4">
     <p>パスワードを変更しました。</p>
-    <div class="form-group row">
-      <div class="col-6">
-        <a class="btn btn-primary btn-block" href="{% url 'accounts:base' %}">トップへ</a>
-      </div>
+
+    <div style="margin-top: 20px;">
+        <a class="btn btn-primary" href="{{ url_for('home') }}">トップへ戻る</a>
     </div>
-  </div>
 </div>
 {% endblock %}

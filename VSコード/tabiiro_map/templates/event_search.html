@@ -1,71 +1,53 @@
 {% extends "base.html" %}
+{% block title %}イベント検索 | 旅色マップ{% endblock %}
+
 {% block main_content %}
-<section class="event-search">
-    <h2>イベント検索</h2>
+<div class="register-container">
+    <h1>イベント検索</h1>
 
-    <form action="{{ url_for('event_search_results') }}" method="post" class="search-form">
-        <select name="area">
-            <option value="">都道府県を選択</option>
-            <option value="北海道">北海道</option>
-            <option value="青森県">青森県</option>
-            <option value="岩手県">岩手県</option>
-            <option value="宮城県">宮城県</option>
-            <option value="秋田県">秋田県</option>
-            <option value="山形県">山形県</option>
-            <option value="福島県">福島県</option>
-            <option value="茨城県">茨城県</option>
-            <option value="栃木県">栃木県</option>
-            <option value="群馬県">群馬県</option>
-            <option value="埼玉県">埼玉県</option>
-            <option value="千葉県">千葉県</option>
-            <option value="東京都">東京都</option>
-            <option value="神奈川県">神奈川県</option>
-            <option value="新潟県">新潟県</option>
-            <option value="富山県">富山県</option>
-            <option value="石川県">石川県</option>
-            <option value="福井県">福井県</option>
-            <option value="山梨県">山梨県</option>
-            <option value="長野県">長野県</option>
-            <option value="岐阜県">岐阜県</option>
-            <option value="静岡県">静岡県</option>
-            <option value="愛知県">愛知県</option>
-            <option value="三重県">三重県</option>
-            <option value="滋賀県">滋賀県</option>
-            <option value="京都府">京都府</option>
-            <option value="大阪府">大阪府</option>
-            <option value="兵庫県">兵庫県</option>
-            <option value="奈良県">奈良県</option>
-            <option value="和歌山県">和歌山県</option>
-            <option value="鳥取県">鳥取県</option>
-            <option value="島根県">島根県</option>
-            <option value="岡山県">岡山県</option>
-            <option value="広島県">広島県</option>
-            <option value="山口県">山口県</option>
-            <option value="徳島県">徳島県</option>
-            <option value="香川県">香川県</option>
-            <option value="愛媛県">愛媛県</option>
-            <option value="高知県">高知県</option>
-            <option value="福岡県">福岡県</option>
-            <option value="佐賀県">佐賀県</option>
-            <option value="長崎県">長崎県</option>
-            <option value="熊本県">熊本県</option>
-            <option value="大分県">大分県</option>
-            <option value="宮崎県">宮崎県</option>
-            <option value="鹿児島県">鹿児島県</option>
-            <option value="沖縄県">沖縄県</option>
+    <!-- 🔥 Blueprint 対応（event.event_search_results に修正） -->
+    <form method="GET" action="{{ url_for('event.event_search_results') }}">
+
+        <!-- 都道府県 -->
+        <label for="prefecture">都道府県:</label>
+        <select name="prefecture" id="prefecture">
+            <option value="">すべて</option>
+            {% for pref in prefectures %}
+                <option value="{{ pref }}">{{ pref }}</option>
+            {% endfor %}
         </select>
 
-        <input type="date" name="date">
+        <br><br>
 
-        <select name="category">
-            <option value="">カテゴリーを選択</option>
-            <option value="花火">花火</option>
-            <option value="祭り">祭り</option>
-            <option value="音楽">音楽</option>
-            <option value="スポーツ">スポーツ</option>
+        <!-- 月 -->
+        <label for="month">月:</label>
+        <select name="month" id="month">
+            <option value="">すべて</option>
+            {% for m in months %}
+                <option value="{{ m }}">{{ m }}月</option>
+            {% endfor %}
         </select>
+
+        <br><br>
+
+        <!-- 上旬・中旬・下旬 -->
+        <label for="period">開催時期:</label>
+        <select name="period" id="period">
+            <option value="">すべて</option>
+            <option value="上旬">上旬</option>
+            <option value="中旬">中旬</option>
+            <option value="下旬">下旬</option>
+        </select>
+
+        <br><br>
+
+        <!-- キーワード -->
+        <label for="keyword">キーワード:</label>
+        <input type="text" id="keyword" name="keyword" placeholder="例: 花火 / 祭り / 夏 / 名称">
+
+        <br><br>
 
         <button type="submit">検索</button>
     </form>
-
+</div>
 {% endblock %}

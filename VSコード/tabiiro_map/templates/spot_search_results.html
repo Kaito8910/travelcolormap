@@ -3,23 +3,69 @@
 
 {% block main_content %}
 <div class="register-container">
+
+    <!-- 検索フォーム -->
+    <form method="GET" action="{{ url_for('spot.spot_search_results') }}">
+
+        <label for="prefecture">都道府県:</label>
+        <select name="prefecture" id="prefecture">
+            <option value="">すべて</option>
+            {% for pref in prefectures %}
+                <option value="{{ pref }}" {% if request.args.get('prefecture') == pref %}selected{% endif %}>
+                    {{ pref }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label for="keyword">キーワード:</label>
+        <input type="text" name="keyword" id="keyword" value="{{ request.args.get('keyword', '') }}">
+
+        <br><br>
+
+        <button type="submit">再検索</button>
+    </form>
+
+    <hr>
+
     <h1>検索結果（{{ results|length }}件）</h1>
 
     {% if results %}
         <ul>
             {% for spot in results %}
                 <li>
+<<<<<<< HEAD
                     <strong>{{ spot.name }}</strong><br>
                     住所：{{ spot.address }}<br>
+=======
+                    <strong>{{ spot.spot_name }}</strong><br>
+                    都道府県：{{ spot.pref_name }}<br>
+                    市区町村：{{ spot.city }}<br>
+>>>>>>> 1de1b9f0b58fdcca89e0dce11d4e9677b377cb26
                     カテゴリ：{{ spot.category }}<br>
                     説明：{{ spot.description }}
                 </li>
+
+                <!-- ブックマークボタン -->
+                {% if session.get('logged_in') %}
+                    <button class="bookmark-btn"
+                        data-type="spot"
+                        data-id="{{ spot.spot_id }}"
+                        data-title="{{ spot.spot_name }}"
+                        data-url="{{ url_for('spot.spot_detail', spot_id=spot.spot_id) }}">
+                        ☆ ブックマーク
+                    </button>
+                {% endif %}
             {% endfor %}
         </ul>
     {% else %}
         <p>条件に一致するスポットは見つかりませんでした。</p>
     {% endif %}
+<<<<<<< HEAD
 
     <a href="{{ url_for('spot_search') }}">検索フォームに戻る</a>
+=======
+>>>>>>> 1de1b9f0b58fdcca89e0dce11d4e9677b377cb26
 </div>
 {% endblock %}

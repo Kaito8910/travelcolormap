@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}観光地編集 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<h1>観光地編集</h1>
+
+<form action="{{ url_for('spot.spot_edit', spot_id=spot.spot_id) }}"
+    method="POST" enctype="multipart/form-data" class="spot-form">
+
+    <!-- 名称 -->
+    <div class="form-group">
+        <label>観光地名</label>
+        <input type="text" name="spot_name" value="{{ spot.name }}" required>
+    </div>
+
+    <!-- 都道府県 -->
+    <div class="form-group">
+        <label>都道府県</label>
+        <select name="prefecture" required>
+            {% for p in prefectures %}
+                <option value="{{ p }}"
+                    {% if spot.prefecture == p.replace("都","").replace("府","").replace("県","") %}
+                        selected
+                    {% endif %}>
+                    {{ p }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- 訪問日 -->
+    <div class="form-group">
+        <label>訪問日</label>
+        <input type="date" name="visit_date"
+            value="{{ spot.visit_date.strftime('%Y-%m-%d') }}" required>
+    </div>
+
+    <!-- コメント -->
+    <div class="form-group">
+        <label>コメント</label>
+        <textarea name="comment">{{ spot.comment }}</textarea>
+    </div>
+
+    <hr>
+
+    <!-- 既存写真一覧 -->
+    <h3>登録済みの写真</h3>
+    <div class="photo-list">
+        {% for p in spot.photos %}
+        <div class="photo-item">
+            <img src="{{ url_for('static', filename='uploads/' + p.filename) }}"
+                class="photo-thumb">
+
+            <button type="button"
+                    class="delete-photo-btn"
+                    data-photo-id="{{ p.photo_id }}"
+                    data-url="{{ url_for('spot.delete_spot_photo', photo_id=p.photo_id) }}">
+                削除
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 新しい写真追加 -->
+    <div class="form-group">
+        <label>写真を追加</label>
+        <input type="file" name="photos[]" multiple accept="image/*">
+        <p>※複数選択できます</p>
+    </div>
+
+    <button type="submit" class="submit-btn">更新</button>
+
+</form>
+
+<script>
+document.addEventListener("click", async (e) => {
+    if (!e.target.classList.contains("delete-photo-btn")) return;
+
+    const url = e.target.dataset.url;
+
+    if (!confirm("この写真を削除しますか？")) return;
+
+    const res = await fetch(url, { method: "POST" });
+
+    if (res.ok) {
+        location.reload();
+    } else {
+        alert("削除に失敗しました。");
+    }
+});
+</script>
+
+{% endblock %}

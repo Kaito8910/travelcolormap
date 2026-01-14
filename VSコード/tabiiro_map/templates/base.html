@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}旅色マップ{% endblock %}</title>
-    <!-- CSSの参照 -->
+
+    <!-- ファビコン -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="page-layout">
         <div class="page-left">
-            <!-- ヘッダーセクション -->
+            <!-- ヘッダー -->
             <header class="header-section">
                 <div class="app-title">
                     <a href="{{ url_for('home') }}" class="home-link">
@@ -19,57 +24,67 @@
                     </a>
                 </div>
             </header>
-            
-            <!-- メインコンテンツ領域 -->
+
+            <!-- メイン -->
             <main class="main-content-area">
-                {% block main_content %}
-                {% endblock %}
+                {% block main_content %}{% endblock %}
             </main>
         </div>
 
+<<<<<<< HEAD
         <!-- 右側のメニュー/サイドバー部分 -->
         <aside class="page-right-sidebar is-closed" id="menu-sidebar">
             <!-- ハンバーガーメニューアイコン -->
+=======
+        <!-- サイドバー -->
+        <aside class="page-right-sidebar is-closed" id="menu-sidebar">
+>>>>>>> 1de1b9f0b58fdcca89e0dce11d4e9677b377cb26
             <div class="menu-icon-container">
                 <div class="menu-icon" id="menu-toggle-button">&#x2261;</div>
             </div>
-            
-            <!-- メニューリスト -->
+
             <nav class="menu-nav" id="menu-list-container">
                 <ul class="menu-list">
-                    <li><a href="{{ url_for('spot_register') }}">観光地登録</a></li>
-                    <li><a href="{{ url_for('gourmet_record') }}">グルメ記録</a></li>
-                    <li><a href="{{ url_for('stay_search') }}">宿泊検索</a></li>
-                    <li><a href="{{ url_for('event_search') }}">イベント検索</a></li>
-                    <li><a href="{{ url_for('spot_search') }}">スポット検索</a></li>
-                    <li><a href="{{ url_for('user_data') }}">アカウント情報</a></li>
+                    <!-- 記録系 -->
+                    <li class="menu-group-title">記録</li>
+                    <li><a href="{{ url_for('spot.spot_list') }}">観光登録一覧</a></li>
+                    <li><a href="{{ url_for('food.gourmet_list') }}">グルメ記録一覧</a></li>
+
+                    <!-- 検索系 -->
+                    <li class="menu-group-title">検索</li>
+                    <li><a href="{{ url_for('hotel.hotel_search') }}">宿泊検索</a></li>
+                    <li><a href="{{ url_for('event.event_search') }}">イベント検索</a></li>
+                    <li><a href="{{ url_for('spot.spot_search') }}">スポット検索</a></li>
+                    <li><a href="{{ url_for('weather.weather') }}">天気予報</a></li>
+                    <li><a href="{{ url_for('bookmark.bookmark_list') }}">ブックマーク一覧</a></li>
+
+                    <!-- アカウント系 -->
+                    <li class="menu-group-title">アカウント</li>
                     {% if session.get('logged_in') %}
-                        <li><a href="{{ url_for('logout') }}">ログアウト</a></li>
+                        <li><a href="{{ url_for('user.user_data') }}">アカウント情報</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">ログアウト</a></li>
                     {% else %}
-                        <li><a href="{{ url_for('login') }}">ログイン</a></li>
+                        <li><a href="{{ url_for('auth.login') }}">ログイン</a></li>
                     {% endif %}
                 </ul>
             </nav>
 
-            {% block sidebar_content %}
-            {% endblock %}
+
+            {% block sidebar_content %}{% endblock %}
         </aside>
     </div>
 
-    {% block scripts %}
-        <!-- トグル機能用JavaScript -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const toggleButton = document.getElementById('menu-toggle-button');
-                const sidebar = document.getElementById('menu-sidebar');
-                
-                if (toggleButton && sidebar) {
-                    toggleButton.addEventListener('click', function() {
-                        sidebar.classList.toggle('is-closed');
-                    });
-                }
-            });
-        </script>
-    {% endblock %}
+    <!-- 現在のページ名を JS へ渡す -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sidebar = document.getElementById("menu-sidebar");
+            sidebar.dataset.currentPage = "{{ request.endpoint }}";
+        });
+    </script>
+
+    <!-- 外部 JS -->
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bookmark.js') }}"></script>
+
 </body>
 </html>

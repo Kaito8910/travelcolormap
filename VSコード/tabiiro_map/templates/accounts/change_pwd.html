@@ -14,7 +14,7 @@
         {% endif %}
     {% endwith %}
 
-    <form action="{{ url_for('change_pwd') }}" method="POST" class="register-form">
+    <form action="{{ url_for('user.change_password') }}" method="POST" class="register-form">
 
         <div class="form-group">
             <label for="current_pwd">現在のパスワード</label>
@@ -35,7 +35,7 @@
     </form>
 
     <div style="margin-top: 20px;">
-        <a href="{{ url_for('user_data') }}" class="btn btn-secondary">戻る</a>
+        <a href="{{ url_for('user.user_data') }}" class="btn btn-secondary">戻る</a>
     </div>
 </div>
 {% endblock %}

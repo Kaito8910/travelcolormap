@@ -1,61 +1,70 @@
 {% extends "base.html" %}
-
 {% block title %}ブックマーク一覧 | 旅色マップ{% endblock %}
 
 {% block main_content %}
-<div class="bookmark-list-container">
-    <h2>ブックマーク一覧</h2>
 
-    <div class="filter-section">
-        <label for="filter-tag">タグで絞り込み：</label>
-        <select id="filter-tag" name="tag">
-            <option value="">すべて</option>
-            <option value="観光">観光</option>
-            <option value="グルメ">グルメ</option>
-            <option value="宿泊">宿泊</option>
-            <option value="イベント">イベント</option>
-        </select>
+<h1 style="margin: 20px 0;">ブックマーク一覧</h1>
+
+<!-- ★★★★★ 絞り込みUI ★★★★★ -->
+<form method="GET" action="{{ url_for('bookmark.bookmark_list') }}" style="margin-bottom: 20px;">
+    <label>種別で絞り込み：</label>
+    <select name="filter" onchange="this.form.submit()">
+        <option value="all"   {% if filter == 'all' %}selected{% endif %}>すべて</option>
+        <option value="hotel" {% if filter == 'hotel' %}selected{% endif %}>ホテル</option>
+        <option value="event" {% if filter == 'event' %}selected{% endif %}>イベント</option>
+        <option value="spot"  {% if filter == 'spot' %}selected{% endif %}>観光スポット</option>
+    </select>
+</form>
+<!-- ★★★★★ ここまで ★★★★★ -->
+
+{% if bookmarks %}
+<div class="bookmark-list-container">
+    {% for bm in bookmarks %}
+    
+    <div class="bookmark-card-wrapper">
+
+        <!-- ★ 削除ボタン（カード上に表示） -->
+        <form method="POST"
+                action="{{ url_for('bookmark.bookmark_delete') }}"
+                class="bookmark-delete-form">
+            <input type="hidden" name="type" value="{{ bm.target_type }}">
+            <input type="hidden" name="id" value="{{ bm.target_id }}">
+            <button class="bookmark-delete-btn">✕</button>
+        </form>
+
+        <!-- ★ カード全体クリックで詳細へ遷移 -->
+        <a href="{{ bm.detail_url }}" target="_blank" class="bookmark-card-link">
+            <div class="bookmark-card">
+                {% if bm.thumb %}
+                    <img src="{{ bm.thumb }}" class="bookmark-thumb">
+                {% else %}
+                    <div class="bookmark-thumb no-thumb">No Image</div>
+                {% endif %}
+
+                <div class="bookmark-info">
+                    <div class="bookmark-title">{{ bm.title }}</div>
+
+                    <div class="bookmark-type">
+                        種別：
+                        {% if bm.target_type == 'hotel' %}
+                            ホテル
+                        {% elif bm.target_type == 'event' %}
+                            イベント
+                        {% elif bm.target_type == 'spot' %}
+                            観光スポット
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </a>
+
     </div>
 
-    <table class="bookmark-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>スポット名</th>
-                <th>タグ</th>
-                <th>グルメ</th>
-                <th>イベント</th>
-                <th>メモ</th>
-                <th>登録日</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>001</td>
-                <td>東京タワー</td>
-                <td>観光</td>
-                <td>ー</td>
-                <td>桜まつり</td>
-                <td>夜景が最高</td>
-                <td>2025/04/12</td>
-                <td>
-                    <button class="btn-edit">編集</button>
-                    <button class="btn-delete">削除</button>
-                </td>
-            </tr>
-            <tr>
-                <td>002</td>
-                <td>銀座寿司大</td>
-                <td>グルメ</td>
-                <td>寿司</td>
-                <td>ー</td>
-                <td>特上コースが絶品</td>
-                <td>2025/05/01</td>
-                <td>
-                    <button class="btn-edit">編集</button>
-                    <button class="btn-delete">削除</button>
-                </td>
-        </tbody>
-    </table>
+    {% endfor %}
 </div>
+
+{% else %}
+<p>該当するブックマークはありません。</p>
+{% endif %}
+
 {% endblock %}
