@@ -6,7 +6,7 @@
 <h1>観光地編集</h1>
 
 <form action="{{ url_for('spot.spot_edit', spot_id=spot.spot_id) }}"
-      method="POST" enctype="multipart/form-data" class="spot-form">
+    method="POST" enctype="multipart/form-data" class="spot-form">
 
     <!-- 名称 -->
     <div class="form-group">
@@ -33,7 +33,7 @@
     <div class="form-group">
         <label>訪問日</label>
         <input type="date" name="visit_date"
-               value="{{ spot.visit_date.strftime('%Y-%m-%d') }}" required>
+            value="{{ spot.visit_date.strftime('%Y-%m-%d') }}" required>
     </div>
 
     <!-- コメント -->
@@ -50,7 +50,7 @@
         {% for p in spot.photos %}
         <div class="photo-item">
             <img src="{{ url_for('static', filename='uploads/' + p.filename) }}"
-                 class="photo-thumb">
+                class="photo-thumb">
 
             <button type="button"
                     class="delete-photo-btn"
