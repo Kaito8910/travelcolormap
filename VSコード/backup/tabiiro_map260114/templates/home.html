@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}ホーム | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<div class="home-container">
+
+    <!-- ▼ 日本地図を埋め込む枠 -->
+    <p></p>
+    <div id="japan-map-container" class="map-wrapper">
+        <!-- map.js が SVG を読み込む -->
+    </div>
+
+</div>
+<style>
+#japan-map-container {
+    width: 100%;
+    max-width: 475px;     /* ← 地図の最大幅（変更可能） */
+    margin: 0 auto;
+}
+
+#japan-map-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+</style>
+
+<!-- map.js を読み込み -->
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+
+{% endblock %}

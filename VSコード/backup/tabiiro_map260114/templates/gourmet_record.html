@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}グルメ記録 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<div class="gourmet-container">
+
+    <h1 class="page-title">グルメ記録</h1>
+
+    <form action="{{ url_for('food.add_gourmet') }}" method="POST"
+        enctype="multipart/form-data" class="gourmet-form">
+
+        <div class="form-group">
+            <label for="shop_name">店舗名</label>
+            <input type="text" id="shop_name" name="shop_name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="food_name">料理名</label>
+            <input type="text" id="food_name" name="food_name" required>
+        </div>
+
+        <div class="form-group">
+            <label>評価</label>
+            <div class="star-rating">
+                <span data-value="1">★</span>
+                <span data-value="2">★</span>
+                <span data-value="3">★</span>
+                <span data-value="4">★</span>
+                <span data-value="5">★</span>
+            </div>
+            <input type="hidden" id="evaluation" name="evaluation" value="3"> 
+        </div>
+
+        <div class="form-group">
+            <label for="visit_date">日付</label>
+            <input type="date" id="visit_date" name="visit_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="photo">写真</label>
+            <input type="file" name="photos" multiple accept="image/*">
+        </div>
+
+        <div class="form-group">
+            <label for="memo">コメント</label>
+            <textarea id="memo" name="memo" rows="4"></textarea>
+        </div>
+
+        <div class="submit-area">
+            <button type="submit" class="submit-btn">登録</button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/gourmet_record.js') }}"></script>
+{% endblock %}

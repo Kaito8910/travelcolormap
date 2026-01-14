@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}イベント検索 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>イベント検索</h1>
+
+    <!-- 🔥 Blueprint 対応（event.event_search_results に修正） -->
+    <form method="GET" action="{{ url_for('event.event_search_results') }}">
+
+        <!-- 都道府県 -->
+        <label for="prefecture">都道府県:</label>
+        <select name="prefecture" id="prefecture">
+            <option value="">すべて</option>
+            {% for pref in prefectures %}
+                <option value="{{ pref }}">{{ pref }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <!-- 月 -->
+        <label for="month">月:</label>
+        <select name="month" id="month">
+            <option value="">すべて</option>
+            {% for m in months %}
+                <option value="{{ m }}">{{ m }}月</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <!-- 上旬・中旬・下旬 -->
+        <label for="period">開催時期:</label>
+        <select name="period" id="period">
+            <option value="">すべて</option>
+            <option value="上旬">上旬</option>
+            <option value="中旬">中旬</option>
+            <option value="下旬">下旬</option>
+        </select>
+
+        <br><br>
+
+        <!-- キーワード -->
+        <label for="keyword">キーワード:</label>
+        <input type="text" id="keyword" name="keyword" placeholder="例: 花火 / 祭り / 夏 / 名称">
+
+        <br><br>
+
+        <button type="submit">検索</button>
+    </form>
+</div>
+{% endblock %}

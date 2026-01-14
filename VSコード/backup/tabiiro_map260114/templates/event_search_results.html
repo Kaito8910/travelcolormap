@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}イベント検索結果 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<div class="event-search-form">
+    <form method="GET" action="{{ url_for('event.event_search_results') }}">
+
+        <label>都道府県:</label>
+        <select name="prefecture">
+            <option value="">すべて</option>
+            {% for p in prefectures %}
+                <option value="{{ p }}" {% if request.args.get("prefecture") == p %}selected{% endif %}>{{ p }}</option>
+            {% endfor %}
+        </select>
+
+        <label>開催月:</label>
+        <select name="month">
+            <option value="">すべて</option>
+            {% for m in months %}
+                <option value="{{ m }}" {% if request.args.get("month") == m|string %}selected{% endif %}>{{ m }}月</option>
+            {% endfor %}
+        </select>
+
+        <label>開催時期:</label>
+        <select name="period">
+            <option value="">すべて</option>
+            <option value="上旬" {% if request.args.get("period") == "上旬" %}selected{% endif %}>上旬</option>
+            <option value="中旬" {% if request.args.get("period") == "中旬" %}selected{% endif %}>中旬</option>
+            <option value="下旬" {% if request.args.get("period") == "下旬" %}selected{% endif %}>下旬</option>
+        </select>
+
+        <label>キーワード:</label>
+        <input type="text" name="keyword" value="{{ request.args.get('keyword', '') }}">
+
+        <button type="submit">再検索</button>
+    </form>
+</div>
+
+<hr>
+
+<div class="event-results-container">
+    {% for ev in results %}
+    <div class="event-card">
+        <div class="event-title">{{ ev.event_name }}</div>
+        <div class="event-meta">
+            <span class="event-tag-month">{{ ev.month }}</span>
+            {{ ev.pref_name }} / {{ ev.city }}
+            <span class="event-category-tag">{{ ev.category }}</span>
+
+            <!-- JSが Blueprint 対応済みなら OK -->
+            {% if session.get('logged_in') %}
+                <button class="bookmark-btn"
+                    data-type="event"
+                    data-id="{{ ev.event_id }}"
+                    data-title="{{ ev.event_name }}"
+                    data-url="{{ ev.event_url }}">
+                    ☆ ブックマーク
+                </button>
+            {% endif %}
+        </div>
+
+        <div class="event-description">{{ ev.description }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

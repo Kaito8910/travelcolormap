@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}ブックマーク一覧 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<h1 style="margin: 20px 0;">ブックマーク一覧</h1>
+
+<!-- ★★★★★ 絞り込みUI ★★★★★ -->
+<form method="GET" action="{{ url_for('bookmark.bookmark_list') }}" style="margin-bottom: 20px;">
+    <label>種別で絞り込み：</label>
+    <select name="filter" onchange="this.form.submit()">
+        <option value="all"   {% if filter == 'all' %}selected{% endif %}>すべて</option>
+        <option value="hotel" {% if filter == 'hotel' %}selected{% endif %}>ホテル</option>
+        <option value="event" {% if filter == 'event' %}selected{% endif %}>イベント</option>
+        <option value="spot"  {% if filter == 'spot' %}selected{% endif %}>観光スポット</option>
+    </select>
+</form>
+<!-- ★★★★★ ここまで ★★★★★ -->
+
+{% if bookmarks %}
+<div class="bookmark-list-container">
+    {% for bm in bookmarks %}
+    
+    <div class="bookmark-card-wrapper">
+
+        <!-- ★ 削除ボタン（カード上に表示） -->
+        <form method="POST"
+                action="{{ url_for('bookmark.bookmark_delete') }}"
+                class="bookmark-delete-form">
+            <input type="hidden" name="type" value="{{ bm.target_type }}">
+            <input type="hidden" name="id" value="{{ bm.target_id }}">
+            <button class="bookmark-delete-btn">✕</button>
+        </form>
+
+        <!-- ★ カード全体クリックで詳細へ遷移 -->
+        <a href="{{ bm.detail_url }}" target="_blank" class="bookmark-card-link">
+            <div class="bookmark-card">
+                {% if bm.thumb %}
+                    <img src="{{ bm.thumb }}" class="bookmark-thumb">
+                {% else %}
+                    <div class="bookmark-thumb no-thumb">No Image</div>
+                {% endif %}
+
+                <div class="bookmark-info">
+                    <div class="bookmark-title">{{ bm.title }}</div>
+
+                    <div class="bookmark-type">
+                        種別：
+                        {% if bm.target_type == 'hotel' %}
+                            ホテル
+                        {% elif bm.target_type == 'event' %}
+                            イベント
+                        {% elif bm.target_type == 'spot' %}
+                            観光スポット
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+    {% endfor %}
+</div>
+
+{% else %}
+<p>該当するブックマークはありません。</p>
+{% endif %}
+
+{% endblock %}
