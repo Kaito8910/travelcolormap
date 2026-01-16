@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ spot.name }} の詳細 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="detail-container">
+
+    <h1>{{ spot.name }}</h1>
+
+    <!-- 写真 -->
+    {% if spot.photo %}
+        <img class="detail-photo"
+            src="{{ url_for('static', filename='uploads/' + spot.photo) }}"
+            alt="{{ spot.name }}">
+    {% else %}
+        <div class="no-photo detail-no-photo">写真なし</div>
+    {% endif %}
+
+    <div class="detail-info">
+        <p><strong>都道府県:</strong> {{ spot.prefecture }}</p>
+        <p><strong>訪問日:</strong> {{ spot.visit_date }}</p>
+        {% if spot.weather %}
+            <p><strong>天気:</strong> {{ spot.weather }}</p>
+        {% endif %}
+        {% if spot.temp_max %}
+            <p><strong>最高気温:</strong> {{ spot.temp_max }}℃</p>
+        {% endif %}
+        {% if spot.temp_min %}
+            <p><strong>最低気温:</strong> {{ spot.temp_min }}℃</p>
+        {% endif %}
+        {% if spot.precipitation %}
+            <p><strong>降水量:</strong> {{ spot.precipitation }}mm</p>
+        {% endif %}
+
+        {% if spot.comment %}
+            <p><strong>コメント:</strong><br>{{ spot.comment }}</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('spot_edit', spot_id=spot.spot_id) }}" class="edit-button">編集</a>
+    <a href="{{ url_for('spot_list') }}" class="back-button">一覧へ戻る</a>
+</div>
+{% endblock %}

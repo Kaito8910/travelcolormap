@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}旅色マップ - ホーム{% endblock %}
+
+{% block main_content %}
+<div class="two-column-layout">
+
+    <!-- 左側：本物の SVG 日本地図 -->
+    <div class="map-placeholder">
+        <div id="japan-map-container">
+            <object id="japan-map"
+                    type="image/svg+xml"
+                    data="{{ url_for('static', filename='svg/map-full.svg') }}">
+            </object>
+        </div>
+    </div>
+
+
+    <!-- 右側のメニュー -->
+    <div class="right-blocks-container">
+        <div class="info-block block-item"><a href="{{ url_for('weather') }}">天気</a></div>
+        <div class="search-block block-item"><a href="#">検索</a></div>
+        <div class="record-block block-item"><a href="#">記録</a></div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    function getColor(count) {
+        if (count === 0) return "#EEEEEE";
+        if (count === 1) return "#A8DADC";
+        if (count === 2) return "#74B3C6";
+        if (count === 3) return "#457B9D";
+        return "#1D3557";
+    }
+
+    const totalCount = {};
+
+    $("#japan-map").on("load", async function () {
+        const svgDoc = this.contentDocument;
+
+        const response = await fetch("/api/pref_counts");
+        const prefVisited = await response.json();
+
+        Object.keys(prefVisited).forEach(pref => {
+            totalCount[pref] = prefVisited[pref];
+        });
+
+        const clickCount = {};
+        const prefectures = svgDoc.querySelectorAll("g.prefecture");
+
+        prefectures.forEach(pref => {
+            const titleTag = pref.querySelector("title");
+            if (!titleTag) return;
+
+            const fullTitle = titleTag.textContent.trim();
+            const prefName = fullTitle.split("/")[0].trim();
+
+            if (!(prefName in totalCount)) totalCount[prefName] = 0;
+            clickCount[prefName] = 0;
+
+            const initial = totalCount[prefName];
+            pref.querySelectorAll("polygon, path").forEach(elem => {
+                elem.style.fill = getColor(initial);
+            });
+
+            pref.addEventListener("click", () => {
+                clickCount[prefName] += 1;
+
+                const sum = totalCount[prefName] + clickCount[prefName];
+
+                pref.querySelectorAll("polygon, path").forEach(elem => {
+                    elem.style.fill = getColor(sum);
+                });
+
+                console.log(`${prefName}: 初期=${initial} / クリック=${clickCount[prefName]} / 合計=${sum}`);
+            });
+
+        });
+    });
+
+});
+</script>
+{% endblock %}

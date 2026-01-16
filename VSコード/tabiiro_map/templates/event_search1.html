@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}イベント検索 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>イベント検索（Connpass）</h1>
+
+    <!-- フラッシュメッセージ -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="flash-message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- 🔥 Blueprint 対応 -->
+    <form method="GET" action="{{ url_for('event.event_search_results') }}">
+
+        <!-- キーワード -->
+        <label for="keyword">キーワード:</label>
+        <input type="text" id="keyword" name="keyword" value="{{ request.args.get('keyword', '') }}">
+
+        <br><br>
+
+        <!-- 日付（YYYYMMDD） -->
+        <label for="ymd">日付 (YYYYMMDD):</label>
+        <input type="text" id="ymd" name="ymd" value="{{ request.args.get('ymd', '') }}">
+
+        <br><br>
+
+        <!-- 都道府県 -->
+        <label for="prefecture">都道府県:</label>
+        <select id="prefecture" name="prefecture">
+            <option value="">-- 選択してください --</option>
+
+            {% for pref in prefectures %}
+                <option value="{{ pref }}" 
+                    {% if request.args.get('prefecture') == pref %}selected{% endif %}>
+                    {{ pref }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <button type="submit">検索</button>
+    </form>
+</div>
+{% endblock %}

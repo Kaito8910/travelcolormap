@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}グルメ詳細 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<div class="gourmet-detail-container">
+
+    <h1 class="page-title">グルメ詳細</h1>
+
+    <!-- 写真 -->
+    {% if food.photo %}
+        <img src="{{ url_for('static', filename='uploads/' ~ food.photo) }}"
+            alt="{{ food.shop_name }}" class="detail-photo">
+    {% else %}
+        <div class="no-photo big">写真なし</div>
+    {% endif %}
+
+    <div class="detail-info">
+
+        <p><strong>店舗名：</strong>{{ food.shop_name }}</p>
+
+        <p><strong>料理名：</strong>{{ food.food_name }}</p>
+
+        <p><strong>評価：</strong>
+            {% for i in range(food.evaluation) %}★{% endfor %}
+            {% for i in range(5 - food.evaluation) %}☆{% endfor %}
+        </p>
+
+        <p><strong>訪問日：</strong>{{ food.visit_date }}</p>
+
+        {% if food.memo %}
+            <p><strong>コメント：</strong><br>{{ food.memo }}</p>
+        {% endif %}
+    </div>
+
+    <div class="detail-buttons">
+        <a href="{{ url_for('gourmet_edit', food_id=food.food_id) }}" class="edit-button">編集する</a>
+
+        <form method="POST"
+            action="{{ url_for('gourmet_delete', food_id=food.food_id) }}"
+            onsubmit="return confirm('この記録を削除しますか？');"
+            class="delete-form">
+            <button type="submit" class="delete-button">削除する</button>
+        </form>
+
+        <a href="{{ url_for('gourmet_list') }}" class="back-button">一覧へ戻る</a>
+    </div>
+
+</div>
+
+{% endblock %}

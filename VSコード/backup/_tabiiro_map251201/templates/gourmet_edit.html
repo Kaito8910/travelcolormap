@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}グルメ編集 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<h1>グルメ編集</h1>
+
+<form action="{{ url_for('gourmet_edit', food_id=food.food_id) }}"
+    method="POST" enctype="multipart/form-data" class="gourmet-form">
+
+    <div class="form-group">
+        <label>店舗名</label>
+        <input type="text" name="shop_name" value="{{ food.shop_name }}" required>
+    </div>
+
+    <div class="form-group">
+        <label>料理名</label>
+        <input type="text" name="food_name" value="{{ food.food_name }}" required>
+    </div>
+
+    <div class="form-group">
+        <label>評価</label>
+        <div class="star-rating">
+            <span data-value="5">★</span>
+            <span data-value="4">★</span>
+            <span data-value="3">★</span>
+            <span data-value="2">★</span>
+            <span data-value="1">★</span>
+        </div>
+        <input type="hidden" id="evaluation" name="evaluation" value="{{ food.evaluation }}">
+    </div>
+
+
+    <div class="form-group">
+        <label>訪問日</label>
+        <input type="date" name="visit_date" value="{{ food.visit_date }}">
+    </div>
+
+    <div class="form-group">
+        <label>メモ</label>
+        <textarea name="memo" rows="4">{{ food.memo }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label>写真変更</label><br>
+        {% if food.photo %}
+            <img src="{{ url_for('static', filename='uploads/' + food.photo) }}"
+                class="edit-photo-preview">
+        {% endif %}
+        <input type="file" name="photo" accept="image/*">
+    </div>
+
+    <button type="submit" class="submit-btn">更新</button>
+
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const stars = document.querySelectorAll(".star-rating span");
+    const evaluationInput = document.getElementById("evaluation");
+
+    let currentValue = parseInt(evaluationInput.value);
+
+    // 初期表示（編集中の評価を反映）
+    highlightStars(currentValue);
+
+    stars.forEach(star => {
+        star.addEventListener("mouseenter", () => {
+            const val = parseInt(star.dataset.value);
+            highlightStars(val);
+        });
+
+        star.addEventListener("click", () => {
+            currentValue = parseInt(star.dataset.value);
+            evaluationInput.value = currentValue;
+            highlightStars(currentValue);
+        });
+    });
+
+    document.querySelector(".star-rating").addEventListener("mouseleave", () => {
+        highlightStars(currentValue);
+    });
+
+    function highlightStars(val) {
+        stars.forEach(s => {
+            const starVal = parseInt(s.dataset.value);
+            if (starVal <= val) {
+                s.classList.add("selected");
+            } else {
+                s.classList.remove("selected");
+            }
+        });
+    }
+});
+</script>
+
+{% endblock %}
