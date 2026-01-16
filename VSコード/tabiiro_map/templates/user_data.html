@@ -5,15 +5,6 @@
 <div class="register-container">
     <h1>ユーザー情報確認</h1>
 
-    <!-- フラッシュメッセージ -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <p class="flash-message {{ category }}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     <!-- ユーザー情報更新フォーム -->
     <form method="POST" action="{{ url_for('user.update_user_data') }}" class="register-form">
         <div class="form-group">
@@ -32,7 +23,7 @@
                 <input type="password" id="password" name="password" value="********" readonly>
 
                 <!-- パスワード変更は auth Blueprint に所属している想定 -->
-                <a href="{{ url_for('auth.change_pwd') }}" class="btn btn-secondary" style="white-space: nowrap;">
+                <a href="{{ url_for('user.change_password') }}" class="btn btn-secondary" style="white-space: nowrap;">
                     パスワード変更
                 </a>
             </div>
@@ -44,8 +35,8 @@
     <!-- アカウント削除フォーム -->
     <form method="POST" action="{{ url_for('user.delete_account') }}"
         onsubmit="return confirm('本当にアカウントを削除しますか？ この操作は取り消せません。');">
-        <button type="submit" class="submit-button" style="background-color: #d9534f;">
-            アカウントを削除する
+        <button type="submit" class="submit-button" style="background-color: #ff726d;">
+            アカウント削除
         </button>
     </form>
 </div>
