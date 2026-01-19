@@ -26,14 +26,22 @@
     <!-- 評価 -->
     <div class="form-group">
         <label>評価</label>
-        <select name="evaluation" required>
-            <option value="1" {% if food.evaluation == 1 %}selected{% endif %}>★☆☆☆☆</option>
-            <option value="2" {% if food.evaluation == 2 %}selected{% endif %}>★★☆☆☆</option>
-            <option value="3" {% if food.evaluation == 3 %}selected{% endif %}>★★★☆☆</option>
-            <option value="4" {% if food.evaluation == 4 %}selected{% endif %}>★★★★☆</option>
-            <option value="5" {% if food.evaluation == 5 %}selected{% endif %}>★★★★★</option>
-        </select>
+
+        <div class="star-rating">
+            {% for i in range(5, 0, -1) %}
+            <input
+                type="radio"
+                id="star{{ i }}"
+                name="evaluation"
+                value="{{ i }}"
+                required
+                {% if food.evaluation|int == i %}checked{% endif %}
+            >
+            <label for="star{{ i }}" title="{{ i }} / 5">★</label>
+            {% endfor %}
+        </div>
     </div>
+
 
     <!-- 訪問日 -->
     <div class="form-group">
