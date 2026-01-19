@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}パスワード変更完了 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>パスワード変更完了</h1>
+
+    <p>パスワードを変更しました。</p>
+
+    <div style="margin-top: 20px;">
+        <a class="btn btn-primary" href="{{ url_for('home') }}">トップへ戻る</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}イベント検索結果 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>検索結果（{{ results|length }}件）</h1>
+
+    {% if results %}
+        <div class="result-cards">
+            {% for ev in results %}
+                <div class="spot-card">
+                    <h3>{{ ev.event_name }}</h3>
+
+                    {% if ev.month %}
+                        <p><strong>開催月:</strong> {{ ev.month }}</p>
+                    {% endif %}
+                    {% if ev.pref_name %}
+                        <p><strong>都道府県:</strong> {{ ev.pref_name }}</p>
+                    {% endif %}
+                    {% if ev.city %}
+                        <p><strong>市区町村:</strong> {{ ev.city }}</p>
+                    {% endif %}
+                    {% if ev.category %}
+                        <p><strong>カテゴリ:</strong> {{ ev.category }}</p>
+                    {% endif %}
+                    {% if ev.description %}
+                        <p><strong>説明:</strong> {{ ev.description }}</p>
+                    {% endif %}
+
+                    {% if ev.event_url %}
+                        <p><a href="{{ ev.event_url }}" target="_blank">イベント詳細を見る</a></p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>該当するイベントは見つかりませんでした。</p>
+    {% endif %}
+
+    <!-- 戻るボタン -->
+    <a href="{{ url_for('event.event_search') }}" class="btn btn-secondary mt-3">検索画面に戻る</a>
+</div>
+{% endblock %}

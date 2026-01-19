@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}グルメ編集 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<h1>グルメ編集</h1>
+
+<!-- ============================== -->
+<!-- グルメ編集フォーム（メイン） -->
+<!-- ============================== -->
+<form action="{{ url_for('food.gourmet_edit', food_id=food.food_id) }}"
+    method="POST" enctype="multipart/form-data" class="gourmet-form">
+
+    <!-- 店舗名 -->
+    <div class="form-group">
+        <label>店舗名</label>
+        <input type="text" name="shop_name" value="{{ food.shop_name }}" required>
+    </div>
+
+    <!-- 料理名 -->
+    <div class="form-group">
+        <label>料理名</label>
+        <input type="text" name="food_name" value="{{ food.food_name }}" required>
+    </div>
+
+    <!-- 評価 -->
+    <div class="form-group">
+        <label>評価</label>
+
+        <div class="star-rating">
+            {% for i in range(5, 0, -1) %}
+            <input
+                type="radio"
+                id="star{{ i }}"
+                name="evaluation"
+                value="{{ i }}"
+                required
+                {% if food.evaluation|int == i %}checked{% endif %}
+            >
+            <label for="star{{ i }}" title="{{ i }} / 5">★</label>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!-- 訪問日 -->
+    <div class="form-group">
+        <label>訪問日</label>
+        <input type="date" name="visit_date"
+            value="{{ food.visit_date.strftime('%Y-%m-%d') }}" required>
+    </div>
+
+    <!-- メモ -->
+    <div class="form-group">
+        <label>メモ</label>
+        <textarea name="memo">{{ food.memo }}</textarea>
+    </div>
+
+    <!-- ============================== -->
+    <!-- 写真一覧（削除ボタン付き） -->
+    <!-- ============================== -->
+    <h3>登録済みの写真</h3>
+    <div class="photo-list">
+        {% for p in food.photos %}
+        <div class="photo-item">
+            <img src="{{ url_for('static', filename='uploads/' + p.filename) }}"
+                class="photo-thumb">
+            <button type="button"
+                    class="delete-photo-btn"
+                    data-photo-id="{{ p.photo_id }}">
+                削除
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 新しい画像追加（複数） -->
+    <div class="form-group">
+        <label>写真を追加</label>
+        <input type="file" name="photos[]" multiple accept="image/*">
+        <p>※複数枚選択できます</p>
+    </div>
+
+    <button type="submit" class="submit-btn">更新</button>
+
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/gourmet_edit.js') }}"></script>
+{% endblock %}

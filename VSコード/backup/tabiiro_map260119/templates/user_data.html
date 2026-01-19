@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}ユーザー情報確認 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>ユーザー情報確認</h1>
+
+    <!-- ユーザー情報更新フォーム -->
+    <form method="POST" action="{{ url_for('user.update_user_data') }}" class="register-form">
+        <div class="form-group">
+            <label for="username">ユーザー名</label>
+            <input type="text" id="username" name="username" value="{{ user.username }}" disabled>
+        </div>
+
+        <div class="form-group">
+            <label for="email">メールアドレス</label>
+            <input type="email" id="email" name="email" value="{{ user.email }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">パスワード</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <input type="password" id="password" name="password" value="********" readonly>
+
+                <!-- パスワード変更は auth Blueprint に所属している想定 -->
+                <a href="{{ url_for('user.change_password') }}" class="btn btn-secondary" style="white-space: nowrap;">
+                    パスワード変更
+                </a>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-button">更新する</button>
+    </form>
+
+    <!-- アカウント削除フォーム -->
+    <form method="POST" action="{{ url_for('user.delete_account') }}"
+        onsubmit="return confirm('本当にアカウントを削除しますか？ この操作は取り消せません。');">
+        <button type="submit" class="submit-button" style="background-color: #ff726d;">
+            アカウント削除
+        </button>
+    </form>
+</div>
+{% endblock %}

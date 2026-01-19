@@ -1,0 +1,279 @@
+# routes/spot.py
+
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from models import db, Spot, Photo
+from datetime import datetime
+import os
+import requests
+from config import PREF_LATLON, PREF_LIST
+from utils.weather_utils import convert_weather_icon
+
+# =============================================
+# /spot をルートに統一
+# =============================================
+spot_bp = Blueprint("spot", __name__, url_prefix="/spot")
+
+
+# ====================================================
+# 観光地登録
+#   GET  /spot/register
+#   POST /spot/register
+# ====================================================
+@spot_bp.route('/register', methods=['GET', 'POST'])
+def spot_register():
+    if not session.get('logged_in'):
+        return redirect(url_for('auth.login'))
+
+    if request.method == 'POST':
+        user_id = session.get('user_id')
+
+        spot_name = request.form.get("spot_name")
+        pref_full = request.form.get("prefecture")
+        visit_date_str = request.form.get('visit_date')
+        comment = request.form.get('comment')
+
+        if not spot_name:
+            flash("観光地名を入力してください。", "error")
+            return redirect(url_for('spot.spot_register'))
+
+        if not pref_full:
+            flash("都道府県を選択してください。", "error")
+            return redirect(url_for('spot.spot_register'))
+
+        # 北海道以外は短縮
+        pref_short = pref_full if pref_full == "北海道" else pref_full.replace("都","").replace("府","").replace("県","")
+
+        visit_date = datetime.strptime(visit_date_str, "%Y-%m-%d").date()
+
+        # ===== 天気API =====
+        lat, lon = PREF_LATLON.get(pref_short, (None, None))
+        weather = temp_max = temp_min = precipitation = None
+
+        if lat and lon:
+            url = (
+                "https://archive-api.open-meteo.com/v1/archive"
+                f"?latitude={lat}&longitude={lon}"
+                f"&start_date={visit_date}&end_date={visit_date}"
+                "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum"
+                "&timezone=Asia/Tokyo"
+            )
+            try:
+                res = requests.get(url).json()
+                code = res["daily"]["weathercode"][0]
+                weather = convert_weather_icon(code)
+                temp_max = res["daily"]["temperature_2m_max"][0]
+                temp_min = res["daily"]["temperature_2m_min"][0]
+                precipitation = res["daily"]["precipitation_sum"][0]
+            except Exception as e:
+                print("天気取得失敗:", e)
+
+        # ===== Spot 本体 =====
+        new_spot = Spot(
+            user_id=user_id,
+            name=spot_name,
+            prefecture=pref_short,
+            visit_date=visit_date,
+            comment=comment,
+            weather=weather,
+            temp_max=temp_max,
+            temp_min=temp_min,
+            precipitation=precipitation,
+        )
+
+        db.session.add(new_spot)
+        db.session.flush()  # spot_id のため必須
+
+        # ===== 写真複数保存 =====
+        photos = request.files.getlist("photos[]")
+        upload_dir = os.path.join("static", "uploads")
+        os.makedirs(upload_dir, exist_ok=True)
+
+        for p in photos:
+            if not p or not p.filename:
+                continue
+
+            filename = f"{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{p.filename}"
+            p.save(os.path.join(upload_dir, filename))
+
+            new_photo = Photo(
+                user_id=user_id,
+                spot_id=new_spot.spot_id,
+                filename=filename
+            )
+            db.session.add(new_photo)
+
+        db.session.commit()
+
+        flash("観光地を登録しました！（天気データ・写真も保存）", "success")
+        return redirect(url_for('spot.spot_list'))
+
+    return render_template("spot_register.html", prefectures=PREF_LIST)
+
+
+# ====================================================
+# 観光地一覧
+#   GET /spot/list
+# ====================================================
+@spot_bp.route('/list', methods=['GET'])
+def spot_list():
+    if not session.get('logged_in'):
+        return redirect(url_for('auth.login'))
+
+    user_id = session.get('user_id')
+    selected_pref = request.args.get('prefecture', '')
+
+    if selected_pref:
+        pref_short = selected_pref if selected_pref == "北海道" else selected_pref.replace("都","").replace("府","").replace("県","")
+        spots = Spot.query.filter_by(
+            user_id=user_id, prefecture=pref_short
+        ).order_by(Spot.prefecture.asc(), Spot.name.asc()).all()
+    else:
+        spots = Spot.query.filter_by(user_id=user_id).order_by(
+            Spot.prefecture.asc(), Spot.name.asc()
+        ).all()
+
+    return render_template(
+        'spot_list.html',
+        spots=spots,
+        prefectures=PREF_LIST,
+        selected_pref=selected_pref
+    )
+
+
+# ====================================================
+# 観光地詳細
+#   GET /spot/detail/<id>
+# ====================================================
+@spot_bp.route('/detail/<int:spot_id>')
+def spot_detail(spot_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('auth.login'))
+
+    spot = Spot.query.get_or_404(spot_id)
+    return render_template('spot_detail.html', spot=spot)
+
+
+# ====================================================
+# 観光地編集
+#   GET, POST /spot/edit/<id>
+# ====================================================
+@spot_bp.route('/edit/<int:spot_id>', methods=['GET', 'POST'])
+def spot_edit(spot_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('auth.login'))
+
+    spot = Spot.query.get_or_404(spot_id)
+
+    if request.method == 'POST':
+        spot.name = request.form.get('spot_name')
+        pref_full = request.form.get('prefecture')
+
+        spot.prefecture = pref_full if pref_full == "北海道" else pref_full.replace("都","").replace("府","").replace("県","")
+
+        visit_date_str = request.form.get('visit_date')
+        spot.visit_date = datetime.strptime(visit_date_str, "%Y-%m-%d").date()
+
+        spot.comment = request.form.get('comment')
+
+        # 写真追加
+        photos = request.files.getlist("photos[]")
+        upload_dir = os.path.join("static", "uploads")
+        os.makedirs(upload_dir, exist_ok=True)
+
+        for p in photos:
+            if not p.filename:
+                continue
+
+            filename = f"{spot.user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{p.filename}"
+            p.save(os.path.join(upload_dir, filename))
+
+            new_photo = Photo(
+                user_id=spot.user_id,
+                spot_id=spot.spot_id,
+                filename=filename
+            )
+            db.session.add(new_photo)
+
+        db.session.commit()
+
+        flash("観光地情報を更新しました。", "success")
+        return redirect(url_for('spot.spot_detail', spot_id=spot.spot_id))
+
+    return render_template('spot_edit.html', spot=spot, prefectures=PREF_LIST)
+
+
+# ====================================================
+# 写真削除
+#   POST /spot/photo/delete/<id>
+# ====================================================
+@spot_bp.route('/photo/delete/<int:photo_id>', methods=['POST'])
+def delete_spot_photo(photo_id):
+    if not session.get('logged_in'):
+        return "Unauthorized", 401
+
+    photo = Photo.query.get_or_404(photo_id)
+
+    filepath = os.path.join("static", "uploads", photo.filename)
+    if os.path.exists(filepath):
+        os.remove(filepath)
+
+    db.session.delete(photo)
+    db.session.commit()
+
+    return "OK", 200
+
+# ============================================
+# 📍 観光地検索フォーム
+# ============================================
+@spot_bp.route("/search", methods=["GET"])
+def spot_search():
+    return render_template("spot_search.html", prefectures=PREF_LIST)
+
+
+# ============================================
+# 📍 観光地検索結果
+# ============================================
+@spot_bp.route("/search/result", methods=["GET"])
+def spot_search_results():
+    prefecture = request.args.get("prefecture", "")
+    keyword = request.args.get("keyword", "")
+
+    import json
+    from flask import current_app
+    import os
+
+    # JSON のロード
+    path = os.path.join(current_app.root_path, "static", "json", "spots.json")
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)   # data は 都道府県オブジェクトの LIST
+
+    results = []
+
+    for pref_block in data:
+        pref_name = pref_block["pref_name_ja"]  # 例: "北海道"
+
+        # フィルタ① 都道府県（指定があれば）
+        if prefecture and prefecture != pref_name:
+            continue
+
+        # スポットを走査
+        for s in pref_block["spots"]:
+
+            # フィルタ② キーワード（名前 or 説明）
+            if keyword:
+                if keyword not in s.get("spot_name", "") and keyword not in s.get("description", ""):
+                    continue
+
+            # ヒットしたスポットを追加（pref_name を付けて返す）
+            result_item = s.copy()
+            result_item["prefecture"] = pref_name
+            results.append(result_item)
+
+    # 都道府県リストをテンプレートに渡すため生成
+    prefectures = [p["pref_name_ja"] for p in data]
+
+    return render_template(
+        "spot_search_results.html",
+        results=results,
+        prefectures=prefectures
+    )

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}グルメ一覧 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<div class="spot-list-container">
+    <h1>グルメ店舗一覧</h1>
+
+    <div class="top-btn-wrapper">
+        <button onclick="location.href='{{ url_for('food.gourmet_record') }}'" class="add-button">
+            新規追加
+        </button>
+    </div>
+
+    {% if shop_summary|length == 0 %}
+        <p class="no-data">まだグルメ情報がありません。</p>
+    {% else %}
+        <div class="spot-list">
+
+            {% for shop in shop_summary %}
+            <a href="{{ url_for('food.shop_detail', shop_name=shop.shop_name) }}"
+               class="spot-card-link">
+
+                <div class="spot-card">
+
+                    <div class="spot-info">
+                        <h2>{{ shop.shop_name }}</h2>
+
+                        <p><strong>平均評価：</strong> ★{{ shop.avg }}</p>
+                        <p><strong>訪問回数：</strong> {{ shop.count }} 回</p>
+
+                        <p class="detail-btn">店舗ページ →</p>
+                    </div>
+
+                </div>
+
+            </a>
+            {% endfor %}
+
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

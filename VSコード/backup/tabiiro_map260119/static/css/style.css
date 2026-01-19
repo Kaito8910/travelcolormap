@@ -1,0 +1,666 @@
+/*
+ * style.css（統一デザイン最適化版 完全動作版）
+ */
+
+/* =========================================================
+   1. 基本設定・レイアウト
+========================================================= */
+
+:root {
+    --border: #d8d8d8;
+    --text-main: #333;
+    --text-muted: #777;
+    --bg-card: #fff;
+    --shadow: 0 4px 12px rgba(0,0,0,0.12);
+    --radius: 12px;
+    --accent: #4a7bdc;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    height: 100vh;
+    color: var(--text-main);
+    overflow: hidden;
+    background: #f7f7f7;
+}
+
+.page-layout {
+    display: flex;
+    height: 100vh;
+}
+
+/* 左側エリア */
+.page-left {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ヘッダー */
+.header-section {
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    background: #fff;
+}
+
+/* ロゴ */
+.app-logo {
+    height: 46px;
+    width: auto;
+}
+
+/* メインエリア */
+.main-content-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* =========================================================
+   2. サイドバー
+========================================================= */
+
+.kaigyou {
+    color: #fff;
+}
+
+.page-right-sidebar {
+    white-space: nowrap;
+    background: #fff;
+    /*border-left: 1px solid var(--border); */
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* メニューアイコン（PC時はサイドバー内右上） */
+.menu-icon-container {
+    text-align: right;
+    padding: 10px 20px;
+}
+
+.menu-icon {
+    font-size: 2.4em;
+    cursor: pointer;
+}
+
+/* メニュー一覧 */
+.menu-list {
+    list-style: none;
+    padding: 0 22px;
+}
+.menu-list li {
+    margin-bottom: 16px;
+}
+.menu-list a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 1.05em;
+}
+
+/* PC：サイドバーは常に表示 */
+@media (min-width: 900px) {
+    .page-right-sidebar {
+        transform: translateX(0) !important;
+    }
+}
+
+/* スマホ：バーガーは右上固定、メニュー(nav)だけ右からスライド */
+@media (max-width: 768px) {
+
+    /* サイドバー本体は画面内に置いたまま（transformしない） */
+    .page-right-sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 260px;
+        z-index: 9999;
+
+        transform: none;          /* ★重要：sidebar自体を動かさない */
+        box-shadow: none;         /* 影はnav側に付ける */
+        background: transparent;  /* navだけ白にする */
+        pointer-events: auto;     /* 閉じてる時は触れない */
+    }
+
+    /* メニュー本体(nav)だけをスライドさせる */
+    .page-right-sidebar .menu-nav {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 260px;
+        height: 100vh;
+        background: #fff;
+
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -3px 0 8px rgba(0,0,0,0.2);
+        pointer-events: auto;     /* navの中は触れる */
+    }
+
+    /* 開いたら nav を表示 */
+    .page-right-sidebar.is-open {
+        pointer-events: auto;
+    }
+    .page-right-sidebar.is-open .menu-nav {
+        transform: translateX(0);
+    }
+
+    /* スマホ用ハンバーガーは画面右上固定で常に表示 */
+    .menu-icon-container {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        background: #fff;
+        padding: 8px 10px;
+        border-radius: 8px;
+        /* box-shadow: var(--shadow); */
+        z-index: 10000;
+        display: block !important;
+    }
+}
+
+/* =========================================================
+   3. 共通 UI（タイトル、ボタン、カード）
+========================================================= */
+
+.page-title {
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+.btn-primary:hover {
+    background: #3567c5;
+}
+
+.btn-danger {
+    background: #e53935;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+.btn-danger:hover {
+    background: #c62828;
+}
+
+/* カード統一デザイン */
+.card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: 0.25s ease;
+    overflow: hidden;
+}
+.card:hover {
+    transform: translateY(-4px);
+}
+
+/* カード画像 */
+.card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* カード本文 */
+.card-body {
+    padding: 14px 18px;
+}
+
+.card-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.card-meta {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+/* グリッドリスト（観光地、グルメ、イベント共通） */
+.card-list {
+    max-width: 950px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+/* =========================================================
+   4. 詳細ページ
+========================================================= */
+
+.detail-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.detail-photo {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
+
+/* =========================================================
+   5. 地図（ホーム画面）
+========================================================= */
+
+#japan-map-container {
+    max-width: 480px;
+    margin: 0 auto;
+}
+.map-wrapper svg,
+#japan-map-container svg {
+    width: 100%;
+    height: auto;
+}
+
+/* =========================================================
+   6. 星評価
+========================================================= */
+
+.star-rating span {
+    font-size: 28px;
+    cursor: pointer;
+    color: #ccc;
+}
+.star-rating span.selected {
+    color: #ffcc00;
+}
+
+/* =========================================================
+   7. ブックマークボタン
+========================================================= */
+
+.bookmark-btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+}
+.bookmark-btn.active {
+    background: #ffe7a3;
+    border-color: #d2a000;
+    color: #6b4f00;
+    font-weight: bold;
+}
+
+/* =========================================================
+   共通カードレイアウト（観光地 & グルメ）
+========================================================= */
+
+/* 全体コンテナ（中央寄せ & 幅調整） */
+.spot-list-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* グリッドレイアウト（観光地 & グルメ共通） */
+.spot-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+/* カード本体 */
+.spot-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+/* ホバー時の少し浮く演出 */
+.spot-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+/* 観光地カードの画像 */
+.spot-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* 写真なしの場合 */
+.no-photo {
+    width: 100%;
+    height: 180px;
+    background: #eaeaea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #777;
+    font-size: 0.9em;
+}
+
+/* 情報エリア（観光地 & グルメ共通） */
+.spot-info {
+    padding: 14px 16px;
+}
+
+/* カードのタイトル */
+.spot-info h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* サブ情報（訪問日 / 回数 / 評価 など） */
+.spot-info p {
+    margin: 4px 0;
+    color: #555;
+    font-size: 0.95em;
+}
+
+/* グルメ一覧の「店舗ページ →」 */
+.detail-btn {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #4a7bdc;
+    cursor: pointer;
+}
+.detail-btn:hover {
+    text-decoration: underline;
+}
+
+/* カード全体リンク化（グルメ一覧用） */
+.spot-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================================================
+   詳細ページ（観光地 / グルメ）共通画像サイズ
+========================================================= */
+
+/* Swiper 全体の最大幅を統一 */
+.mySwiper {
+    width: 100%;
+    max-width: 450px;  /* ← スマホでもPCでも見やすい標準値 */
+    margin: 20px auto;
+}
+
+/* 画像本体（観光地 detail-photo / グルメ gallery-img）を統一 */
+.detail-photo,
+.gallery-img {
+    width: 100%;
+    height: 260px;     /* ← 高さを統一！（変更可） */
+    object-fit: cover; /* ← 画像を綺麗にトリミング */
+    border-radius: 12px;
+}
+
+/* PC のとき少し大きくしたい場合 */
+@media (min-width: 900px) {
+    .mySwiper {
+        max-width: 600px;
+    }
+    .detail-photo,
+    .gallery-img {
+        height: 340px;  /* ← PC用の少し大きめサイズ */
+    }
+}
+
+/* =========================================================
+    観光地編集ページ：写真サムネイルを小さくする
+========================================================= */
+
+.photo-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.photo-item {
+    text-align: center;
+}
+
+/* 🔥 サムネイル小型化（変更したい値はここだけ） */
+.photo-thumb {
+    width: 120px;   /* ← 小さめサムネイル */
+    height: 90px;   /* ← アスペクト比維持（任意でOK） */
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* =====================================================
+    🔎 イベント検索結果 — 統一カードデザイン
+===================================================== */
+
+.event-results-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+/* カード外枠 */
+.event-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    transition: 0.25s;
+}
+
+.event-card:hover {
+    transform: translateY(-4px);
+}
+
+/* タイトル */
+.event-title {
+    font-size: 1.35em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* メタ情報エリア（県 / 市 / 月 / カテゴリ） */
+.event-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    align-items: center;
+    font-size: 0.92em;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+/* ブックマークボタンは右端へ */
+.event-meta .bookmark-btn {
+    margin-left: auto;
+    padding: 6px 10px;
+}
+
+/* 説明文 */
+.event-description {
+    color: #444;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+/* ============================
+    📱 スマホ最適化
+============================ */
+@media (max-width: 600px) {
+    .event-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .event-meta .bookmark-btn {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .event-title {
+        font-size: 1.25em;
+    }
+}
+/* ===============================
+   宿泊検索結果（hotel_results.html）
+   =============================== */
+
+/* ul 全体のリセット */
+.register-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+/* 各ホテルをカード化 */
+.register-container ul li {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transition: 0.25s;
+}
+
+.register-container ul li:hover {
+    transform: translateY(-3px);
+}
+
+/* ホテル名 */
+.register-container ul li strong {
+    font-size: 1.25em;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* 住所などの説明 */
+.register-container ul li br + span,
+.register-container ul li {
+    color: #555;
+    line-height: 1.6em;
+    font-size: 0.95em;
+}
+
+/* 詳細リンク */
+.register-container ul li a {
+    color: #3567c5;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-container ul li a:hover {
+    text-decoration: underline;
+}
+
+/* ブックマークボタンとリンクの間を調整 */
+.register-container ul li .bookmark-btn {
+    margin-top: 10px;
+    display: inline-block;
+}
+
+/* ===============================
+   スポット検索結果（spot_search_results.html）
+   =============================== */
+
+.register-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.register-container ul li {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    transition: 0.25s;
+}
+
+.register-container ul li:hover {
+    transform: translateY(-3px);
+}
+
+/* タイトル（スポット名） */
+.register-container ul li strong {
+    font-size: 1.2em;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* 説明文など */
+.register-container ul li {
+    color: #444;
+    line-height: 1.6em;
+    font-size: 0.95em;
+}
+
+/* ブックマークボタン */
+.register-container .bookmark-btn {
+    margin-top: 10px;
+}
+
+/* ホテル検索結果カード統一デザイン */
+.hotel-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    margin-bottom: 20px;
+}
+
+/* タイトル行（ホテル名 + ブックマーク） */
+.hotel-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hotel-name {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+/* 情報本文 */
+.hotel-info {
+    margin-top: 10px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.star-rating {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    font-size: 1.8rem;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    cursor: pointer;
+    color: #ccc;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #f5b301;
+}
