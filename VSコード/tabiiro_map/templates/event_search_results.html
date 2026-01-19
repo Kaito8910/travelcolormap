@@ -1,4 +1,19 @@
 {% extends "base.html" %}
+<<<<<<< HEAD
+
+{% block title %}イベント検索結果{% endblock %}
+
+{% block main_content %}
+<h2>「{{ keyword }}」の検索結果</h2>
+
+{% if results %}
+    {% for event in results %}
+        <div class="event-card">
+            <strong>{{ event.name }}</strong><br>
+            住所：{{ event.address }}<br>
+            カテゴリ：{{ event.category }}<br>
+            説明：{{ event.description }}<br>
+=======
 {% block title %}イベント検索結果 | 旅色マップ{% endblock %}
 
 {% block main_content %}
@@ -58,11 +73,20 @@
                     ☆ ブックマーク
                 </button>
             {% endif %}
+>>>>>>> 1de1b9f0b58fdcca89e0dce11d4e9677b377cb26
         </div>
 
         <div class="event-description">{{ ev.description }}</div>
     </div>
     {% endfor %}
+<<<<<<< HEAD
+{% else %}
+    <p>該当するイベントが見つかりませんでした。</p>
+{% endif %}
+
+<a href="{{ url_for('event_search') }}">検索に戻る</a>
+=======
 </div>
 
+>>>>>>> 1de1b9f0b58fdcca89e0dce11d4e9677b377cb26
 {% endblock %}
