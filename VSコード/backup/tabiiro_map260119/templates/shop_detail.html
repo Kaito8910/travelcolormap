@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{{ shop_name }} | 店舗ページ{% endblock %}
+
+{% block main_content %}
+
+<div class="shop-detail-container">
+
+    <h1 class="page-title">{{ shop_name }}</h1>
+
+    <!-- サムネイル -->
+    {% if thumbnail %}
+        <img src="{{ url_for('static', filename='uploads/' ~ thumbnail) }}"
+                class="detail-photo">
+    {% else %}
+        <div class="no-photo big">写真なし</div>
+    {% endif %}
+
+    <p><strong>平均評価：</strong> ★{{ avg }} / 5</p>
+    <p><strong>訪問回数：</strong> {{ count }} 回</p>
+
+    <h2 class="sub-title">訪問履歴</h2>
+
+    <div class="visit-list">
+        {% for f in items %}
+            <div class="visit-card">
+
+                <p><strong>料理名：</strong>{{ f.food_name }}</p>
+
+                <p><strong>評価：</strong>
+                    {% for i in range(f.evaluation) %}★{% endfor %}
+                    {% for i in range(5 - f.evaluation) %}☆{% endfor %}
+                </p>
+
+                <p><strong>日付：</strong>{{ f.visit_date }}</p>
+
+                {% if f.memo %}
+                    <p class="memo">{{ f.memo }}</p>
+                {% endif %}
+
+                <a href="{{ url_for('food.gourmet_detail', food_id=f.food_id) }}"
+                    class="detail-link">→ この記録の詳細を見る</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ url_for('food.gourmet_list') }}" class="back-button">一覧へ戻る</a>
+
+</div>
+
+{% endblock %}

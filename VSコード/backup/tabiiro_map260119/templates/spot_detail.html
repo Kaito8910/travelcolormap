@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}{{ spot.name }} の詳細 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+
+<div class="detail-container">
+
+    <h1>{{ spot.name }}</h1>
+
+    {% if spot.photos %}
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                {% for p in spot.photos %}
+                <div class="swiper-slide">
+                    <img src="{{ url_for('static', filename='uploads/' + p.filename) }}"
+                        class="detail-photo">
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+            const swiper = new Swiper(".mySwiper", {
+                loop: true,
+                pagination: { el: ".swiper-pagination" },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            });
+        </script>
+
+    {% else %}
+        <div class="no-photo detail-no-photo">写真なし</div>
+    {% endif %}
+
+    <div class="detail-info">
+        <p><strong>都道府県:</strong> {{ spot.prefecture }}</p>
+        <p><strong>訪問日:</strong> {{ spot.visit_date }}</p>
+
+        {% if spot.weather %}
+            <p><strong>天気:</strong> {{ spot.weather }}</p>
+        {% endif %}
+        {% if spot.temp_max %}
+            <p><strong>最高気温:</strong> {{ spot.temp_max }}℃</p>
+        {% endif %}
+        {% if spot.temp_min %}
+            <p><strong>最低気温:</strong> {{ spot.temp_min }}℃</p>
+        {% endif %}
+        {% if spot.precipitation %}
+            <p><strong>降水量:</strong> {{ spot.precipitation }}mm</p>
+        {% endif %}
+
+        {% if spot.comment %}
+            <p><strong>コメント:</strong><br>{{ spot.comment }}</p>
+        {% endif %}
+    </div>
+
+    <button type="button"
+        onclick="location.href='{{ url_for('spot.spot_edit', spot_id=spot.spot_id) }}'"
+        class="edit-button">
+        編集
+    </button>
+
+    <button type="button"
+        onclick="location.href='{{ url_for('spot.spot_list') }}'"
+        class="back-button">
+        一覧へ戻る
+    </button>
+
+</div>
+
+{% endblock %}

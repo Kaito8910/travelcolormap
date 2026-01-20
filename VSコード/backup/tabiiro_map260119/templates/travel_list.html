@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}旅行記録一覧 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="travel-record-list">
+    <h2>旅行記録一覧</h2>
+
+    <div class="top-btn-wrapper">
+        <a href="{{ url_for('spot_register') }}" class="add-button">新規追加</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>記録ID</th>
+                <th>訪問日</th>
+                <th>都道府県</th>
+                <th>メモ</th>
+                <th>天気</th>
+                <th>気温</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>001</td>
+                <td>2025/4/15</td>
+                <td>東京都</td>
+                <td>桜が満開だった</td>
+                <td>晴れ</td>
+                <td>20℃</td>
+            </tr>
+            <tr>
+                <td>002</td>
+                <td>2025/5/11</td>
+                <td>大阪府</td>
+                <td>雪まつりを見た</td>
+                <td>雪</td>
+                <td>-5℃</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

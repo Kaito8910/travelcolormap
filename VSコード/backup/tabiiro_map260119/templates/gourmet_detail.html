@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}グルメ詳細{% endblock %}
+
+{% block main_content %}
+
+<h1>{{ food.shop_name }} - {{ food.food_name }}</h1>
+
+<!-- 基本情報 -->
+<div class="food-info">
+    <p><strong>訪問日:</strong> {{ food.visit_date.strftime('%Y-%m-%d') }}</p>
+
+    <p><strong>評価:</strong>
+        {% for i in range(food.evaluation) %}★{% endfor %}
+        {% for i in range(5 - food.evaluation) %}☆{% endfor %}
+        （{{ food.evaluation }} / 5）
+    </p>
+
+    {% if food.memo %}
+    <p><strong>メモ:</strong> {{ food.memo }}</p>
+    {% endif %}
+
+    <p>
+        <!-- 🔥 Blueprint 対応 -->
+        <a href="{{ url_for('food.shop_detail', shop_name=food.shop_name) }}" class="btn-link">
+            この店舗の全記録を見る
+        </a>
+
+        &nbsp;｜&nbsp;
+        <a href="https://www.google.com/maps/search/{{ food.shop_name }}" target="_blank" class="btn-link">
+            Googleマップで見る
+        </a>
+    </p>
+
+    <p><strong>同じ店の訪問回数:</strong> {{ related_count }} 回</p>
+    <p><strong>この店の平均評価:</strong> {{ related_avg|round(1) }} / 5</p>
+</div>
+
+<hr>
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+<!-- スライダー -->
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        {% for p in food.photos %}
+        <div class="swiper-slide">
+            <img src="{{ url_for('static', filename='uploads/' + p.filename) }}" class="gallery-img">
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+const swiper = new Swiper(".mySwiper", {
+    loop: true,
+    pagination: { el: ".swiper-pagination" },
+    navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+    },
+});
+</script>
+
+<!-- 編集ボタン -->
+<div class="edit-area">
+
+    <!-- 🔥 Blueprint 対応 -->
+    <a href="{{ url_for('food.gourmet_edit', food_id=food.food_id) }}" class="edit-btn">
+        編集する
+    </a>
+</div>
+
+{% endblock %}

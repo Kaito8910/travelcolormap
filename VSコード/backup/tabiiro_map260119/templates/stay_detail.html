@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}宿泊詳細{% endblock %}
+
+{% block main_content %}
+<div class="register-container">
+    <h1>{{ hotel.hotelName }}</h1>
+    <p>住所: {{ hotel.address1 }} {{ hotel.address2 }}</p>
+    <p>電話番号: {{ hotel.telephoneNo }}</p>
+    <p>最安料金: {{ hotel.hotelMinCharge }}円</p>
+    <p>施設URL: <a href="{{ hotel.hotelInformationUrl }}" target="_blank">{{ hotel.hotelInformationUrl }}</a></p>
+    {% if hotel.hotelNo in bookmarks %}
+        <form action="{{ url_for('remove_bookmark') }}" method="post">
+            <input type="hidden" name="hotelNo" value="{{ hotel.hotelNo }}">
+            <button type="submit">ブックマーク解除</button>
+        </form>
+    {% else %}
+        <form action="{{ url_for('add_bookmark') }}" method="post">
+            <input type="hidden" name="hotelNo" value="{{ hotel.hotelNo }}">
+            <button type="submit">ブックマーク</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}
