@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}宿泊記録一覧 | 旅色マップ{% endblock %}
+
+{% block main_content %}
+<div class="stay-record-list-container">
+    <h2>宿泊記録一覧</h2>
+
+    <div class="filter-section">
+        <label for="filter-month">月で絞り込み：</label>
+        <select id="filter-month" name="month">
+            <option value="">すべて</option>
+            <option value="2025-01">2025年1月</option>
+            <option value="2025-02">2025年2月</option>
+            <option value="2025-03">2025年3月</option>
+            <option value="2025-04">2025年4月</option>
+            <option value="2025-05">2025年5月</option>
+        </select>
+    </div>
+
+    <table class="stay-record-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>宿泊施設名</th>
+                <th>チェックイン日</th>
+                <th>チェックアウト日</th>
+                <th>金額</th>
+                <th>コメント</th>
+                <th>写真</th>
+                <th>登録日</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>001</td>
+                <td>大阪リゾートホテル</td>
+                <td>2025/08/01</td>
+                <td>2025/08/03</td>
+                <td>30,000円</td>
+                <td>景色がきれい</td>
+                <td>フォルダ1</td>
+                <td>2025/08/04</td>
+                <td>
+                    <button class="btn-edit">編集</button>
+                    <button class="btn-delete">削除</button>
+                </td>
+            </tr>
+            <tr>
+                <td>002</td>
+                <td>東京ビジネスホテル</td>
+                <td>2025/06/12</td>
+                <td>2025/06/13</td>
+                <td>9,000円</td>
+                <td>駅近で便利</td>
+                <td>フォルダ2</td>
+                <td>2025/06/14</td>
+                <td>
+                    <button class="btn-edit">編集</button>
+                    <button class="btn-delete">削除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="back-button">
+        <form action="{{ url_for('menu') }}">
+            <button type="submit">戻る</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
