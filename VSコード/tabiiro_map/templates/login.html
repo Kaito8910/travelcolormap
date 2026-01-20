@@ -6,15 +6,6 @@
 <div class="login-container">
     <h1>ログイン</h1>
 
-    <!-- フラッシュメッセージ表示 -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <p class="flash-message {{ category }}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     <form method="POST" action="{{ url_for('auth.login') }}" class="login-form">
         <div class="form-group">
             <label for="email">メールアドレス</label>

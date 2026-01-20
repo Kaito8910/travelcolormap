@@ -6,15 +6,6 @@
 <div class="spot-register-container">
     <h1>観光地登録</h1>
 
-    <!-- フラッシュメッセージ表示 -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <p class="flash-message {{ category }}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     <form method="POST" action="{{ url_for('spot.spot_register') }}" enctype="multipart/form-data" class="spot-form">
 
         <!-- 観光地名 -->

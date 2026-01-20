@@ -40,10 +40,7 @@
                     市区町村：{{ spot.city }}<br>
                     カテゴリ：{{ spot.category }}<br>
                     説明：{{ spot.description }}
-                </li>
-
-                <!-- ブックマークボタン -->
-                {% if session.get('logged_in') %}
+                    {% if session.get('logged_in') %}
                     <button class="bookmark-btn"
                         data-type="spot"
                         data-id="{{ spot.spot_id }}"
@@ -52,6 +49,7 @@
                         ☆ ブックマーク
                     </button>
                 {% endif %}
+                </li>
             {% endfor %}
         </ul>
     {% else %}

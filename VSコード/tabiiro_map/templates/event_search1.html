@@ -5,15 +5,6 @@
 <div class="register-container">
     <h1>イベント検索（Connpass）</h1>
 
-    <!-- フラッシュメッセージ -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <p class="flash-message {{ category }}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     <!-- 🔥 Blueprint 対応 -->
     <form method="GET" action="{{ url_for('event.event_search_results') }}">
 
