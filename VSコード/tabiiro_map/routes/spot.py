@@ -165,17 +165,56 @@ def spot_edit(spot_id):
     spot = Spot.query.get_or_404(spot_id)
 
     if request.method == 'POST':
-        spot.name = request.form.get('spot_name')
-        pref_full = request.form.get('prefecture')
+        # ===== 更新前の値を保持（差分判定用）=====
+        old_prefecture = spot.prefecture
+        old_visit_date = spot.visit_date
 
-        spot.prefecture = pref_full if pref_full == "北海道" else pref_full.replace("都","").replace("府","").replace("県","")
+        # ===== フォーム反映 =====
+        spot.name = request.form.get('spot_name')
+
+        pref_full = request.form.get('prefecture')
+        pref_short = pref_full if pref_full == "北海道" else pref_full.replace("都", "").replace("府", "").replace("県", "")
+        spot.prefecture = pref_short
 
         visit_date_str = request.form.get('visit_date')
         spot.visit_date = datetime.strptime(visit_date_str, "%Y-%m-%d").date()
 
         spot.comment = request.form.get('comment')
 
-        # 写真追加
+        # ===== 天気更新判定：日付 or 都道府県が変わったときだけ =====
+        needs_weather_update = (old_prefecture != spot.prefecture) or (old_visit_date != spot.visit_date)
+
+        if needs_weather_update:
+            lat, lon = PREF_LATLON.get(spot.prefecture, (None, None))
+
+            if lat and lon:
+                url = (
+                    "https://archive-api.open-meteo.com/v1/archive"
+                    f"?latitude={lat}&longitude={lon}"
+                    f"&start_date={spot.visit_date}&end_date={spot.visit_date}"
+                    "&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum"
+                    "&timezone=Asia/Tokyo"
+                )
+                try:
+                    res = requests.get(url, timeout=5).json()
+
+                    # daily が無い/空のときは上書きしない
+                    daily = res.get("daily")
+                    if daily and daily.get("weathercode"):
+                        code = daily["weathercode"][0]
+                        spot.weather = convert_weather_icon(code)
+                        spot.temp_max = daily["temperature_2m_max"][0]
+                        spot.temp_min = daily["temperature_2m_min"][0]
+                        spot.precipitation = daily["precipitation_sum"][0]
+                    else:
+                        print("天気データなし:", res)
+
+                except Exception as e:
+                    print("天気取得失敗:", e)
+            else:
+                print("lat/lon が見つからない prefecture:", spot.prefecture)
+
+        # ===== 写真追加（既存のまま）=====
         photos = request.files.getlist("photos[]")
         upload_dir = os.path.join("static", "uploads")
         os.makedirs(upload_dir, exist_ok=True)
@@ -200,7 +239,6 @@ def spot_edit(spot_id):
         return redirect(url_for('spot.spot_detail', spot_id=spot.spot_id))
 
     return render_template('spot_edit.html', spot=spot, prefectures=PREF_LIST)
-
 
 # ====================================================
 # 写真削除
