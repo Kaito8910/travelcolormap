@@ -10,7 +10,8 @@
         "month": "2月上旬",
         "category": "祭り",
         "description": "北海道で開催される代表的イベント「さっぽろ雪まつり」。",
-        "event_url": "https://www.snowfes.com/"
+        "event_url": "https://www.snowfes.com/",
+        "image_url": "static/images/events/01_001.jpg"
       },
       {
         "event_id": "01_002",
@@ -19,7 +20,8 @@
         "month": "6月上旬",
         "category": "祭り",
         "description": "北海道で開催される代表的イベント「YOSAKOIソーラン祭り」。",
-        "event_url": "https://www.yosakoi-soran.jp/"
+        "event_url": "https://www.yosakoi-soran.jp/",
+        "image_url": "static/images/events/01_002.jpg"
       },
       {
         "event_id": "01_003",
@@ -28,7 +30,8 @@
         "month": "2月上旬",
         "category": "祭り",
         "description": "北海道で開催される代表的イベント「旭川冬まつり」。",
-        "event_url": "https://asahikawa-winterfes.jp/"
+        "event_url": "https://asahikawa-winterfes.jp/",
+        "image_url": "static/images/events/01_003.jpg"
       }
     ]
   },
@@ -43,7 +46,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "青森県で開催される代表的イベント「青森ねぶた祭」。",
-        "event_url": "https://www.nebuta.jp/"
+        "event_url": "https://www.nebuta.jp/",
+        "image_url": "static/images/events/02_001.jpg"
       },
       {
         "event_id": "02_002",
@@ -52,7 +56,8 @@
         "month": "4月下旬",
         "category": "花見",
         "description": "青森県で開催される代表的イベント「弘前さくらまつり」。",
-        "event_url": "https://www.hirosaki-kanko.or.jp/web/edit.html?id=cat02_spring_sakura"
+        "event_url": "https://www.hirosaki-kanko.or.jp/web/edit.html?id=cat02_spring_sakura",
+        "image_url": "static/images/events/02_002.jpg"
       },
       {
         "event_id": "02_003",
@@ -61,7 +66,8 @@
         "month": "2月中旬",
         "category": "伝統行事",
         "description": "青森県で開催される代表的イベント「八戸えんぶり」。",
-        "event_url": "https://aomori-tourism.com/event/detail_7167.html"
+        "event_url": "https://aomori-tourism.com/event/detail_7167.html",
+        "image_url": "static/images/events/02_003.jpg"
       }
     ]
   },
@@ -76,7 +82,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "岩手県で開催される代表的イベント「盛岡さんさ踊り」。",
-        "event_url": "https://www.sansaodori.jp/"
+        "event_url": "https://www.sansaodori.jp/",
+        "image_url": "static/images/events/03_001.jpg"
       },
       {
         "event_id": "03_002",
@@ -85,7 +92,8 @@
         "month": "6月中旬",
         "category": "伝統行事",
         "description": "岩手県で開催される代表的イベント「チャグチャグ馬コ」。",
-        "event_url": "https://www.city.takizawa.iwate.jp/kanko/umakko/contents-7499"
+        "event_url": "https://www.city.takizawa.iwate.jp/kanko/umakko/contents-7499",
+        "image_url": "static/images/events/03_002.jpg"
       },
       {
         "event_id": "03_003",
@@ -94,7 +102,8 @@
         "month": "8月中旬",
         "category": "郷土芸能",
         "description": "岩手県で開催される代表的イベント「北上みちのく芸能まつり」。",
-        "event_url": "https://geinoumatsuri.com/"
+        "event_url": "https://geinoumatsuri.com/",
+        "image_url": "static/images/events/03_003.jpg"
       }
     ]
   },
@@ -109,7 +118,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "宮城県で開催される代表的イベント「仙台七夕まつり」。",
-        "event_url": "https://www.sendaitanabata.com/"
+        "event_url": "https://www.sendaitanabata.com/",
+        "image_url": "static/images/events/04_001.jpg"
       },
       {
         "event_id": "04_002",
@@ -118,7 +128,8 @@
         "month": "2月上旬",
         "category": "グルメ",
         "description": "宮城県で開催される代表的イベント「松島かき祭り」。",
-        "event_url": "https://www.instagram.com/isozima_oysterfestival/"
+        "event_url": "https://www.instagram.com/isozima_oysterfestival/",
+        "image_url": "static/images/events/04_002.jpg"
       },
       {
         "event_id": "04_003",
@@ -127,7 +138,8 @@
         "month": "1月中旬",
         "category": "伝統行事",
         "description": "宮城県で開催される代表的イベント「どんと祭」。",
-        "event_url": "https://www.miyagi-kankou.or.jp/kakikomi/detail.php?id=1308"
+        "event_url": "https://www.miyagi-kankou.or.jp/kakikomi/detail.php?id=1308",
+        "image_url": "static/images/events/04_003.jpg"
       }
     ]
   },
@@ -142,7 +154,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "秋田県で開催される代表的イベント「竿燈まつり」。",
-        "event_url": "https://www.kantou.gr.jp/"
+        "event_url": "https://www.kantou.gr.jp/",
+        "image_url": "static/images/events/05_001.jpg"
       },
       {
         "event_id": "05_002",
@@ -151,7 +164,8 @@
         "month": "8月下旬",
         "category": "花火",
         "description": "秋田県で開催される代表的イベント「大曲の花火」。",
-        "event_url": "https://www.oomagari-hanabi.com/"
+        "event_url": "https://www.oomagari-hanabi.com/",
+        "image_url": "static/images/events/05_002.jpg"
       },
       {
         "event_id": "05_003",
@@ -160,7 +174,8 @@
         "month": "2月上旬",
         "category": "伝統行事",
         "description": "秋田県で開催される代表的イベント「なまはげ柴灯まつり」。",
-        "event_url": "https://oganavi.com/sedo/"
+        "event_url": "https://oganavi.com/sedo/",
+        "image_url": "static/images/events/05_003.jpg"
       }
     ]
   },
@@ -175,7 +190,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "山形県で開催される代表的イベント「山形花笠まつり」。",
-        "event_url": "https://www.hanagasa.jp/"
+        "event_url": "https://www.hanagasa.jp/",
+        "image_url": "static/images/events/06_001.jpg"
       },
       {
         "event_id": "06_002",
@@ -184,7 +200,8 @@
         "month": "4月中旬",
         "category": "花見",
         "description": "山形県で開催される代表的イベント「酒田日和山桜まつり」。",
-        "event_url": "https://sakata-kankou.com/event/30728"
+        "event_url": "https://sakata-kankou.com/event/30728",
+        "image_url": "static/images/events/06_002.jpg"
       },
       {
         "event_id": "06_003",
@@ -193,7 +210,8 @@
         "month": "8月下旬",
         "category": "祭り",
         "description": "山形県で開催される代表的イベント「新庄まつり」。",
-        "event_url": "https://shinjo-matsuri.jp/"
+        "event_url": "https://shinjo-matsuri.jp/",
+        "image_url": "static/images/events/06_003.jpg"
       }
     ]
   },
@@ -208,7 +226,8 @@
         "month": "9月下旬",
         "category": "歴史行列",
         "description": "福島県で開催される代表的イベント「会津まつり」。",
-        "event_url": "https://www.aizukanko.com/kk/festival/aizu-matsuri"
+        "event_url": "https://www.aizukanko.com/kk/festival/aizu-matsuri",
+        "image_url": "static/images/events/07_001.jpg"
       },
       {
         "event_id": "07_002",
@@ -217,7 +236,8 @@
         "month": "7月下旬",
         "category": "武者行列",
         "description": "福島県で開催される代表的イベント「相馬野馬追」。",
-        "event_url": "https://soma-nomaoi.jp/"
+        "event_url": "https://soma-nomaoi.jp/",
+        "image_url": "static/images/events/07_002.jpg"
       },
       {
         "event_id": "07_003",
@@ -226,7 +246,8 @@
         "month": "10月上旬",
         "category": "祭り",
         "description": "福島県で開催される代表的イベント「二本松提灯祭り」。",
-        "event_url": "https://www.city.nihonmatsu.lg.jp/"
+        "event_url": "https://www.city.nihonmatsu.lg.jp/",
+        "image_url": "static/images/events/07_003.jpg"
       }
     ]
   },
@@ -241,7 +262,8 @@
         "month": "3月上旬",
         "category": "花見",
         "description": "茨城県で開催される代表的イベント「水戸偕楽園梅まつり」。",
-        "event_url": "https://www.ibarakiguide.jp/seasons/ume"
+        "event_url": "https://www.ibarakiguide.jp/seasons/ume",
+        "image_url": "static/images/events/08_001.jpg"
       },
       {
         "event_id": "08_002",
@@ -250,7 +272,8 @@
         "month": "10月下旬",
         "category": "花火",
         "description": "茨城県で開催される代表的イベント「土浦全国花火競技大会」。",
-        "event_url": "https://www.tsuchiura-hanabi.jp/"
+        "event_url": "https://www.tsuchiura-hanabi.jp/",
+        "image_url": "static/images/events/08_002.jpg"
       },
       {
         "event_id": "08_003",
@@ -259,7 +282,8 @@
         "month": "5月上旬",
         "category": "陶器市",
         "description": "茨城県で開催される代表的イベント「笠間の陶炎祭」。",
-        "event_url": "https://www.himatsuri.net/"
+        "event_url": "https://www.himatsuri.net/",
+        "image_url": "static/images/events/08_003.jpg"
       }
     ]
   },
@@ -274,7 +298,8 @@
         "month": "5月上旬",
         "category": "神事",
         "description": "栃木県で開催される代表的イベント「日光東照宮 春季例大祭」。",
-        "event_url": "https://www.toshogu.jp/"
+        "event_url": "https://www.toshogu.jp/",
+        "image_url": "static/images/events/09_001.jpg"
       },
       {
         "event_id": "09_002",
@@ -283,7 +308,8 @@
         "month": "11月上旬",
         "category": "グルメ",
         "description": "栃木県で開催される代表的イベント「宇都宮餃子祭り」。",
-        "event_url": "https://www.utsunomiya-cvb.org/"
+        "event_url": "https://www.utsunomiya-cvb.org/",
+        "image_url": "static/images/events/09_002.jpg"
       },
       {
         "event_id": "09_003",
@@ -292,7 +318,8 @@
         "month": "7月上旬",
         "category": "ライトアップ",
         "description": "栃木県で開催される代表的イベント「那須高原サマーイルミネーション」。",
-        "event_url": "https://www.nasumori.jp/"
+        "event_url": "https://www.nasumori.jp/",
+        "image_url": "static/images/events/09_003.jpg"
       }
     ]
   },
@@ -307,7 +334,8 @@
         "month": "2月中旬",
         "category": "ライトアップ",
         "description": "群馬県で開催される代表的イベント「草津温泉湯畑キャンドルライト」。",
-        "event_url": "https://www.kusatsu-onsen.ne.jp/"
+        "event_url": "https://www.kusatsu-onsen.ne.jp/",
+        "image_url": "static/images/events/10_001.jpg"
       },
       {
         "event_id": "10_002",
@@ -316,7 +344,8 @@
         "month": "8月中旬",
         "category": "花火",
         "description": "群馬県で開催される代表的イベント「前橋花火大会」。",
-        "event_url": "https://maebashi-hanabi.jp/"
+        "event_url": "https://maebashi-hanabi.jp/",
+        "image_url": "static/images/events/10_002.jpg"
       },
       {
         "event_id": "10_003",
@@ -325,7 +354,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "群馬県で開催される代表的イベント「高崎まつり」。",
-        "event_url": "https://www.takasakicity.or.jp/"
+        "event_url": "https://www.takasakicity.or.jp/",
+        "image_url": "static/images/events/10_003.jpg"
       }
     ]
   },
@@ -340,7 +370,8 @@
         "month": "10月中旬",
         "category": "祭り",
         "description": "埼玉県で開催される代表的イベント「川越まつり」。",
-        "event_url": "https://www.kawagoematsuri.jp/"
+        "event_url": "https://www.kawagoematsuri.jp/",
+        "image_url": "static/images/events/11_001.jpg"
       },
       {
         "event_id": "11_002",
@@ -349,7 +380,8 @@
         "month": "12月上旬",
         "category": "祭り",
         "description": "埼玉県で開催される代表的イベント「秩父夜祭」。",
-        "event_url": "https://www.chichibu-festival.jp/"
+        "event_url": "https://www.chichibu-festival.jp/",
+        "image_url": "static/images/events/11_002.jpg"
       },
       {
         "event_id": "11_003",
@@ -358,7 +390,8 @@
         "month": "7月下旬",
         "category": "祭り",
         "description": "埼玉県で開催される代表的イベント「熊谷うちわ祭」。",
-        "event_url": "https://uchiwamatsuri.com/"
+        "event_url": "https://uchiwamatsuri.com/",
+        "image_url": "static/images/events/11_003.jpg"
       }
     ]
   },
@@ -373,7 +406,8 @@
         "month": "7月上旬",
         "category": "祭り",
         "description": "千葉県で開催される代表的イベント「成田祇園祭」。",
-        "event_url": "https://www.nrtk.jp/"
+        "event_url": "https://www.nrtk.jp/",
+        "image_url": "static/images/events/12_001.jpg"
       },
       {
         "event_id": "12_002",
@@ -382,7 +416,8 @@
         "month": "2月下旬",
         "category": "祭り",
         "description": "千葉県で開催される代表的イベント「勝浦ビッグひな祭り」。",
-        "event_url": "https://www.bighinamatsuri.com/"
+        "event_url": "https://www.bighinamatsuri.com/",
+        "image_url": "static/images/events/12_002.jpg"
       },
       {
         "event_id": "12_003",
@@ -391,7 +426,8 @@
         "month": "10月中旬",
         "category": "祭り",
         "description": "千葉県で開催される代表的イベント「佐原の大祭」。",
-        "event_url": "https://www.suigo-sawara.ne.jp/"
+        "event_url": "https://www.suigo-sawara.ne.jp/",
+        "image_url": "static/images/events/12_003.jpg"
       }
     ]
   },
@@ -406,7 +442,8 @@
         "month": "7月下旬",
         "category": "花火",
         "description": "東京都で開催される代表的イベント「隅田川花火大会」。",
-        "event_url": "https://sumidagawa-hanabi.com/"
+        "event_url": "https://sumidagawa-hanabi.com/",
+        "image_url": "static/images/events/13_001.jpg"
       },
       {
         "event_id": "13_002",
@@ -415,7 +452,8 @@
         "month": "5月中旬",
         "category": "祭り",
         "description": "東京都で開催される代表的イベント「三社祭」。",
-        "event_url": "https://www.asakusajinja.jp/sanjamatsuri/"
+        "event_url": "https://www.asakusajinja.jp/sanjamatsuri/", 
+        "image_url": "static/images/events/13_002.jpg"
       },
       {
         "event_id": "13_003",
@@ -424,7 +462,8 @@
         "month": "5月中旬",
         "category": "祭り",
         "description": "東京都で開催される代表的イベント「神田祭」。",
-        "event_url": "https://www.kandamyoujin.or.jp/"
+        "event_url": "https://www.kandamyoujin.or.jp/",
+        "image_url": "static/images/events/13_003.jpg"
       }
     ]
   },
@@ -439,7 +478,8 @@
         "month": "6月上旬",
         "category": "祭り",
         "description": "神奈川県で開催される代表的イベント「横浜開港祭」。",
-        "event_url": "https://www.kaikosai.com/"
+        "event_url": "https://www.kaikosai.com/",
+        "image_url": "static/images/events/14_001.jpg"
       },
       {
         "event_id": "14_002",
@@ -448,7 +488,8 @@
         "month": "7月上旬",
         "category": "祭り",
         "description": "神奈川県で開催される代表的イベント「湘南ひらつか七夕まつり」。",
-        "event_url": "https://www.tanabata-hiratsuka.com/"
+        "event_url": "https://www.tanabata-hiratsuka.com/",
+        "image_url": "static/images/events/14_002.jpg"
       },
       {
         "event_id": "14_003",
@@ -457,7 +498,8 @@
         "month": "10月下旬",
         "category": "祭り",
         "description": "神奈川県で開催される代表的イベント「川崎ハロウィン」。",
-        "event_url": "https://kawasakihalloween.com/"
+        "event_url": "https://kawasakihalloween.com/",
+        "image_url": "static/images/events/14_003.jpg"
       }
     ]
   },
@@ -472,7 +514,8 @@
         "month": "8月上旬",
         "category": "花火",
         "description": "新潟県で開催される代表的イベント「長岡まつり大花火大会」。",
-        "event_url": "https://nagaokamatsuri.com/"
+        "event_url": "https://nagaokamatsuri.com/",
+        "image_url": "static/images/events/15_001.jpg"
       },
       {
         "event_id": "15_002",
@@ -481,7 +524,8 @@
         "month": "2月中旬",
         "category": "雪まつり",
         "description": "新潟県で開催される代表的イベント「十日町雪まつり」。",
-        "event_url": "https://snowfes.jp/"
+        "event_url": "https://snowfes.jp/",
+        "image_url": "static/images/events/15_002.jpg"
       },
       {
         "event_id": "15_003",
@@ -490,7 +534,8 @@
         "month": "8月中旬",
         "category": "伝統芸能",
         "description": "新潟県で開催される代表的イベント「佐渡薪能」。",
-        "event_url": "https://www.visitsado.com/"
+        "event_url": "https://www.visitsado.com/",
+        "image_url": "static/images/events/15_003.jpg"
       }
     ]
   },
@@ -505,7 +550,8 @@
         "month": "9月上旬",
         "category": "踊り",
         "description": "富山県で開催される代表的イベント「おわら風の盆」。",
-        "event_url": "https://www.yatsuo.jp/kazenobon/"
+        "event_url": "https://www.yatsuo.jp/kazenobon/",
+        "image_url": "static/images/events/16_001.jpg"
       },
       {
         "event_id": "16_002",
@@ -514,7 +560,8 @@
         "month": "5月上旬",
         "category": "祭り",
         "description": "富山県で開催される代表的イベント「高岡御車山祭」。",
-        "event_url": "https://www.mikurumayama.jp/"
+        "event_url": "https://www.mikurumayama.jp/",
+        "image_url": "static/images/events/16_002.jpg"
       },
       {
         "event_id": "16_003",
@@ -523,7 +570,8 @@
         "month": "5月上旬",
         "category": "花イベント",
         "description": "富山県で開催される代表的イベント「砺波チューリップフェア」。",
-        "event_url": "https://fair.tulipfair.or.jp/"
+        "event_url": "https://fair.tulipfair.or.jp/",
+        "image_url": "static/images/events/16_003.jpg"
       }
     ]
   },
@@ -538,7 +586,8 @@
         "month": "6月上旬",
         "category": "祭り",
         "description": "石川県で開催される代表的イベント「金沢百万石まつり」。",
-        "event_url": "https://100mangoku-matsuri.jp/"
+        "event_url": "https://100mangoku-matsuri.jp/",
+        "image_url": "static/images/events/17_001.jpg"
       },
       {
         "event_id": "17_002",
@@ -547,7 +596,8 @@
         "month": "7月上旬",
         "category": "伝統行事",
         "description": "石川県で開催される「氷室の日」。",
-        "event_url": "https://www.kanazawa-kankoukyoukai.or.jp/"
+        "event_url": "https://www.kanazawa-kankoukyoukai.or.jp/",
+        "image_url": "static/images/events/17_002.jpg"
       },
       {
         "event_id": "17_003",
@@ -556,7 +606,8 @@
         "month": "8月下旬",
         "category": "祭り",
         "description": "石川県で開催される代表的イベント「輪島大祭」。",
-        "event_url": "https://www.hot-ishikawa.jp/"
+        "event_url": "https://www.hot-ishikawa.jp/",
+        "image_url": "static/images/events/17_003.jpg"
       }
     ]
   },
@@ -571,7 +622,8 @@
         "month": "8月上旬",
         "category": "花火",
         "description": "福井県で開催される代表的イベント「福井フェニックス花火」。",
-        "event_url": "https://www.fukuicity-navi.com/"
+        "event_url": "https://www.fukuicity-navi.com/",
+        "image_url": "static/images/events/18_001.jpg"
       },
       {
         "event_id": "18_002",
@@ -580,7 +632,8 @@
         "month": "8月中旬",
         "category": "祭り",
         "description": "福井県で開催される代表的イベント「越前朝倉まつり」。",
-        "event_url": "https://www.city.fukui.lg.jp/"
+        "event_url": "https://www.city.fukui.lg.jp/",
+        "image_url": "static/images/events/18_002.jpg"
       },
       {
         "event_id": "18_003",
@@ -589,7 +642,8 @@
         "month": "5月中旬",
         "category": "祭り",
         "description": "福井県で開催される代表的イベント「三国祭」。",
-        "event_url": "https://www.mikuni.org/"
+        "event_url": "https://www.mikuni.org/",
+        "image_url": "static/images/events/18_003.jpg"
       }
     ]
   },
@@ -604,7 +658,8 @@
         "month": "4月上旬",
         "category": "祭り",
         "description": "山梨県で開催される代表的イベント「信玄公祭り」。",
-        "event_url": "https://www.yamanashi-kankou.jp/shingen/"
+        "event_url": "https://www.yamanashi-kankou.jp/shingen/",
+        "image_url": "static/images/events/19_001.jpg"
       },
       {
         "event_id": "19_002",
@@ -613,7 +668,8 @@
         "month": "11月下旬",
         "category": "祭り",
         "description": "山梨県で開催される代表的イベント「甲府えびす講祭り」。",
-        "event_url": "https://kofu-tourism.com/"
+        "event_url": "https://kofu-tourism.com/",
+        "image_url": "static/images/events/19_002.jpg"
       },
       {
         "event_id": "19_003",
@@ -622,7 +678,8 @@
         "month": "8月下旬",
         "category": "祭り",
         "description": "山梨県で開催される代表的イベント「富士吉田火祭り」。",
-        "event_url": "https://www.fujiyoshida.net/"
+        "event_url": "https://www.fujiyoshida.net/",
+        "image_url": "static/images/events/19_003.jpg"
       }
     ]
   },
@@ -637,7 +694,8 @@
         "month": "8月中旬",
         "category": "花火",
         "description": "長野県で開催される代表的イベント「諏訪湖祭湖上花火大会」。",
-        "event_url": "https://suwako-hanabi.com/"
+        "event_url": "https://suwako-hanabi.com/",
+        "image_url": "static/images/events/20_001.jpg"
       },
       {
         "event_id": "20_002",
@@ -646,7 +704,8 @@
         "month": "4月上旬",
         "category": "祭り",
         "description": "長野県で開催される代表的イベント「御柱祭（上社）」。",
-        "event_url": "https://www.onbashira.jp/"
+        "event_url": "https://www.onbashira.jp/",
+        "image_url": "static/images/events/20_002.jpg"
       },
       {
         "event_id": "20_003",
@@ -655,7 +714,8 @@
         "month": "4月中旬",
         "category": "寺の行事",
         "description": "長野県で開催される代表的イベント「善光寺御開帳」。",
-        "event_url": "https://www.zenkoji.jp/"
+        "event_url": "https://www.zenkoji.jp/",
+        "image_url": "static/images/events/20_003.jpg"
       }
     ]
   },
@@ -670,7 +730,8 @@
         "month": "4月上旬",
         "category": "祭り",
         "description": "岐阜県で開催される代表的イベント「高山祭（春）」。",
-        "event_url": "https://www.hidatakayama.or.jp/"
+        "event_url": "https://www.hidatakayama.or.jp/",
+        "image_url": "static/images/events/21_001.jpg"
       },
       {
         "event_id": "21_002",
@@ -679,7 +740,8 @@
         "month": "7月下旬",
         "category": "踊り",
         "description": "岐阜県で開催される代表的イベント「郡上おどり」。",
-        "event_url": "https://www.gujodance.com/"
+        "event_url": "https://www.gujodance.com/",
+        "image_url": "static/images/events/21_002.jpg"
       },
       {
         "event_id": "21_003",
@@ -688,7 +750,8 @@
         "month": "8月中旬",
         "category": "花火",
         "description": "岐阜県で開催される代表的イベント「下呂温泉花火物語」。",
-        "event_url": "https://www.city.gero.lg.jp/"
+        "event_url": "https://www.city.gero.lg.jp/",
+        "image_url": "static/images/events/21_003.jpg"
       }
     ]
   },
@@ -703,7 +766,8 @@
         "month": "11月上旬",
         "category": "パフォーマンス",
         "description": "静岡県で開催される代表的イベント「大道芸ワールドカップin静岡」。",
-        "event_url": "https://daidogei.com/"
+        "event_url": "https://daidogei.com/",
+        "image_url": "static/images/events/22_001.jpg"
       },
       {
         "event_id": "22_002",
@@ -712,7 +776,8 @@
         "month": "5月上旬",
         "category": "祭り",
         "description": "静岡県で開催される代表的イベント「浜松まつり」。",
-        "event_url": "https://www.hamamatsu-matsuri.jp/"
+        "event_url": "https://www.hamamatsu-matsuri.jp/",
+        "image_url": "static/images/events/22_002.jpg"
       },
       {
         "event_id": "22_003",
@@ -721,7 +786,8 @@
         "month": "7月中旬",
         "category": "花火",
         "description": "静岡県で開催される代表的イベント「熱海海上花火大会」。",
-        "event_url": "https://www.ataminews.gr.jp/"
+        "event_url": "https://www.ataminews.gr.jp/",
+        "image_url": "static/images/events/22_003.jpg"
       }
     ]
   },
@@ -736,7 +802,8 @@
         "month": "10月中旬",
         "category": "祭り",
         "description": "愛知県で開催される代表的イベント「名古屋まつり」。",
-        "event_url": "https://www.nagoya-matsuri.com/"
+        "event_url": "https://www.nagoya-matsuri.com/",
+        "image_url": "static/images/events/23_001.jpg"
       },
       {
         "event_id": "23_002",
@@ -745,7 +812,8 @@
         "month": "4月上旬",
         "category": "祭り",
         "description": "愛知県で開催される代表的イベント「犬山祭」。",
-        "event_url": "https://inuyama.gr.jp/"
+        "event_url": "https://inuyama.gr.jp/",
+        "image_url": "static/images/events/23_002.jpg"
       },
       {
         "event_id": "23_003",
@@ -754,7 +822,8 @@
         "month": "7月下旬",
         "category": "祭り",
         "description": "愛知県で開催される代表的イベント「豊田おいでんまつり」。",
-        "event_url": "https://www.oidenmaturi.com/"
+        "event_url": "https://www.oidenmaturi.com/",
+        "image_url": "static/images/events/23_003.jpg"
       }
     ]
   },
@@ -769,7 +838,8 @@
         "month": "7月中旬",
         "category": "花火",
         "description": "三重県で開催される代表的イベント「伊勢神宮奉納花火大会」。",
-        "event_url": "https://www.ise-kanko.jp/"
+        "event_url": "https://www.ise-kanko.jp/",
+        "image_url": "static/images/events/24_001.jpg"
       },
       {
         "event_id": "24_002",
@@ -778,7 +848,8 @@
         "month": "7月下旬",
         "category": "祭り",
         "description": "三重県で開催される代表的イベント「鳥羽みなとまつり」。",
-        "event_url": "https://www.toba.or.jp/"
+        "event_url": "https://www.toba.or.jp/",
+        "image_url": "static/images/events/24_002.jpg"
       },
       {
         "event_id": "24_003",
@@ -787,7 +858,8 @@
         "month": "4月上旬",
         "category": "祭り",
         "description": "三重県で開催される代表的イベント「おかげ横丁春まつり」。",
-        "event_url": "https://www.okageyokocho.co.jp/"
+        "event_url": "https://www.okageyokocho.co.jp/",
+        "image_url": "static/images/events/24_003.jpg"
       }
     ]
   },
@@ -802,7 +874,8 @@
         "month": "4月中旬",
         "category": "祭り",
         "description": "滋賀県で開催される代表的イベント「長浜曳山まつり」。",
-        "event_url": "https://nagahama-hikiyama.or.jp/"
+        "event_url": "https://nagahama-hikiyama.or.jp/",
+        "image_url": "static/images/events/25_001.jpg"
       },
       {
         "event_id": "25_002",
@@ -811,7 +884,8 @@
         "month": "10月上旬",
         "category": "祭り",
         "description": "滋賀県で開催される代表的イベント「大津祭」。",
-        "event_url": "https://www.otsu-matsuri.jp/"
+        "event_url": "https://www.otsu-matsuri.jp/",
+        "image_url": "static/images/events/25_002.jpg"
       },
       {
         "event_id": "25_003",
@@ -820,7 +894,8 @@
         "month": "3月上旬",
         "category": "祭り",
         "description": "滋賀県で開催される代表的イベント「近江八幡左義長まつり」。",
-        "event_url": "https://www.city.omihachiman.lg.jp/"
+        "event_url": "https://www.city.omihachiman.lg.jp/",
+        "image_url": "static/images/events/25_003.jpg"
       }
     ]
   },
@@ -835,7 +910,8 @@
         "month": "7月中旬",
         "category": "祭り",
         "description": "京都府で開催される代表的イベント「祇園祭」。",
-        "event_url": "https://www.gionmatsuri.or.jp/"
+        "event_url": "https://www.gionmatsuri.or.jp/",
+        "image_url": "static/images/events/26_001.jpg"
       },
       {
         "event_id": "26_002",
@@ -844,7 +920,8 @@
         "month": "5月中旬",
         "category": "祭り",
         "description": "京都府で開催される代表的イベント「葵祭」。",
-        "event_url": "https://www.aoi-matsuri.com/"
+        "event_url": "https://www.aoi-matsuri.com/",
+        "image_url": "static/images/events/26_002.jpg"
       },
       {
         "event_id": "26_003",
@@ -853,7 +930,8 @@
         "month": "10月下旬",
         "category": "祭り",
         "description": "京都府で開催される代表的イベント「時代祭」。",
-        "event_url": "https://www.heianjingu.or.jp/"
+        "event_url": "https://www.heianjingu.or.jp/",
+        "image_url": "static/images/events/26_003.jpg"
       }
     ]
   },
@@ -868,7 +946,8 @@
         "month": "7月下旬",
         "category": "祭り",
         "description": "大阪府で開催される代表的イベント「天神祭」。",
-        "event_url": "https://www.tenjinmatsuri.com/"
+        "event_url": "https://www.tenjinmatsuri.com/",
+        "image_url": "static/images/events/27_001.jpg"
       },
       {
         "event_id": "27_002",
@@ -877,7 +956,8 @@
         "month": "9月中旬",
         "category": "祭り",
         "description": "大阪府で開催される代表的イベント「岸和田だんじり祭」。",
-        "event_url": "https://www.city.kishiwada.osaka.jp/"
+        "event_url": "https://www.city.kishiwada.osaka.jp/",
+        "image_url": "static/images/events/27_002.jpg"
       },
       {
         "event_id": "27_003",
@@ -886,7 +966,8 @@
         "month": "8月上旬",
         "category": "花火",
         "description": "大阪府で開催される代表的イベント「なにわ淀川花火大会」。",
-        "event_url": "https://www.yodogawa-hanabi.com/"
+        "event_url": "https://www.yodogawa-hanabi.com/",
+        "image_url": "static/images/events/27_003.jpg"
       }
     ]
   },
@@ -901,7 +982,8 @@
         "month": "12月上旬",
         "category": "イルミネーション",
         "description": "兵庫県で開催される代表的イベント「神戸ルミナリエ」。",
-        "event_url": "https://www.kobe-luminarie.jp/"
+        "event_url": "https://www.kobe-luminarie.jp/",
+        "image_url": "static/images/events/28_001.jpg"
       },
       {
         "event_id": "28_002",
@@ -910,7 +992,8 @@
         "month": "6月下旬",
         "category": "祭り",
         "description": "兵庫県で開催される代表的イベント「姫路ゆかたまつり」。",
-        "event_url": "https://www.city.himeji.lg.jp/"
+        "event_url": "https://www.city.himeji.lg.jp/",
+        "image_url": "static/images/events/28_002.jpg"
       },
       {
         "event_id": "28_003",
@@ -919,7 +1002,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "兵庫県で開催される代表的イベント「淡路島まつり」。",
-        "event_url": "https://www.city.sumoto.lg.jp/"
+        "event_url": "https://www.city.sumoto.lg.jp/",
+        "image_url": "static/images/events/28_003.jpg"
       }
     ]
   },
@@ -934,7 +1018,8 @@
         "month": "1月下旬",
         "category": "火祭り",
         "description": "奈良県で開催される代表的イベント「奈良若草山焼き」。",
-        "event_url": "https://www.nara-yamayaki.com/"
+        "event_url": "https://www.nara-yamayaki.com/",
+        "image_url": "static/images/events/29_001.jpg"
       },
       {
         "event_id": "29_002",
@@ -943,7 +1028,8 @@
         "month": "12月中旬",
         "category": "祭り",
         "description": "奈良県で開催される代表的イベント「春日若宮おん祭」。",
-        "event_url": "https://www.kasugataisha.or.jp/"
+        "event_url": "https://www.kasugataisha.or.jp/",
+        "image_url": "static/images/events/29_002.jpg"
       },
       {
         "event_id": "29_003",
@@ -952,7 +1038,8 @@
         "month": "8月上旬",
         "category": "ライトアップ",
         "description": "奈良県で開催される代表的イベント「なら燈花会」。",
-        "event_url": "https://www.toukae.jp/"
+        "event_url": "https://www.toukae.jp/",
+        "image_url": "static/images/events/29_003.jpg"
       }
     ]
   },
@@ -967,7 +1054,8 @@
         "month": "7月中旬",
         "category": "火祭り",
         "description": "和歌山県で開催される代表的イベント「那智の火祭」。",
-        "event_url": "https://www.nachikan.jp/"
+        "event_url": "https://www.nachikan.jp/",
+        "image_url": "static/images/events/30_001.jpg"
       },
       {
         "event_id": "30_002",
@@ -976,7 +1064,8 @@
         "month": "5月中旬",
         "category": "食のイベント",
         "description": "和歌山県で開催される食イベント「しらすまつり」。",
-        "event_url": "https://www.nankishirahama.jp/"
+        "event_url": "https://www.nankishirahama.jp/",
+        "image_url": "static/images/events/30_002.jpg"
       },
       {
         "event_id": "30_003",
@@ -985,7 +1074,8 @@
         "month": "7月下旬",
         "category": "花火",
         "description": "和歌山県で開催される代表的イベント「和歌山港まつり花火大会」。",
-        "event_url": "https://www.wakayamakanko.com/"
+        "event_url": "https://www.wakayamakanko.com/",
+        "image_url": "static/images/events/30_003.jpg"
       }
     ]
   },
@@ -1000,7 +1090,8 @@
         "month": "8月中旬",
         "category": "祭り",
         "description": "鳥取県で開催される代表的イベント「鳥取しゃんしゃん祭」。",
-        "event_url": "https://www.tottori-shanshan.jp/"
+        "event_url": "https://www.tottori-shanshan.jp/",
+        "image_url": "static/images/events/31_001.jpg"
       },
       {
         "event_id": "31_002",
@@ -1009,7 +1100,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "鳥取県で開催される代表的イベント「倉吉打吹まつり」。",
-        "event_url": "https://www.city.kurayoshi.lg.jp/"
+        "event_url": "https://www.city.kurayoshi.lg.jp/",
+        "image_url": "static/images/events/31_002.jpg"
       },
       {
         "event_id": "31_003",
@@ -1018,7 +1110,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "鳥取県で開催される代表的イベント「米子がいな祭」。",
-        "event_url": "https://www.yonago-gaina.jp/"
+        "event_url": "https://www.yonago-gaina.jp/",
+        "image_url": "static/images/events/31_003.jpg"
       }
     ]
   },
@@ -1033,7 +1126,8 @@
         "month": "通年",
         "category": "伝統芸能",
         "description": "島根県で有名な伝統芸能「石見神楽」。",
-        "event_url": "https://www.kagura-hamada.com/"
+        "event_url": "https://www.kagura-hamada.com/",
+        "image_url": "static/images/events/32_001.jpg"
       },
       {
         "event_id": "32_002",
@@ -1042,7 +1136,8 @@
         "month": "8月上旬",
         "category": "花火",
         "description": "島根県で開催される代表的イベント「松江水郷祭」。",
-        "event_url": "https://www.suigosai.com/"
+        "event_url": "https://www.suigosai.com/",
+        "image_url": "static/images/events/32_002.jpg"
       },
       {
         "event_id": "32_003",
@@ -1051,7 +1146,8 @@
         "month": "2月上旬",
         "category": "神事",
         "description": "島根県で開催される代表的行事「出雲大社節分祭」。",
-        "event_url": "https://izumooyashiro.or.jp/"
+        "event_url": "https://izumooyashiro.or.jp/",
+        "image_url": "static/images/events/32_003.jpg"
       }
     ]
   },
@@ -1066,7 +1162,8 @@
         "month": "7月下旬",
         "category": "祭り",
         "description": "岡山県で開催される代表的イベント「倉敷天領夏祭り」。",
-        "event_url": "https://kurashiki.tenryo-natsu.com/"
+        "event_url": "https://kurashiki.tenryo-natsu.com/",
+        "image_url": "static/images/events/33_001.jpg"
       },
       {
         "event_id": "33_002",
@@ -1075,7 +1172,8 @@
         "month": "8月上旬",
         "category": "踊り",
         "description": "岡山県を代表する踊りイベント「うらじゃ」。",
-        "event_url": "https://uraja.jp/"
+        "event_url": "https://uraja.jp/",
+        "image_url": "static/images/events/33_002.jpg"
       },
       {
         "event_id": "33_003",
@@ -1084,7 +1182,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "岡山県で開催される代表的イベント「おかやま桃太郎まつり」。",
-        "event_url": "https://www.city.okayama.jp/"
+        "event_url": "https://www.city.okayama.jp/",
+        "image_url": "static/images/events/33_003.jpg"
       }
     ]
   },
@@ -1099,7 +1198,8 @@
         "month": "5月上旬",
         "category": "祭り",
         "description": "広島県で開催される代表的イベント「ひろしまフラワーフェスティバル」。",
-        "event_url": "https://www.hiroshima-ff.com/"
+        "event_url": "https://www.hiroshima-ff.com/",
+        "image_url": "static/images/events/34_001.jpg"
       },
       {
         "event_id": "34_002",
@@ -1108,7 +1208,8 @@
         "month": "8月中旬",
         "category": "花火",
         "description": "広島県で開催される代表的イベント「宮島水中花火大会」。",
-        "event_url": "https://www.hatsu-navi.jp/"
+        "event_url": "https://www.hatsu-navi.jp/",
+        "image_url": "static/images/events/34_002.jpg"
       },
       {
         "event_id": "34_003",
@@ -1117,7 +1218,8 @@
         "month": "10月下旬",
         "category": "ライトアップ",
         "description": "広島県で開催される代表的イベント「尾道灯りまつり」。",
-        "event_url": "https://akari.npo-onomichi.com/"
+        "event_url": "https://akari.npo-onomichi.com/",
+        "image_url": "static/images/events/34_003.jpg"
       }
     ]
   },
@@ -1132,7 +1234,8 @@
         "month": "4月下旬",
         "category": "祭り",
         "description": "山口県で開催される代表的イベント「錦帯橋まつり」。",
-        "event_url": "https://kintaikyo.jp/event/kintai-festival/"
+        "event_url": "https://kintaikyo.jp/event/kintai-festival/",
+        "image_url": "static/images/events/35_001.jpg"
       },
       {
         "event_id": "35_002",
@@ -1141,7 +1244,8 @@
         "month": "11月上旬",
         "category": "祭り",
         "description": "山口県で開催される代表的イベント「萩時代まつり」。",
-        "event_url": "https://www.hagishi.com/"
+        "event_url": "https://www.hagishi.com/",
+        "image_url": "static/images/events/35_002.jpg"
       },
       {
         "event_id": "35_003",
@@ -1150,7 +1254,8 @@
         "month": "7月上旬",
         "category": "祭り",
         "description": "山口県で開催される代表的イベント「元乃隅神社 夏祭り」。",
-        "event_url": "https://motonosumi.com/"
+        "event_url": "https://motonosumi.com/",
+        "image_url": "static/images/events/35_003.jpg"
       }
     ]
   },
@@ -1165,7 +1270,8 @@
         "month": "8月中旬",
         "category": "踊り",
         "description": "徳島県で開催される代表的イベント「阿波おどり」。",
-        "event_url": "https://awaodori.tokushima.jp/"
+        "event_url": "https://awaodori.tokushima.jp/",
+        "image_url": "static/images/events/36_001.jpg"
       },
       {
         "event_id": "36_002",
@@ -1174,7 +1280,8 @@
         "month": "7月下旬",
         "category": "花火",
         "description": "徳島県で開催される代表的イベント「鳴門市納涼花火大会」。",
-        "event_url": "https://www.city.naruto.tokushima.jp/"
+        "event_url": "https://www.city.naruto.tokushima.jp/",
+        "image_url": "static/images/events/36_002.jpg"
       },
       {
         "event_id": "36_003",
@@ -1183,7 +1290,8 @@
         "month": "10月中旬",
         "category": "祭り",
         "description": "徳島県で開催される代表的イベント「祖谷平家まつり」。",
-        "event_url": "https://miyoshi-tourism.jp/"
+        "event_url": "https://miyoshi-tourism.jp/",
+        "image_url": "static/images/events/36_003.jpg"
       }
     ]
   },
@@ -1198,7 +1306,8 @@
         "month": "8月中旬",
         "category": "祭り",
         "description": "香川県で開催される代表的イベント「さぬき高松まつり」。",
-        "event_url": "https://www.takamatumatsuri.com/"
+        "event_url": "https://www.takamatumatsuri.com/",
+        "image_url": "static/images/events/37_001.jpg"
       },
       {
         "event_id": "37_002",
@@ -1207,7 +1316,8 @@
         "month": "10月上旬",
         "category": "神事",
         "description": "香川県で開催される代表的イベント「金刀比羅宮 例大祭」。",
-        "event_url": "https://www.konpira.or.jp/"
+        "event_url": "https://www.konpira.or.jp/",
+        "image_url": "static/images/events/37_002.jpg"
       },
       {
         "event_id": "37_003",
@@ -1216,7 +1326,8 @@
         "month": "8月中旬",
         "category": "アートイベント",
         "description": "香川県で開催される代表的イベント「瀬戸内国際芸術祭（開催年）」。",
-        "event_url": "https://setouchi-artfest.jp/"
+        "event_url": "https://setouchi-artfest.jp/",
+        "image_url": "static/images/events/37_003.jpg"
       }
     ]
   },
@@ -1231,7 +1342,8 @@
         "month": "3月上旬",
         "category": "祭り",
         "description": "愛媛県で開催される代表的イベント「道後温泉まつり」。",
-        "event_url": "https://dogo.jp/"
+        "event_url": "https://dogo.jp/",
+        "image_url": "static/images/events/38_001.jpg"
       },
       {
         "event_id": "38_002",
@@ -1240,7 +1352,8 @@
         "month": "4月上旬",
         "category": "祭り",
         "description": "愛媛県で開催される代表的イベント「松山春まつり」。",
-        "event_url": "https://www.matsuyama-spring.jp/"
+        "event_url": "https://www.matsuyama-spring.jp/",
+        "image_url": "static/images/events/38_002.jpg"
       },
       {
         "event_id": "38_003",
@@ -1249,7 +1362,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "愛媛県で開催される代表的イベント「今治おんまく」。",
-        "event_url": "https://www.city.imabari.ehime.jp/"
+        "event_url": "https://www.city.imabari.ehime.jp/",
+        "image_url": "static/images/events/38_003.jpg"
       }
     ]
   },
@@ -1264,7 +1378,8 @@
         "month": "8月上旬",
         "category": "踊り",
         "description": "高知県で開催される代表的イベント「よさこい祭り」。",
-        "event_url": "https://www.yosakoi.com/"
+        "event_url": "https://www.yosakoi.com/",
+        "image_url": "static/images/events/39_001.jpg"
       },
       {
         "event_id": "39_002",
@@ -1273,7 +1388,8 @@
         "month": "3月上旬",
         "category": "グルメ",
         "description": "高知県で開催される代表的イベント「土佐のおきゃく」。",
-        "event_url": "https://www.tosa-okyaku.com/"
+        "event_url": "https://www.tosa-okyaku.com/",
+        "image_url": "static/images/events/39_002.jpg"
       },
       {
         "event_id": "39_003",
@@ -1282,7 +1398,8 @@
         "month": "8月中旬",
         "category": "花火",
         "description": "高知県で開催される代表的イベント「四万十川花火大会」。",
-        "event_url": "https://www.city.shimanto.lg.jp/"
+        "event_url": "https://www.city.shimanto.lg.jp/",
+        "image_url": "static/images/events/39_003.jpg"
       }
     ]
   },
@@ -1297,7 +1414,8 @@
         "month": "5月上旬",
         "category": "祭り",
         "description": "福岡県で開催される代表的イベント「博多どんたく港まつり」。",
-        "event_url": "https://www.dontaku.fukunet.or.jp/"
+        "event_url": "https://www.dontaku.fukunet.or.jp/",
+        "image_url": "static/images/events/40_001.jpg"
       },
       {
         "event_id": "40_002",
@@ -1306,7 +1424,8 @@
         "month": "9月中旬",
         "category": "祭り",
         "description": "福岡県で開催される代表的イベント「筥崎宮 放生会」。",
-        "event_url": "https://www.hakozakigu.or.jp/"
+        "event_url": "https://www.hakozakigu.or.jp/",
+        "image_url": "static/images/events/40_002.jpg"
       },
       {
         "event_id": "40_003",
@@ -1315,7 +1434,8 @@
         "month": "11月上旬",
         "category": "マーケット",
         "description": "福岡県で開催される代表的イベント「門司港グランマーケット」。",
-        "event_url": "https://www.kitakyushu.grandmarket.jp/"
+        "event_url": "https://www.kitakyushu.grandmarket.jp/",
+        "image_url": "static/images/events/40_003.jpg"
       }
     ]
   },
@@ -1330,7 +1450,8 @@
         "month": "11月上旬",
         "category": "イベント",
         "description": "佐賀県で開催される代表的イベント「佐賀インターナショナルバルーンフェスタ」。",
-        "event_url": "https://www.sibf.jp/"
+        "event_url": "https://www.sibf.jp/",
+        "image_url": "static/images/events/41_001.jpg"
       },
       {
         "event_id": "41_002",
@@ -1339,7 +1460,8 @@
         "month": "11月上旬",
         "category": "祭り",
         "description": "佐賀県で開催される代表的イベント「唐津くんち」。",
-        "event_url": "https://www.karatsu-kankou.jp/feature/kunchi/"
+        "event_url": "https://www.karatsu-kankou.jp/feature/kunchi/",
+        "image_url": "static/images/events/41_002.jpg"
       },
       {
         "event_id": "41_003",
@@ -1348,7 +1470,8 @@
         "month": "1月上旬",
         "category": "神事",
         "description": "佐賀県で開催される代表的イベント「祐徳稲荷神社 初詣」。",
-        "event_url": "https://www.yutokusan.jp/"
+        "event_url": "https://www.yutokusan.jp/",
+        "image_url": "static/images/events/41_003.jpg"
       }
     ]
   },
@@ -1363,7 +1486,8 @@
         "month": "2月上旬",
         "category": "祭り",
         "description": "長崎県で開催される代表的イベント「長崎ランタンフェスティバル」。",
-        "event_url": "https://www.nagasaki-lantern.com/"
+        "event_url": "https://www.nagasaki-lantern.com/",
+        "image_url": "static/images/events/42_001.jpg"
       },
       {
         "event_id": "42_002",
@@ -1372,7 +1496,8 @@
         "month": "8月中旬",
         "category": "行事",
         "description": "長崎県で開催される代表的イベント「精霊流し」。",
-        "event_url": "https://www.at-nagasaki.jp/"
+        "event_url": "https://www.at-nagasaki.jp/",
+        "image_url": "static/images/events/42_002.jpg"
       },
       {
         "event_id": "42_003",
@@ -1381,7 +1506,8 @@
         "month": "12月上旬",
         "category": "イルミネーション",
         "description": "長崎県で開催される代表的イベント「ハウステンボス 光の王国」。",
-        "event_url": "https://www.huistenbosch.co.jp/"
+        "event_url": "https://www.huistenbosch.co.jp/",
+        "image_url": "static/images/events/42_003.jpg"
       }
     ]
   },
@@ -1396,7 +1522,8 @@
         "month": "3月下旬",
         "category": "祭り",
         "description": "熊本県で開催される代表的イベント「熊本城 春のくまもとお城まつり」。",
-        "event_url": "https://castle.kumamoto-guide.jp/"
+        "event_url": "https://castle.kumamoto-guide.jp/",
+        "image_url": "static/images/events/43_001.jpg"
       },
       {
         "event_id": "43_002",
@@ -1405,7 +1532,8 @@
         "month": "3月中旬",
         "category": "神事",
         "description": "熊本県で開催される代表的イベント「阿蘇火振り神事」。",
-        "event_url": "https://www.asocity-kanko.jp/"
+        "event_url": "https://www.asocity-kanko.jp/",
+        "image_url": "static/images/events/43_002.jpg"
       },
       {
         "event_id": "43_003",
@@ -1414,7 +1542,8 @@
         "month": "12月上旬",
         "category": "ライトアップ",
         "description": "熊本県で開催される代表的イベント「黒川温泉 湯あかり」。",
-        "event_url": "https://www.kurokawaonsen.or.jp/"
+        "event_url": "https://www.kurokawaonsen.or.jp/",
+        "image_url": "static/images/events/43_003.jpg"
       }
     ]
   },
@@ -1429,7 +1558,8 @@
         "month": "4月上旬",
         "category": "祭り",
         "description": "大分県で開催される代表的イベント「別府八湯温泉まつり」。",
-        "event_url": "https://beppu-event.jp/onsenmatsuri/"
+        "event_url": "https://beppu-event.jp/onsenmatsuri/",
+        "image_url": "static/images/events/44_001.jpg"
       },
       {
         "event_id": "44_002",
@@ -1438,7 +1568,8 @@
         "month": "8月上旬",
         "category": "祭り",
         "description": "大分県で開催される代表的イベント「大分七夕まつり」。",
-        "event_url": "https://www.oishiimati-oita.jp/"
+        "event_url": "https://www.oishiimati-oita.jp/",
+        "image_url": "static/images/events/44_002.jpg"
       },
       {
         "event_id": "44_003",
@@ -1447,7 +1578,8 @@
         "month": "5月下旬",
         "category": "祭り",
         "description": "大分県で開催される代表的イベント「日田川開き観光祭」。",
-        "event_url": "https://www.hitacity-kanko.jp/"
+        "event_url": "https://www.hitacity-kanko.jp/",
+        "image_url": "static/images/events/44_003.jpg"
       }
     ]
   },
@@ -1462,7 +1594,8 @@
         "month": "1月上旬",
         "category": "神事",
         "description": "宮崎県で開催される代表的イベント「青島神社 初詣」。",
-        "event_url": "https://aoshima-jinja.jp/"
+        "event_url": "https://aoshima-jinja.jp/",
+        "image_url": "static/images/events/45_001.jpg"
       },
       {
         "event_id": "45_002",
@@ -1471,7 +1604,8 @@
         "month": "11月下旬",
         "category": "伝統芸能",
         "description": "宮崎県で開催される代表的イベント「高千穂夜神楽」。",
-        "event_url": "https://takachiho-kanko.info/"
+        "event_url": "https://takachiho-kanko.info/",
+        "image_url": "static/images/events/45_002.jpg"
       },
       {
         "event_id": "45_003",
@@ -1480,7 +1614,8 @@
         "month": "7月中旬",
         "category": "花火",
         "description": "宮崎県で開催される代表的イベント「みやざき納涼花火大会」。",
-        "event_url": "https://miyazaki-natsumatsuri.com/"
+        "event_url": "https://miyazaki-natsumatsuri.com/",
+        "image_url": "static/images/events/45_003.jpg"
       }
     ]
   },
@@ -1495,7 +1630,8 @@
         "month": "3月上旬",
         "category": "スポーツイベント",
         "description": "鹿児島県で開催される代表的イベント「鹿児島マラソン」。",
-        "event_url": "https://kagoshima-marathon.jp/"
+        "event_url": "https://kagoshima-marathon.jp/",
+        "image_url": "static/images/events/46_001.jpg"
       },
       {
         "event_id": "46_002",
@@ -1504,7 +1640,8 @@
         "month": "7月中旬",
         "category": "祭り",
         "description": "鹿児島県で開催される代表的イベント「六月灯」。",
-        "event_url": "https://www.kagoshima-kankou.com/"
+        "event_url": "https://www.kagoshima-kankou.com/",
+        "image_url": "static/images/events/46_002.jpg"
       },
       {
         "event_id": "46_003",
@@ -1513,7 +1650,8 @@
         "month": "1月上旬",
         "category": "スポーツイベント",
         "description": "鹿児島県で開催される代表的イベント「指宿菜の花マラソン」。",
-        "event_url": "https://ibusuki-nanohana.com/"
+        "event_url": "https://ibusuki-nanohana.com/",
+        "image_url": "static/images/events/46_003.jpg"
       }
     ]
   },
@@ -1528,7 +1666,8 @@
         "month": "10月上旬",
         "category": "祭り",
         "description": "沖縄県で開催される代表的イベント「那覇大綱挽まつり」。",
-        "event_url": "https://www.naha-otsunahiki.org/"
+        "event_url": "https://www.naha-otsunahiki.org/",
+        "image_url": "static/images/events/47_001.jpg"
       },
       {
         "event_id": "47_002",
@@ -1537,7 +1676,8 @@
         "month": "8月上旬",
         "category": "踊り",
         "description": "沖縄県で開催される代表的イベント「沖縄全島エイサーまつり」。",
-        "event_url": "https://eisa-matsuri.jp/"
+        "event_url": "https://eisa-matsuri.jp/",
+        "image_url": "static/images/events/47_002.jpg"
       },
       {
         "event_id": "47_003",
@@ -1546,7 +1686,8 @@
         "month": "7月下旬",
         "category": "花火",
         "description": "沖縄県で開催される代表的イベント「海洋博公園花火大会」。",
-        "event_url": "https://oki-park.jp/kaiyohaku/"
+        "event_url": "https://oki-park.jp/kaiyohaku/",
+        "image_url": "static/images/events/47_003.jpg"
       }
     ]
   }
