@@ -265,8 +265,8 @@ def delete_spot_photo(photo_id):
 # ============================================
 @spot_bp.route("/search", methods=["GET"])
 def spot_search():
-    return render_template("spot_search.html", prefectures=PREF_LIST)
-
+    selected_pref = request.args.get("prefecture", "")
+    return render_template("spot_search.html", prefectures=PREF_LIST, selected_pref=selected_pref)
 
 # ============================================
 # 📍 観光地検索結果
@@ -311,7 +311,36 @@ def spot_search_results():
     prefectures = [p["pref_name_ja"] for p in data]
 
     return render_template(
-        "spot_search_results.html",
-        results=results,
-        prefectures=prefectures
-    )
+    "spot_search_results.html",
+    results=results,
+    prefectures=prefectures,
+    selected_pref=prefecture, 
+    keyword=keyword
+)
+
+
+
+# ====================================================
+# 都道府県クリック時の分岐
+#   GET /spot/pref/<pref_name>
+#   ある: /spot/list?prefecture=〇〇
+#   ない: /spot/search?prefecture=〇〇
+# ====================================================
+@spot_bp.route("/pref/<string:pref_name>", methods=["GET"])
+def pref_click(pref_name):
+    if not session.get("logged_in"):
+        return redirect(url_for("auth.login"))
+
+    user_id = session.get("user_id")
+    pref_full = pref_name.strip()
+
+    # Spotは短縮で保存されてるので短縮に合わせる
+    pref_short = pref_full if pref_full == "北海道" else pref_full.replace("都", "").replace("府", "").replace("県", "")
+
+    exists = Spot.query.filter_by(user_id=user_id, prefecture=pref_short).first() is not None
+
+    if exists:
+        return redirect(url_for("spot.spot_list", prefecture=pref_full))
+    else:
+        # ★検索結果画面へ直行（keywordは空でOK）
+        return redirect(url_for("spot.spot_search_results", prefecture=pref_short, keyword=""))

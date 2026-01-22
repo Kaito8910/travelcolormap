@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
-    // SVG を inline で読み込み
+  // SVG を inline で読み込み
     const res = await fetch("/static/svg/map-full.svg");
     const svgText = await res.text();
 
@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         svg.style.display = "block";
     }
 
-    // ① API から都道府県別訪問回数を取得
+  // ① API から都道府県別訪問回数を取得
     const prefRes = await fetch("/api/pref-counts");
     const prefData = await prefRes.json();
-    console.log("prefData", prefData); // ← 必ず出るか確認
+    console.log("prefData", prefData);
 
-    // ② 色決定ロジック
+  // ② 色決定ロジック
     function getColor(count) {
         if (count === 0) return "#EEEEEE";
         if (count === 1) return "#A8DADC";
@@ -28,24 +28,54 @@ document.addEventListener("DOMContentLoaded", async () => {
         return "#1D3557";
     }
 
-    // ③ SVG の県を取得
-    const prefectures = container.querySelectorAll("g.prefecture");
-    console.log("FOUND PREF:", prefectures.length); // ← 47 なら OK
+  // ★ クリック用：短縮名 → フル表記（PREF_LISTが「○○県」前提）
+    function toFullPrefName(prefJa) {
+        if (prefJa === "北海道") return "北海道";
+        if (prefJa === "東京") return "東京都";
+        if (prefJa === "大阪") return "大阪府";
+        if (prefJa === "京都") return "京都府";
+        return `${prefJa}県`;
+    }
 
-    // ④ 色を反映
+  // ③ SVG の県を取得
+    const prefectures = container.querySelectorAll("g.prefecture");
+    console.log("FOUND PREF:", prefectures.length);
+
+  // ④ 色反映 + クリック追加
     prefectures.forEach(pref => {
         const titleTag = pref.querySelector("title");
         if (!titleTag) return;
 
-        const fullTitle = titleTag.textContent.trim(); 
-        const prefName = fullTitle.split("/")[0].trim(); // "北海道"
+        const fullTitle = titleTag.textContent.trim();
+        const prefName = fullTitle.split("/")[0].trim(); // "埼玉" や "北海道"
 
         const count = prefData[prefName] || 0;
+        console.log(prefName, "→", count);
 
-        console.log(prefName, "→", count); // ← 色判定ログ
-
+    // 色を塗る
         pref.querySelectorAll("polygon, path").forEach(elem => {
             elem.style.fill = getColor(count);
+        });
+
+    // クリックできるようにする
+        pref.style.cursor = "pointer";
+
+    // クリック時の遷移（登録あり→list、なし→search は Flask /spot/pref/<...> が判定）
+        const prefFull = toFullPrefName(prefName);
+        const go = () => {
+            window.location.href = `/spot/pref/${encodeURIComponent(prefFull)}`;
+        };
+
+    // g に付ける（効かない環境があるので）
+        pref.addEventListener("click", go);
+
+    // polygon/path にも付けて確実にする
+        pref.querySelectorAll("polygon, path").forEach(elem => {
+            elem.style.cursor = "pointer";
+            elem.addEventListener("click", (e) => {
+                e.stopPropagation();
+                go();
+            });
         });
     });
 });
