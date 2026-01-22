@@ -1436,14 +1436,6 @@
         "category":"城・公園",
         "description":"伊達政宗像が立つ定番観光地。",
         "image_url": "static/images/spots/45_003.jpg"
-      },
-      {
-        "spot_id":"45_004",
-        "spot_name":"秋保温泉",
-        "city":"仙台市",
-        "category":"温泉",
-        "description":"秋保大滝や温泉宿でゆったりできる。",
-        "image_url": "static/images/spots/45_004.jpg"
       }
     ]
   },
