@@ -11,7 +11,8 @@
         <select name="prefecture" id="prefecture">
             <option value="">すべて</option>
             {% for pref in prefectures %}
-                <option value="{{ pref }}" {% if request.args.get('prefecture') == pref %}selected{% endif %}>
+                <option value="{{ pref }}"
+                    {% if selected_pref == pref %}selected{% endif %}>
                     {{ pref }}
                 </option>
             {% endfor %}
@@ -40,10 +41,7 @@
                     市区町村：{{ spot.city }}<br>
                     カテゴリ：{{ spot.category }}<br>
                     説明：{{ spot.description }}
-                </li>
-
-                <!-- ブックマークボタン -->
-                {% if session.get('logged_in') %}
+                    {% if session.get('logged_in') %}
                     <button class="bookmark-btn"
                         data-type="spot"
                         data-id="{{ spot.spot_id }}"
@@ -52,6 +50,7 @@
                         ☆ ブックマーク
                     </button>
                 {% endif %}
+                </li>
             {% endfor %}
         </ul>
     {% else %}

@@ -5,14 +5,16 @@
 <div class="register-container">
     <h1>スポット検索</h1>
 
-    <!-- Blueprint 対応版 -->
     <form method="GET" action="{{ url_for('spot.spot_search_results') }}">
 
         <label for="prefecture">都道府県:</label>
         <select name="prefecture" id="prefecture">
             <option value="">すべて</option>
             {% for pref in prefectures %}
-                <option value="{{ pref }}">{{ pref }}</option>
+                <option value="{{ pref }}"
+                    {% if selected_pref == pref %}selected{% endif %}>
+                    {{ pref }}
+                </option>
             {% endfor %}
         </select>
 

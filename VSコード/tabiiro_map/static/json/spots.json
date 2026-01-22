@@ -10,21 +10,24 @@
         "spot_name": "札幌時計台",
         "city": "札幌市",
         "category": "歴史・建造物",
-        "description": "札幌を代表する歴史的建造物。夜間ライトアップも人気。"
+        "description": "札幌を代表する歴史的建造物。夜間ライトアップも人気。",
+        "image_url": "static/images/spots/01_001.jpg"
       },
       {
         "spot_id": "01_002",
         "spot_name":"函館山展望台",
         "city":"函館市",
         "category":"景観・歴史",
-        "description":"世界三大夜景で、「100万ドルの夜景」が見れると謳われた展望スポット。"
+        "description":"世界三大夜景で、「100万ドルの夜景」が見れると謳われた展望スポット。",
+        "image_url": "static/images/spots/01_002.jpg"
       },
       {
         "spot_id": "01_003",
         "spot_name":"釧路",
         "city":"釧路市",
         "category":"歴史・街歩き",
-        "description":"タンチョウが舞う美しい街・釧路の旅"
+        "description":"タンチョウが舞う美しい街・釧路の旅",
+        "image_url": "static/images/spots/01_003.jpg"
       }
     ]
   },
@@ -39,21 +42,24 @@
         "spot_name": "ねぶたの家 ワ・ラッセ",
         "city": "青森市",
         "category": "文化・博物館",
-        "description": "青森ねぶた祭の歴史や大型ねぶたの展示が楽しめる施設。"
+        "description": "青森ねぶた祭の歴史や大型ねぶたの展示が楽しめる施設。",
+        "image_url": "static/images/spots/02_001.jpg"
       },
       {
         "spot_id":"02_002",
         "spot_name":"三内丸山遺跡",
         "city":"青森市",
         "category":"歴史・建造物",
-        "description":"縄文遺跡群の一つである「三内丸山遺跡」,縄文人の生活を体験できる。"
+        "description":"縄文遺跡群の一つである「三内丸山遺跡」,縄文人の生活を体験できる。",
+        "image_url": "static/images/spots/02_002.jpg"
       },
       {
         "spot_id":"02_003",
         "spot_name":"弘前城",
         "city":"弘前市",
         "category":"城・歴史",
-        "description":"江戸期に築かれた天守が現在までその姿をとどめている城"
+        "description":"江戸期に築かれた天守が現在までその姿をとどめている城",
+        "image_url": "static/images/spots/02_003.jpg"
       }
     ]
   },
@@ -68,21 +74,24 @@
         "spot_name": "中尊寺金色堂",
         "city": "平泉町",
         "category": "寺社・歴史",
-        "description": "世界遺産『平泉』を代表する仏教建築。金色堂が有名。"
+        "description": "世界遺産『平泉』を代表する仏教建築。金色堂が有名。",
+        "image_url": "static/images/spots/03_001.jpg"
       },
       {
         "spot_id":"03_002",
         "spot_name":"猊鼻渓（げいびけい）",
         "city":"一関市",
         "category":"観光・体験",
-        "description":"日本で唯一、竿一本で舟下りをすることができる。"
+        "description":"日本で唯一、竿一本で舟下りをすることができる。",
+        "image_url": "static/images/spots/03_002.jpg"
       },
       {
         "spot_id":"03_003",
         "spot_name":"龍泉洞",
         "city":"下閉伊郡岩泉町",
         "category":"自然景観",
-        "description":"日本三大鍾乳洞の一つといわれ、国の天然記念物。"
+        "description":"日本三大鍾乳洞の一つといわれ、国の天然記念物。",
+        "image_url": "static/images/spots/03_003.jpg"
       }
     ]
   },
@@ -97,21 +106,24 @@
         "spot_name": "松島湾",
         "city": "松島町",
         "category": "自然景観",
-        "description": "日本三景の一つ。多島美が楽しめるクルーズが人気。"
+        "description": "日本三景の一つ。多島美が楽しめるクルーズが人気。",
+        "image_url": "static/images/spots/04_001.jpg"
       },
       {
         "spot_id":"04_002",
         "spot_name":"鹽竈神社",
         "city":"塩竈市",
         "category":"寺社・歴史",
-        "description":"三つある参道の内の一つ「七曲坂」は塩土老翁神が通ったとされる神聖な場所。"
+        "description":"三つある参道の内の一つ「七曲坂」は塩土老翁神が通ったとされる神聖な場所。",
+        "image_url": "static/images/spots/04_002.jpg"
       },
       {
         "spot_id":"04_003",
         "spot_name":"石ノ森萬画館",
         "city":"石巻市",
         "category":"テーマパーク",
-        "description":"マンガ家・石ノ森章太郎の世界を体感できるマンガミュージアム。"
+        "description":"マンガ家・石ノ森章太郎の世界を体感できるマンガミュージアム。",
+        "image_url": "static/images/spots/04_003.jpg"
       }
     ]
   },
@@ -126,21 +138,24 @@
         "spot_name": "角館武家屋敷通り",
         "city": "仙北市",
         "category": "歴史・街歩き",
-        "description": "武家屋敷としだれ桜の景観が魅力の小京都。"
+        "description": "武家屋敷としだれ桜の景観が魅力の小京都。",
+        "image_url": "static/images/spots/05_001.jpg"
       },
       {
         "spot_id":"05_002",
         "spot_name":"乳頭温泉郷",
         "city":"仙北市",
         "category":"温泉",
-        "description":"個性あふれる宿が揃う山奥の秘湯を湯巡り。"
+        "description":"個性あふれる宿が揃う山奥の秘湯を湯巡り。",
+        "image_url": "static/images/spots/05_002.jpg"
       },
       {
         "spot_id":"05_003",
         "spot_name":"十和田湖遊覧船",
         "city":"十和田市",
         "category":"湖",
-        "description":"50分の絶景クルージング"
+        "description":"50分の絶景クルージング",
+        "image_url": "static/images/spots/05_003.jpg"
       }
     ]
   },
@@ -155,21 +170,24 @@
         "spot_name": "山寺（立石寺）",
         "city": "山形市",
         "category": "寺社・山登り",
-        "description": "千段を超える石段を登ると絶景が広がる名刹。"
+        "description": "千段を超える石段を登ると絶景が広がる名刹。",
+        "image_url": "static/images/spots/06_001.jpg"
       },
       {
         "spot_id":"06_002",
         "spot_name":"上杉神社",
         "city":"米沢市",
         "category":"寺社",
-        "description":"謙信や景勝が所有していた甲冑類や刀などが観賞できる。"
+        "description":"謙信や景勝が所有していた甲冑類や刀などが観賞できる。",
+        "image_url": "static/images/spots/06_002.jpg"
       },
       {
         "spot_id":"06_003",
         "spot_name":"銀山温泉",
         "city":"尾花沢市",
         "category":"温泉・観光",
-        "description":"カフェや食べ歩きなどの食スポットがありのんびり散策を楽しめる。"
+        "description":"カフェや食べ歩きなどの食スポットがありのんびり散策を楽しめる。",
+        "image_url": "static/images/spots/06_003.jpg"
       }
     ]
   },
@@ -184,21 +202,24 @@
         "spot_name": "鶴ヶ城",
         "city": "会津若松市",
         "category": "城・歴史",
-        "description": "白い天守が美しい会津藩の名城。桜と紅葉も見事。"
+        "description": "白い天守が美しい会津藩の名城。桜と紅葉も見事。",
+        "image_url": "static/images/spots/07_001.jpg"
       },
       {
         "spot_id":"07_002",
         "spot_name":"野口英世記念館",
         "city":"耶麻郡猪苗代町",
         "category":"文化・歴史",
-        "description":"野口の生涯と研究についての映像が見ることができる。"
+        "description":"野口の生涯と研究についての映像が見ることができる。",
+        "image_url": "static/images/spots/07_002.jpg"
       },
       {
         "spot_id":"07_003",
         "spot_name":"あぶくま洞",
         "city":"田村市",
         "category":"文化・体験",
-        "description":"全長約600mにわたって続く鍾乳洞。"
+        "description":"全長約600mにわたって続く鍾乳洞。",
+        "image_url": "static/images/spots/07_003.jpg"
       }
     ]
   },
@@ -213,21 +234,24 @@
         "spot_name": "偕楽園",
         "city": "水戸市",
         "category": "庭園・公園",
-        "description": "日本三名園の一つ。梅の名所として有名。"
+        "description": "日本三名園の一つ。梅の名所として有名。",
+        "image_url": "static/images/spots/08_001.jpg"
       },
       {
         "spot_id":"08_002",
         "spot_name":"国営ひたち海浜公園",
         "city":"ひたちなか市",
         "category":"テーマパーク",
-        "description":"花の名所として県内外の人々に親しまれています。"
+        "description":"花の名所として県内外の人々に親しまれています。",
+        "image_url": "static/images/spots/08_002.jpg"
       },
       {
         "spot_id":"08_003",
         "spot_name":"筑波山（筑波山神社）",
         "city":"つくば市",
         "category":"山岳観光",
-        "description":"ロープウェイやケーブルカーなど移動手段も豊富。"
+        "description":"ロープウェイやケーブルカーなど移動手段も豊富。",
+        "image_url": "static/images/spots/08_003.jpg"
       }
     ]
   },
@@ -242,21 +266,24 @@
         "spot_name": "日光東照宮",
         "city": "日光市",
         "category": "寺社・世界遺産",
-        "description": "徳川家康を祀る豪華絢爛な社殿群が見どころ。"
+        "description": "徳川家康を祀る豪華絢爛な社殿群が見どころ。",
+        "image_url": "static/images/spots/09_001.jpg"
       },
       {
         "spot_id":"09_002",
         "spot_name":"あしかがフラワーパーク",
         "city":"足利市",
         "category":"テーマパーク",
-        "description":"春夏秋冬、色とりどりの花が楽しめるスポットです。"
+        "description":"春夏秋冬、色とりどりの花が楽しめるスポットです。",
+        "image_url": "static/images/spots/09_002.jpg"
       },
       {
         "spot_id":"09_003",
         "spot_name":"那須ハイランドパーク",
         "city":"那須郡那須町",
         "category":"テーマパーク",
-        "description":"北関東最大級の老舗テーマパークです。"      
+        "description":"北関東最大級の老舗テーマパークです。",
+        "image_url": "static/images/spots/09_003.jpg"
       }
     ]
   },
@@ -271,21 +298,24 @@
         "spot_name": "草津温泉湯畑",
         "city": "草津町",
         "category": "温泉街",
-        "description": "湯けむりとライトアップが印象的な温泉街の中心スポット。"
+        "description": "湯けむりとライトアップが印象的な温泉街の中心スポット。",
+        "image_url": "static/images/spots/10_001.jpg"
       },
       {
         "spot_id":"10_002",
         "spot_name":"赤城山",
         "city":"前橋市",
         "category":"寺社・山登り",
-        "description":"豊富な登山コースが整備されている。"
+        "description":"豊富な登山コースが整備されている。",
+        "image_url": "static/images/spots/10_002.jpg"
       },
       {
         "spot_id":"10_003",
         "spot_name":"富岡製糸場",
         "city":"富岡市",
         "category":"博物館",
-        "description":"日本近代産業発祥の地として世界遺産に登録。"
+        "description":"日本近代産業発祥の地として世界遺産に登録。",
+        "image_url": "static/images/spots/10_003.jpg"
       }
     ]
   },
@@ -300,21 +330,24 @@
         "spot_name": "小江戸川越一番街",
         "city": "川越市",
         "category": "街歩き",
-        "description": "蔵造りの町並みと時の鐘が有名な小江戸エリア。"
+        "description": "蔵造りの町並みと時の鐘が有名な小江戸エリア。",
+        "image_url": "static/images/spots/11_001.jpg"
       },
       {
         "spot_id":"11_002",
         "spot_name":"高麗神社",
         "city":"日高市",
         "category":"寺社",
-        "description":"現在でも「出世明神」として祀られています。"
+        "description":"現在でも「出世明神」として祀られています。",
+        "image_url": "static/images/spots/11_002.jpg"
       },
       {
         "spot_id":"11_003",
         "spot_name":"永田の家",
         "city":"入曽",
         "category":"アート・島旅" ,
-        "description":"歴史長い家があります。"
+        "description":"歴史長い家があります。",
+        "image_url": "static/images/spots/11_003.jpg"
       }
     ]
   },
@@ -329,21 +362,24 @@
         "spot_name": "東京ディズニーリゾート",
         "city": "浦安市",
         "category": "テーマパーク",
-        "description": "ディズニーランド＆シーを有する日本最大級のテーマリゾート。"
+        "description": "ディズニーランド＆シーを有する日本最大級のテーマリゾート。",
+        "image_url": "static/images/spots/12_001.jpg"
       },
       {
         "spot_id":"12_002",
         "spot_name":"ふなばしアンデルセン公園",
         "city":"船橋市",
         "category":"自然景観",
-        "description":"デンマークの牧歌的風景を再現した公園。"
+        "description":"デンマークの牧歌的風景を再現した公園。",
+        "image_url": "static/images/spots/12_002.jpg"
       },
       {
         "spot_id":"12_003",
         "spot_name":"成田山新勝寺",
         "city":"成田市",
         "category":"寺社",
-        "description":"真言宗智山派の大本山。"
+        "description":"真言宗智山派の大本山。",
+        "image_url": "static/images/spots/12_003.jpg"
       }
     ]
   },
@@ -358,21 +394,24 @@
         "spot_name": "浅草・浅草寺",
         "city": "台東区",
         "category": "寺社・下町",
-        "description": "雷門や仲見世通りで下町情緒を楽しめる東京屈指の観光地。"
+        "description": "雷門や仲見世通りで下町情緒を楽しめる東京屈指の観光地。",
+        "image_url": "static/images/spots/13_001.jpg"
       },
       {
         "spot_id":"13_002",
         "spot_name":"東京スカイツリー",
         "city":"墨田区",
         "category":"観光・体験",
-        "description":"東京の街を一望"
+        "description":"東京の街を一望",
+        "image_url": "static/images/spots/13_002.jpg"
       },
       {
         "spot_id":"13_003",
         "spot_name":"渋谷スクランブルスクエア",
         "city":"渋谷区",
         "category":"観光・体験",
-        "description":"アパレル店や飲食店充実した買い物ができる。"
+        "description":"アパレル店や飲食店充実した買い物ができる。",
+        "image_url": "static/images/spots/13_003.jpg"
       }
     ]
   },
@@ -387,21 +426,24 @@
         "spot_name": "鎌倉大仏（高徳院）",
         "city": "鎌倉市",
         "category": "寺社・歴史",
-        "description": "鎌倉の象徴ともいえる大仏が鎮座する名所。"
+        "description": "鎌倉の象徴ともいえる大仏が鎮座する名所。",
+        "image_url": "static/images/spots/14_001.jpg"
       },
       {
         "spot_id":"14_002",
         "spot_name":"横浜中華街",
         "city":"横浜市",
         "category":"観光・体験",
-        "description":"多くの中華料理店がそろった商店街。"
+        "description":"多くの中華料理店がそろった商店街。",
+        "image_url": "static/images/spots/14_002.jpg"
       },
       {
         "spot_id":"14_003",
         "spot_name":"八景島シーパラダイス",
         "city":"横浜市",
         "category":"観光・体験",
-        "description":"4つの水族館があり、子どもから大人まで楽しめる。"
+        "description":"4つの水族館があり、子どもから大人まで楽しめる。",
+        "image_url": "static/images/spots/14_003.jpg"
       }
     ]
   },
@@ -416,21 +458,24 @@
         "spot_name": "北方文化博物館",
         "city": "新潟市",
         "category": "文化・歴史",
-        "description": "豪農伊藤家の屋敷を利用した庭園と建築が美しい博物館。"
+        "description": "豪農伊藤家の屋敷を利用した庭園と建築が美しい博物館。",
+        "image_url": "static/images/spots/15_001.jpg"
       },
       {
         "spot_id":"15_002",
         "spot_name":"彌彦神社",
         "city":"西蒲原郡弥彦村",
         "category":"寺社",
-        "description":"創建から2,400年以上の歴史があるとされる神社"
+        "description":"創建から2,400年以上の歴史があるとされる神社",
+        "image_url": "static/images/spots/15_002.jpg"
       },
       {
         "spot_id":"15_003",
         "spot_name":"佐渡金山遺跡",
         "city":"佐渡市",
         "category":"自然景観",
-        "description":"日本最大の金銀山として1601年に開山した佐渡金山。"
+        "description":"日本最大の金銀山として1601年に開山した佐渡金山。",
+        "image_url": "static/images/spots/15_003.jpg"
       }
     ]
   },
@@ -445,21 +490,24 @@
         "spot_name": "立山黒部アルペンルート",
         "city": "立山町",
         "category": "山岳観光",
-        "description": "雪の大谷や立山連峰の絶景が楽しめる山岳観光ルート。"
+        "description": "雪の大谷や立山連峰の絶景が楽しめる山岳観光ルート。",
+        "image_url": "static/images/spots/16_001.jpg"
       },
       {
         "spot_id":"16_002",
         "spot_name":"五箇山合掌造り集落",
         "city":"南砺市",
         "category":"街歩き",
-        "description":"日本の伝統的な山村景観を今に伝える貴重な場所。"
+        "description":"日本の伝統的な山村景観を今に伝える貴重な場所。",
+        "image_url": "static/images/spots/16_002.jpg"
       },
       {
         "spot_id":"16_003",
         "spot_name":"富山市ガラス美術館",
         "city":"富山市",
         "category":"博物館",
-        "description":"代アートを中心とした美術館。"
+        "description":"代アートを中心とした美術館。",
+        "image_url": "static/images/spots/16_003.jpg"
       }
     ]
   },
@@ -474,21 +522,24 @@
         "spot_name": "兼六園",
         "city": "金沢市",
         "category": "庭園・公園",
-        "description": "日本三名園の一つ。四季折々の景観が楽しめる大名庭園。"
+        "description": "日本三名園の一つ。四季折々の景観が楽しめる大名庭園。",
+        "image_url": "static/images/spots/17_001.jpg"
       },
       {
         "spot_id":"17_002",
         "spot_name":"金沢城公園",
         "city":"金沢市",
         "category":"城・公園",
-        "description":"日本古来の伝統工法を再現した「菱櫓・五十間長屋・橋爪門続櫓」。"
+        "description":"日本古来の伝統工法を再現した「菱櫓・五十間長屋・橋爪門続櫓」。",
+        "image_url": "static/images/spots/17_002.jpg"
       },
       {
         "spot_id":"17_003",
         "spot_name":"ひがし茶屋街",
         "city":"金沢市",
         "category":"観光・体験",
-        "description":"国の重要伝統的建造物群保存地区に選定されている。"
+        "description":"国の重要伝統的建造物群保存地区に選定されている。",
+        "image_url": "static/images/spots/17_003.jpg"
       }
     ]
   },
@@ -503,21 +554,24 @@
         "spot_name": "福井県立恐竜博物館",
         "city": "勝山市",
         "category": "博物館",
-        "description": "国内最大級の恐竜博物館。家族連れにも人気。"
+        "description": "国内最大級の恐竜博物館。家族連れにも人気。",
+        "image_url": "static/images/spots/18_001.jpg"
       },
       {
         "spot_id":"18_002",
         "spot_name":"東尋坊",
         "city":"坂井市",
         "category":"海岸・景観",
-        "description":"「日本の夕陽百選」に選定されています。"
+        "description":"「日本の夕陽百選」に選定されています。",
+        "image_url": "static/images/spots/18_002.jpg"
       },
       {
         "spot_id":"18_003",
         "spot_name":"永平寺",
         "city":"永平寺町",
         "category":"寺社",
-        "description":"僧侶が修行をする清浄な場所として重要な建物"
+        "description":"僧侶が修行をする清浄な場所として重要な建物",
+        "image_url": "static/images/spots/18_003.jpg"
       }
     ]
   },
@@ -532,21 +586,24 @@
         "spot_name": "河口湖",
         "city": "富士河口湖町",
         "category": "湖・富士山ビュー",
-        "description": "富士山と湖のコントラストが美しいリゾートエリア。"
+        "description": "富士山と湖のコントラストが美しいリゾートエリア。",
+        "image_url": "static/images/spots/19_001.jpg"
       },
       {
         "spot_id":"19_002",
         "spot_name":"舞鶴城公園",
         "city":"甲府市",
         "category":"城・公園",
-        "description":"豊臣秀吉の命により築城された甲府城。"
+        "description":"豊臣秀吉の命により築城された甲府城。",
+        "image_url": "static/images/spots/19_002.jpg"
       },
       {
         "spot_id":"19_003",
         "spot_name":"甲州夢小路",
         "city":"甲府市",
         "category":"観光・体験",
-        "description":"甲府城下町を再現したレトロな雰囲気のショッピングエリア。"
+        "description":"甲府城下町を再現したレトロな雰囲気のショッピングエリア。",
+        "image_url": "static/images/spots/19_003.jpg"
       }
     ]
   },
@@ -561,21 +618,24 @@
         "spot_name": "松本城",
         "city": "松本市",
         "category": "城・歴史",
-        "description": "現存天守の国宝五城の一つ。黒い外観から烏城とも呼ばれる。"
+        "description": "現存天守の国宝五城の一つ。黒い外観から烏城とも呼ばれる。",
+        "image_url": "static/images/spots/20_001.jpg"
       },
       {
         "spot_id":"20_002",
         "spot_name":"軽井沢",
         "city":"軽井沢町",
         "category":"観光・体験",
-        "description":"戦後は別荘地として開発された「軽井沢」。"
+        "description":"戦後は別荘地として開発された「軽井沢」。",
+        "image_url": "static/images/spots/20_002.jpg"
       },
       {
         "spot_id":"20_003",
         "spot_name":"諏訪湖",
         "city":"諏訪市",
         "category":"湖・富士山ビュー",
-        "description":"君の名は。』に登場する「糸守湖」の風景に似ていると話題になったスポット。"
+        "description":"君の名は。』に登場する「糸守湖」の風景に似ていると話題になったスポット。",
+        "image_url": "static/images/spots/20_003.jpg"
       }
     ]
   },
@@ -590,21 +650,24 @@
         "spot_name": "高山古い町並",
         "city": "高山市",
         "category": "街歩き",
-        "description": "江戸時代の町並みが残る飛騨の小京都。食べ歩きも楽しい。"
+        "description": "江戸時代の町並みが残る飛騨の小京都。食べ歩きも楽しい。",
+        "image_url": "static/images/spots/21_001.jpg"
       },
       {
         "spot_id":"21_002",
         "spot_name":"下呂温泉",
         "city":"下呂市",
         "category":"温泉",
-        "description":"兵庫県の有馬、群馬県の草津と並ぶ「日本三名泉」のひとつ。"
+        "description":"兵庫県の有馬、群馬県の草津と並ぶ「日本三名泉」のひとつ。",
+        "image_url": "static/images/spots/21_002.jpg"
       },
       {
         "spot_id":"21_003",
         "spot_name":"美山鍾乳洞",
         "city":"郡上市",
         "category":"自然景観",
-        "description":"総延長2,000メートル以上の立体迷路型タテ穴式鍾乳洞。"
+        "description":"総延長2,000メートル以上の立体迷路型タテ穴式鍾乳洞。",
+        "image_url": "static/images/spots/21_003.jpg"
       }
     ]
   },
@@ -619,21 +682,24 @@
         "spot_name": "富士山本宮浅間大社",
         "city": "富士宮市",
         "category": "寺社・富士山",
-        "description": "富士山信仰の中心地。世界文化遺産の構成資産。"
+        "description": "富士山信仰の中心地。世界文化遺産の構成資産。",
+        "image_url": "static/images/spots/22_001.jpg"
       },
       {
         "spot_id":"22_002",
         "spot_name":"熱海温泉",
         "city":"熱海市",
         "category":"温泉街",
-        "description":"伊豆半島の東側の付け根にある日本でも屈指の大規模温泉地。"
+        "description":"伊豆半島の東側の付け根にある日本でも屈指の大規模温泉地。",
+        "image_url": "static/images/spots/22_002.jpg"
       },
       {
         "spot_id":"22_003",
         "spot_name":"富士サファリパーク",
         "city":"裾野市",
         "category":"テーマパーク",
-        "description":"国内初の森林型自然動物公園。"
+        "description":"国内初の森林型自然動物公園。" ,
+        "image_url": "static/images/spots/22_003.jpg"
       }
     ]
   },
@@ -648,21 +714,24 @@
         "spot_name": "名古屋城",
         "city": "名古屋市",
         "category": "城・歴史",
-        "description": "金のしゃちほこで有名な名古屋のシンボル。"
+        "description": "金のしゃちほこで有名な名古屋のシンボル。", 
+        "image_url": "static/images/spots/23_001.jpg"
       },
       {
         "spot_id":"23_002",
         "spot_name":"熱田神宮",
         "city":"名古屋市",
         "category":"寺社",
-        "description":"三種の神器のひとつ「草薙剣」を祀る由緒ある神社。"
+        "description":"三種の神器のひとつ「草薙剣」を祀る由緒ある神社。",
+        "image_url": "static/images/spots/23_002.jpg"
       },
       {
         "spot_id":"23_003",
         "spot_name":"犬山城",
         "city":"犬山市",
         "category":"山岳観光",
-        "description":"近くの昭和レトロな「犬山城下町」も人気。"
+        "description":"近くの昭和レトロな「犬山城下町」も人気。",
+        "image_url": "static/images/spots/23_003.jpg"
       }
     ]
   },
@@ -677,21 +746,24 @@
         "spot_name": "伊勢神宮 内宮",
         "city": "伊勢市",
         "category": "寺社",
-        "description": "『お伊勢さん』として親しまれる日本人の心のふるさと。"
+        "description": "『お伊勢さん』として親しまれる日本人の心のふるさと。",
+        "image_url": "static/images/spots/24_001.jpg"
       },
       {
         "spot_id":"24_002",
         "spot_name":"ナガシマスパーランド",
         "city":"桑名市",
         "category":"テーマパーク",
-        "description":"小さな子ども向けアトラクションも約30種あり、子連れで楽しめる遊園地です。"
+        "description":"小さな子ども向けアトラクションも約30種あり、子連れで楽しめる遊園地です。",
+        "image_url": "static/images/spots/24_002.jpg"
       },
       {
         "spot_id":"24_003",
         "spot_name":"四日市コンビナート夜景クルーズ",
         "city":"四日市市",
         "category":"アート・島旅",
-        "description":"ダイナミックな光群と水面に反射する幻想的な夜景が魅力です。"
+        "description":"ダイナミックな光群と水面に反射する幻想的な夜景が魅力です。",
+        "image_url": "static/images/spots/24_003.jpg"
       }
     ]
   },
@@ -706,21 +778,24 @@
         "spot_name": "彦根城",
         "city": "大津市",
         "category": "城・歴史",
-        "description": "ゆるキャラ『ひこにゃん』でも知られる国宝の名城。"
+        "description": "ゆるキャラ『ひこにゃん』でも知られる国宝の名城。",
+        "image_url": "static/images/spots/25_001.jpg"
       },
       {
         "spot_id":"25_002",
         "spot_name":"琵琶湖",
         "city":"大津市",
         "category":"湖",
-        "description":"日本最大の湖。滋賀県の面積のおよそ1/6を占めます"
+        "description":"日本最大の湖。滋賀県の面積のおよそ1/6を占めます",
+        "image_url": "static/images/spots/25_002.jpg"
       },
       {
         "spot_id":"25_003",
         "spot_name":"近江八幡水郷めぐり",
         "city":"近江八幡市",
         "category":"観光・体験",
-        "description":"春色・安土八幡の水郷」をめぐる近江八幡観光の名物「水郷めぐり」。"
+        "description":"春色・安土八幡の水郷」をめぐる近江八幡観光の名物「水郷めぐり」。",
+        "image_url": "static/images/spots/25_003.jpg"
       }
     ]
   },
@@ -735,21 +810,24 @@
         "spot_name": "清水寺",
         "city": "京都市",
         "category": "寺社・景観",
-        "description": "清水の舞台からの眺望が有名な世界遺産の寺院。"
+        "description": "清水の舞台からの眺望が有名な世界遺産の寺院。",
+        "image_url": "static/images/spots/26_001.jpg"
       },
       {
         "spot_id":"26_002",
         "spot_name":"五重塔",
         "city":"京都市",
         "category":"寺社",
-        "description":"気軽に訪れることができる[東寺」です。"
+        "description":"気軽に訪れることができる[東寺」です。",
+        "image_url": "static/images/spots/26_002.jpg"
       },
       {
         "spot_id":"26_003",
         "spot_name":"金閣寺",
         "city":"北区",
         "category":"寺社",
-        "description":"四季ごとに違った美しさを楽しめる。"
+        "description":"四季ごとに違った美しさを楽しめる。",
+        "image_url": "static/images/spots/26_003.jpg"
       }
     ]
   },
@@ -764,21 +842,24 @@
         "spot_name": "大阪城公園",
         "city": "大阪市",
         "category": "城・公園",
-        "description": "大阪城天守閣を中心とした広大な都会のオアシス。"
+        "description": "大阪城天守閣を中心とした広大な都会のオアシス。",
+        "image_url": "static/images/spots/27_001.jpg"
       },
       {
         "spot_id":"27_002",
         "spot_name":"USJ",
         "city":"此花区",
         "category":"テーマパーク",
-        "description":"マリオ・ハリポタ・ジュラシックなどのエリアが人気"
+        "description":"マリオ・ハリポタ・ジュラシックなどのエリアが人気",
+        "image_url": "static/images/spots/27_002.jpg"
       },
       {
         "spot_id":"27_003",
         "spot_name":"道頓堀",
         "city":"大阪市",
         "category":"街歩き",
-        "description":"グリコ看板がある定番観光地。"
+        "description":"グリコ看板がある定番観光地。",
+        "image_url": "static/images/spots/27_003.jpg"
       }
     ]
   },
@@ -793,21 +874,24 @@
         "spot_name": "姫路城",
         "city": "姫路市",
         "category": "城・世界遺産",
-        "description": "白鷺城の名で親しまれる世界文化遺産の名城。"
+        "description": "白鷺城の名で親しまれる世界文化遺産の名城。",
+        "image_url": "static/images/spots/28_001.jpg"
       },
       {
         "spot_id":"28_002",
         "spot_name":"神戸ハーバーランド",
         "city":"神戸市",
         "category":"テーマパーク",
-        "description":"神戸港を一望できる観光エリア。"
+        "description":"神戸港を一望できる観光エリア。",
+        "image_url": "static/images/spots/28_002.jpg"
       },
       {
         "spot_id":"28_003",
         "spot_name":"城崎温泉",
         "city":"豊岡市",
         "category":"温泉街",
-        "description":"7つの外湯めぐりができる温泉街。"
+        "description":"7つの外湯めぐりができる温泉街。",
+        "image_url": "static/images/spots/28_003.jpg"
       }
     ]
   },
@@ -822,21 +906,24 @@
         "spot_name": "東大寺・奈良公園",
         "city": "奈良市",
         "category": "寺社・公園",
-        "description": "大仏と鹿で有名な奈良観光の定番エリア。"
+        "description": "大仏と鹿で有名な奈良観光の定番エリア。",
+        "image_url": "static/images/spots/29_001.jpg"
       },
       {
         "spot_id":"29_002",
         "spot_name":"法隆寺",
         "city":"斑鳩町",
         "category":"寺社",
-        "description":"世界最古の木造建築群として有名。"
+        "description":"世界最古の木造建築群として有名。",
+        "image_url": "static/images/spots/29_002.jpg"
       },
       {
         "spot_id":"29_003",
         "spot_name":"春日大社",
         "city":"奈良市",
         "category":"寺社",
-        "description":"約1,000基の石灯籠と、参道に並ぶ無数の灯籠が幻想的。"
+        "description":"約1,000基の石灯籠と、参道に並ぶ無数の灯籠が幻想的。",
+        "image_url": "static/images/spots/29_003.jpg"
       }
     ]
   },
@@ -851,21 +938,24 @@
         "spot_name": "高野山",
         "city": "高野町",
         "category": "寺社・聖地",
-        "description": "弘法大師空海が開いた真言密教の聖地。宿坊体験も人気。"
+        "description": "弘法大師空海が開いた真言密教の聖地。宿坊体験も人気。",
+        "image_url": "static/images/spots/30_001.jpg"
       },
       {
         "spot_id":"30_002",
         "spot_name":"熊野古道",
         "city":"田辺市",
         "category":"文化・歴史",
-        "description":"古来より参拝道として使われてきた歴史ある道。"
+        "description":"古来より参拝道として使われてきた歴史ある道。",
+        "image_url": "static/images/spots/30_002.jpg"
       },
       {
         "spot_id":"30_003",
         "spot_name":"和歌山城",
         "city":"和歌山市",
         "category":"城・世界遺産",
-        "description":"和歌山市の中心にある歴史ある城。"
+        "description":"和歌山市の中心にある歴史ある城。",
+        "image_url": "static/images/spots/30_003.jpg"
       }
     ]
   },
@@ -880,21 +970,24 @@
         "spot_name": "鳥取砂丘",
         "city": "鳥取市",
         "category": "自然景観",
-        "description": "日本最大級の砂丘。ラクダ乗り体験や砂の美術館も。"
+        "description": "日本最大級の砂丘。ラクダ乗り体験や砂の美術館も。",
+        "image_url": "static/images/spots/31_001.jpg"
       },
       {
         "spot_id":"31_002",
         "spot_name":"白兎神社",
         "city":"鳥取市",
         "category":"寺社",
-        "description":"神話「因幡の白兎」で有名。"
+        "description":"神話「因幡の白兎」で有名。",
+        "image_url": "static/images/spots/31_002.jpg"
       },
       {
         "spot_id":"31_003",
         "spot_name":"三朝温泉",
         "city":"三朝町",
         "category":"温泉",
-        "description":"世界有数のラドン泉を持つ温泉地。"
+        "description":"世界有数のラドン泉を持つ温泉地。",
+        "image_url": "static/images/spots/31_003.jpg"
       }
     ]
   },
@@ -909,21 +1002,24 @@
         "spot_name": "出雲大社",
         "city": "出雲市",
         "category": "寺社",
-        "description": "縁結びの神様として全国から参拝客が訪れる古社。"
+        "description": "縁結びの神様として全国から参拝客が訪れる古社。",
+        "image_url": "static/images/spots/32_001.jpg"
       },
       {
         "spot_id":"32_002",
         "spot_name":"松江城",
         "city":"松江市",
         "category":"城・歴史",
-        "description":"国宝に指定されている美しい城郭。"
+        "description":"国宝に指定されている美しい城郭。",
+        "image_url": "static/images/spots/32_002.jpg"
       },
       {
         "spot_id":"32_003",
         "spot_name":"玉造温泉",
         "city":"松江市",
         "category":"温泉",
-        "description":"川沿いの足湯や温泉街の散策が楽しい。"
+        "description":"川沿いの足湯や温泉街の散策が楽しい。",
+        "image_url": "static/images/spots/32_003.jpg"
       }
     ]
   },
@@ -938,21 +1034,24 @@
         "spot_name": "後楽園",
         "city": "岡山市",
         "category": "庭園・公園",
-        "description": "日本三名園の一つ。岡山城とのセット観光もおすすめ。"
+        "description": "日本三名園の一つ。岡山城とのセット観光もおすすめ。",
+        "image_url": "static/images/spots/33_001.jpg"
       },
       {
         "spot_id":"33_002",
         "spot_name":"倉敷美観地区",
         "city":"倉敷市",
         "category":"観光・体験",
-        "description":"4つの水族館があり、子どもから大人まで楽しめる。"
+        "description":"4つの水族館があり、子どもから大人まで楽しめる。",
+        "image_url": "static/images/spots/33_002.jpg"
       },
       {
         "spot_id":"32_003",
         "spot_name":"岡山城",
         "city":"岡山市",
         "category":"城・歴史",
-        "description":"すぐそばの後楽園とセットで観光しやすい。"
+        "description":"すぐそばの後楽園とセットで観光しやすい。",
+        "image_url": "static/images/spots/33_003.jpg"
       }
     ]
   },
@@ -967,21 +1066,24 @@
         "spot_name": "宮島・厳島神社",
         "city": "廿日市市",
         "category": "寺社・景観",
-        "description": "海に浮かぶ大鳥居で知られる世界遺産の神社。"
+        "description": "海に浮かぶ大鳥居で知られる世界遺産の神社。",
+        "image_url": "static/images/spots/34_001.jpg"
       },
       {
         "spot_id":"34_002",
         "spot_name":"原爆ドーム",
         "city":"広島市",
         "category":"文化・歴史",
-        "description":"平和記念公園とあわせて訪れる定番スポット。"
+        "description":"平和記念公園とあわせて訪れる定番スポット。",
+        "image_url": "static/images/spots/34_002.jpg"
       },
       {
         "spot_id":"34_003",
         "spot_name":"広島平和記念資料館",
         "city":"広島市",
         "category":"博物館",
-        "description":"被爆の歴史と平和の大切さを学べる場所。"
+        "description":"被爆の歴史と平和の大切さを学べる場所。",
+        "image_url": "static/images/spots/34_003.jpg"
       }
     ]
   },
@@ -996,21 +1098,24 @@
         "spot_name": "元乃隅神社",
         "city": "長門市",
         "category": "景観・神社",
-        "description": "海沿いに続く赤い鳥居が圧巻のフォトスポット。"
+        "description": "海沿いに続く赤い鳥居が圧巻のフォトスポット。",
+        "image_url": "static/images/spots/35_001.jpg"
       },
       {
         "spot_id":"35_002",
         "spot_name":"角島大橋",
         "city":"下関市",
         "category":"観光・体験",
-        "description":"エメラルドブルーの海に伸びる絶景の橋。"
+        "description":"エメラルドブルーの海に伸びる絶景の橋。",
+        "image_url": "static/images/spots/35_002.jpg"
       },
       {
         "spot_id":"35_002",
         "spot_name":"秋芳洞",
         "city":"美祢市",
         "category":"景観・歴史",
-        "description":"日本最大級の鍾乳洞"
+        "description":"日本最大級の鍾乳洞",
+        "image_url": "static/images/spots/35_003.jpg"
       }
     ]
   },
@@ -1025,21 +1130,24 @@
         "spot_name": "阿波おどり会館",
         "city": "徳島市",
         "category": "文化・体験",
-        "description": "阿波おどりの歴史紹介や実演が楽しめる施設。"
+        "description": "阿波おどりの歴史紹介や実演が楽しめる施設。",
+        "image_url": "static/images/spots/36_001.jpg"
       },
       {
         "spot_id":"36_002",
         "spot_name":"鳴門の渦潮",
         "city":"鳴門市",
         "category":"湖",
-        "description":"世界最大級の渦潮が見られるスポット。"
+        "description":"世界最大級の渦潮が見られるスポット。",
+        "image_url": "static/images/spots/36_002.jpg"
       },
       {
         "spot_id":"36_003",
         "spot_name":"祖谷渓",
         "city":"三好市",
         "category":"自然景観",
-        "description":"日本三大秘境のひとつ。"
+        "description":"日本三大秘境のひとつ。",
+        "image_url": "static/images/spots/36_003.jpg"
       }
     ]
   },
@@ -1054,21 +1162,24 @@
         "spot_name": "ベネッセアートサイト直島",
         "city": "直島町",
         "category": "アート・島旅",
-        "description": "瀬戸内海の美しい島で現代アートを楽しめるエリア。"
+        "description": "瀬戸内海の美しい島で現代アートを楽しめるエリア。",
+        "image_url": "static/images/spots/37_001.jpg"
       },
       {
         "spot_id":"37_002",
         "spot_name":"栗林公園",
         "city":"高松市",
         "category":"景観・歴史",
-        "description":"広大な庭園を散策でき、四季の景色が美しい。"
+        "description":"広大な庭園を散策でき、四季の景色が美しい。",
+        "image_url": "static/images/spots/37_002.jpg"
       },
       {
         "spot_id":"37_003",
         "spot_name":"金刀比羅宮",
         "city":"琴平町",
         "category":"寺社・景観",
-        "description":"“こんぴらさん”として親しまれる人気の神社。"
+        "description":"“こんぴらさん”として親しまれる人気の神社。",
+        "image_url": "static/images/spots/37_003.jpg"
       }
     ]
   },
@@ -1083,21 +1194,24 @@
         "spot_name": "道後温泉本館",
         "city": "松山市",
         "category": "温泉",
-        "description": "日本最古級の温泉ともいわれるレトロな共同浴場。"
+        "description": "日本最古級の温泉ともいわれるレトロな共同浴場。",
+        "image_url": "static/images/spots/38_001.jpg"
       },
       {
         "spot_id":"38_002",
         "spot_name":"松山城",
         "city":"松山市",
         "category":"城・公園",
-        "description":"天守から松山市街と瀬戸内海を一望。"
+        "description":"天守から松山市街と瀬戸内海を一望。",
+        "image_url": "static/images/spots/38_002.jpg"
       },
       {
         "spot_id":"38_003",
         "spot_name":"しまなみ海道",
         "city":"今治市",
         "category":"観光・体験",
-        "description":"美しい島々と橋の絶景が楽しめる。"
+        "description":"美しい島々と橋の絶景が楽しめる。",
+        "image_url": "static/images/spots/38_003.jpg"
       }
     ]
   },
@@ -1112,21 +1226,24 @@
         "spot_name": "桂浜",
         "city": "高知市",
         "category": "海岸・景観",
-        "description": "坂本龍馬像と太平洋の眺めが印象的な海岸。"
+        "description": "坂本龍馬像と太平洋の眺めが印象的な海岸。",
+        "image_url": "static/images/spots/39_001.jpg"
       },
       {
         "spot_id":"39_002",
         "spot_name":"高知城",
         "city":"高知市",
         "category":"城・歴史",
-        "description":"天守と本丸御殿が完全に残る貴重なお城。"
+        "description":"天守と本丸御殿が完全に残る貴重なお城。",
+        "image_url": "static/images/spots/39_002.jpg"
       },
       {
         "spot_id":"39_003",
         "spot_name":"四万十川",
         "city":"四万十市",
         "category":"観光・体験",
-        "description":"“日本最後の清流”と呼ばれる美しい川。"
+        "description":"“日本最後の清流”と呼ばれる美しい川。",
+        "image_url": "static/images/spots/39_003.jpg"
       }
     ]
   },
@@ -1141,21 +1258,24 @@
         "spot_name": "太宰府天満宮",
         "city": "福岡市",
         "category": "寺社",
-        "description": "学問の神様として受験生に人気の神社。梅の名所。"
+        "description": "学問の神様として受験生に人気の神社。梅の名所。",
+        "image_url": "static/images/spots/40_001.jpg"
       },
       {
         "spot_id":"40_002",
         "spot_name":"博多駅周辺",
         "city":"福岡市",
         "category":"観光・体験",
-        "description":"博多ラーメン・もつ鍋などグルメの中心地。"
+        "description":"博多ラーメン・もつ鍋などグルメの中心地。",
+        "image_url": "static/images/spots/40_002.jpg"
       },
       {
         "spot_id":"40_003",
         "spot_name":"福岡タワー",
         "city":"福岡市",
         "category":"観光・体験",
-        "description":"夜景が美しいランドマーク。"
+        "description":"夜景が美しいランドマーク。",
+        "image_url": "static/images/spots/40_003.jpg"
       }
     ]
   },
@@ -1170,21 +1290,24 @@
         "spot_name": "有田ポーセリンパーク",
         "city": "有田町",
         "category": "テーマパーク",
-        "description": "ヨーロッパ宮殿風の建物と有田焼の体験が楽しめる施設。"
+        "description": "ヨーロッパ宮殿風の建物と有田焼の体験が楽しめる施設。",
+        "image_url": "static/images/spots/41_001.jpg"
       },
       {
         "spot_id":"41_002",
         "spot_name":"吉野ヶ里歴史公園",
         "city":"吉野ヶ里町",
         "category":"庭園・公園",
-        "description":"日本最大級の弥生時代遺跡。"
+        "description":"日本最大級の弥生時代遺跡。",
+        "image_url": "static/images/spots/41_002.jpg"
       },
       {
         "spot_id":"41_003",
         "spot_name":"唐津城",
         "city":"唐津市",
         "category":"城・歴史",
-        "description":"“舞鶴城”とも呼ばれる海沿いの美しい城。"
+        "description":"“舞鶴城”とも呼ばれる海沿いの美しい城。",
+        "image_url": "static/images/spots/41_003.jpg"
       }
     ]
   },
@@ -1199,21 +1322,24 @@
         "spot_name": "グラバー園",
         "city": "長崎市",
         "category": "景観・歴史",
-        "description": "長崎港を見下ろす洋館エリア。夜景スポットとしても人気。"
+        "description": "長崎港を見下ろす洋館エリア。夜景スポットとしても人気。",
+        "image_url": "static/images/spots/42_001.jpg"
       },
       {
         "spot_id":"42_002",
         "spot_name":"ハウステンボス",
         "city":"佐世保市",
         "category":"テーマパーク",
-        "description":"花・光・音楽・アトラクションがそろう大型テーマパーク。"
+        "description":"花・光・音楽・アトラクションがそろう大型テーマパーク。",
+        "image_url": "static/images/spots/42_002.jpg"
       },
       {
         "spot_id":"42_003",
         "spot_name":"長崎平和公園・原爆資料館",
         "city":"長崎市",
         "category":"博物館",
-        "description":"原爆の歴史を伝える重要な場所。"
+        "description":"原爆の歴史を伝える重要な場所。",
+        "image_url": "static/images/spots/42_003.jpg"
       }
     ]
   },
@@ -1228,21 +1354,24 @@
         "spot_name": "熊本城",
         "city": "熊本市",
         "category": "城・歴史",
-        "description": "加藤清正が築いた堅牢な城。復旧が進む熊本の象徴。"
+        "description": "加藤清正が築いた堅牢な城。復旧が進む熊本の象徴。",
+        "image_url": "static/images/spots/43_001.jpg"
       },
       {
         "spot_id":"43_002",
         "spot_name":"阿蘇",
         "city":"阿蘇市",
         "category":"火山・景観",
-        "description":"世界有数のカルデラを持つ阿蘇山。"
+        "description":"世界有数のカルデラを持つ阿蘇山。",
+        "image_url": "static/images/spots/43_002.jpg"
       },
       {
         "spot_id":"43_003",
         "spot_name":"黒川温泉",
         "city":"南小国町",
         "category":"温泉",
-        "description":"「露天風呂めぐり」が楽しめる全国屈指の温泉地。"
+        "description":"「露天風呂めぐり」が楽しめる全国屈指の温泉地。",
+        "image_url": "static/images/spots/43_003.jpg"
       }
     ]
   },
@@ -1257,21 +1386,24 @@
         "spot_name": "別府地獄めぐり",
         "city": "別府市",
         "category": "温泉・観光",
-        "description": "色とりどりの源泉を巡る別府観光の定番コース。"
+        "description": "色とりどりの源泉を巡る別府観光の定番コース。",
+        "image_url": "static/images/spots/44_001.jpg"
       },
       {
         "spot_id":"44_002",
         "spot_name":"由布院",
         "city":"由布市",
         "category":"観光・体験",
-        "description":"おしゃれな街並みと自然が調和した人気観光地"
+        "description":"おしゃれな街並みと自然が調和した人気観光地",
+        "image_url": "static/images/spots/44_002.jpg"
       },
       {
         "spot_id":"44_003",
         "spot_name":"国東半島",
         "city":"国東市",
         "category":"自然景観",
-        "description":"六郷満山の歴史が残る神秘的なエリア。"
+        "description":"六郷満山の歴史が残る神秘的なエリア。",
+        "image_url": "static/images/spots/44_003.jpg"
       }
     ]
   },
@@ -1286,28 +1418,24 @@
         "spot_name": "高千穂峡",
         "city": "高千穂町",
         "category": "渓谷・自然",
-        "description": "柱状節理の渓谷とボート遊覧が人気のパワースポット。"
+        "description": "柱状節理の渓谷とボート遊覧が人気のパワースポット。",
+        "image_url": "static/images/spots/45_001.jpg"
       },
       {
         "spot_id":"45_002",
         "spot_name":"松島",
         "city":"松島町",
         "category":"自然景観",
-        "description":"日本三景のひとつ。"
-      },
-      {
-        "spot_id":"45_002",
-        "spot_name":"仙台城跡",
-        "city":"仙台市",
-        "category":"城・公園",
-        "description":"伊達政宗像が立つ定番観光地。"
+        "description":"日本三景のひとつ。",
+        "image_url": "static/images/spots/45_002.jpg"
       },
       {
         "spot_id":"45_003",
-        "spot_name":"秋保温泉",
+        "spot_name":"仙台城跡",
         "city":"仙台市",
-        "category":"温泉",
-        "description":"秋保大滝や温泉宿でゆったりできる。"
+        "category":"城・公園",
+        "description":"伊達政宗像が立つ定番観光地。",
+        "image_url": "static/images/spots/45_003.jpg"
       }
     ]
   },
@@ -1322,21 +1450,24 @@
         "spot_name": "桜島",
         "city": "鹿児島市",
         "category": "火山・景観",
-        "description": "鹿児島市街の目の前にそびえる活火山。フェリー観光も。"
+        "description": "鹿児島市街の目の前にそびえる活火山。フェリー観光も。",
+        "image_url": "static/images/spots/46_001.jpg"
       },
       {
         "spot_id":"46_002",
         "spot_name":"指宿・砂むし温泉",
         "city":"指宿市",
         "category":"温泉",
-        "description":"世界的にも珍しい“砂に入る”温泉。"
+        "description":"世界的にも珍しい“砂に入る”温泉。",
+        "image_url": "static/images/spots/46_002.jpg"
       },
       {
         "spot_id":"46_003",
         "spot_name":"屋久島",
         "city":"熊毛郡屋久島町",
         "category":"観光・体験",
-        "description":"縄文杉、白谷雲水峡など神秘的な自然が魅力。"
+        "description":"縄文杉、白谷雲水峡など神秘的な自然が魅力。",
+        "image_url": "static/images/spots/46_003.jpg"
       }
     ]
   },
@@ -1351,21 +1482,24 @@
         "spot_name": "沖縄美ら海水族館",
         "city": "本部町",
         "category": "水族館",
-        "description": "世界最大級の水槽でジンベエザメなどが見られる人気スポット。"
+        "description": "世界最大級の水槽でジンベエザメなどが見られる人気スポット。",
+        "image_url": "static/images/spots/47_001.jpg"
       },
       {
         "spot_id":"47_002",
         "spot_name":"首里城",
         "city":"那覇市",
         "category":"城・公園",
-        "description":"復元が進む中で歴史と文化を感じられるスポット。"
+        "description":"復元が進む中で歴史と文化を感じられるスポット。",
+        "image_url": "static/images/spots/47_002.jpg"
       },
       {
         "spot_id":"47_003",
         "spot_name":"古宇利島",
         "city":"今帰仁村",
         "category":"自然景観",
-        "description":"“恋の島”として有名。"
+        "description":"“恋の島”として有名。",
+        "image_url": "static/images/spots/47_003.jpg"
       }
     ]
   }
