@@ -3,6 +3,7 @@
 
 {% block main_content %}
 
+<!-- 再検索フォーム -->
 <div class="event-search-form">
     <form method="GET" action="{{ url_for('event.event_search_results') }}">
 
@@ -10,7 +11,10 @@
         <select name="prefecture">
             <option value="">すべて</option>
             {% for p in prefectures %}
-                <option value="{{ p }}" {% if request.args.get("prefecture") == p %}selected{% endif %}>{{ p }}</option>
+                <option value="{{ p }}"
+                    {% if request.args.get("prefecture") == p %}selected{% endif %}>
+                    {{ p }}
+                </option>
             {% endfor %}
         </select>
 
@@ -18,7 +22,10 @@
         <select name="month">
             <option value="">すべて</option>
             {% for m in months %}
-                <option value="{{ m }}" {% if request.args.get("month") == m|string %}selected{% endif %}>{{ m }}月</option>
+                <option value="{{ m }}"
+                    {% if request.args.get("month") == m|string %}selected{% endif %}>
+                    {{ m }}月
+                </option>
             {% endfor %}
         </select>
 
@@ -31,7 +38,8 @@
         </select>
 
         <label>キーワード:</label>
-        <input type="text" name="keyword" value="{{ request.args.get('keyword', '') }}">
+        <input type="text" name="keyword"
+               value="{{ request.args.get('keyword', '') }}">
 
         <button type="submit">再検索</button>
     </form>
@@ -39,30 +47,62 @@
 
 <hr>
 
+<!-- 検索結果 -->
 <div class="event-results-container">
-    {% for ev in results %}
-    <div class="event-card">
-        <div class="event-title">{{ ev.event_name }}</div>
-        <div class="event-meta">
-            <span class="event-tag-month">{{ ev.month }}</span>
-            {{ ev.pref_name }} / {{ ev.city }}
-            <span class="event-category-tag">{{ ev.category }}</span>
 
-            <!-- JSが Blueprint 対応済みなら OK -->
-            {% if session.get('logged_in') %}
-                <button class="bookmark-btn"
-                    data-type="event"
-                    data-id="{{ ev.event_id }}"
-                    data-title="{{ ev.event_name }}"
-                    data-url="{{ ev.event_url }}">
-                    ☆ ブックマーク
-                </button>
-            {% endif %}
-        </div>
+    {% if results|length == 0 %}
 
-        <div class="event-description">{{ ev.description }}</div>
-    </div>
-    {% endfor %}
+        {% if request.args %}
+            <p class="no-results">
+                条件に一致するイベントが見つかりませんでした。
+            </p>
+        {% else %}
+            <p class="no-results">
+                現在、イベントデータが登録されていません。
+            </p>
+        {% endif %}
+
+    {% else %}
+
+        <p class="result-count">
+            {{ results|length }} 件のイベントが見つかりました
+        </p>
+
+        {% for ev in results %}
+            <div class="event-card">
+
+                <div class="event-title">
+                    {{ ev.title }}
+                </div>
+
+                <div class="event-meta">
+                    {{ ev.month }} /
+                    {{ ev.pref_name }}
+                    {% if ev.city %} / {{ ev.city }}{% endif %}
+                    {% if ev.category %} / {{ ev.category }}{% endif %}
+
+                    {% if session.get('logged_in') %}
+                        <button class="bookmark-btn"
+                            data-type="event"
+                            data-id="{{ ev.id }}"
+                            data-title="{{ ev.title }}"
+                            data-url="{{ ev.url }}">
+                            ☆ ブックマーク
+                        </button>
+                    {% endif %}
+                </div>
+
+                {% if ev.description %}
+                    <div class="event-description">
+                        {{ ev.description }}
+                    </div>
+                {% endif %}
+
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
 </div>
 
 {% endblock %}

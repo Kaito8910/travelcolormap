@@ -120,3 +120,18 @@ class TravelRecord(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("USER.id"), nullable=False)      # ユーザー
     prefecture = db.Column(db.String(20), nullable=False)                          # 都道府県（短縮形：東京/京都など）
     visit_count = db.Column(db.Integer, nullable=False, default=0)                 # 訪問回数
+#==============================
+# イベントテーブル（EVENTS）
+#==============================
+class Event(db.Model):
+    __tablename__ = "events"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    month = db.Column(db.Integer)
+    city = db.Column(db.String(100))
+    url = db.Column(db.String(500))
+    pref_code = db.Column(db.String(10))     
+    pref_name = db.Column(db.String(50))
+    category = db.Column(db.String(50))
+    description = db.Column(db.Text)
