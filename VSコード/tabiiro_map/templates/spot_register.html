@@ -6,15 +6,6 @@
 <div class="spot-register-container">
     <h1>観光地登録</h1>
 
-    <!-- フラッシュメッセージ表示 -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <p class="flash-message {{ category }}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     <form method="POST" action="{{ url_for('spot.spot_register') }}" enctype="multipart/form-data" class="spot-form">
 
         <!-- 観光地名 -->
@@ -48,10 +39,23 @@
             <input type="date" id="visit_date" name="visit_date" required>
         </div>
 
-        <!-- 写真 -->
+        <!-- 写真（1枚ずつ追加 + プレビュー） -->
         <div class="form-group">
-            <label for="photo">写真</label>
-            <input type="file" name="photos[]" multiple accept="image/*">
+            <label>写真</label>
+
+            <div id="photo-list" class="photo-list"></div>
+
+            <button type="button" id="add-photo-btn" class="add-photo-btn">画像を追加</button>
+
+            <template id="photo-item-template">
+                <div class="photo-item">
+                <input type="file" name="photos[]" accept="image/*" class="photo-input" />
+                <div class="photo-preview-wrap">
+                    <img class="photo-preview" alt="preview" />
+                </div>
+                <button type="button" class="remove-photo-btn">削除</button>
+                </div>
+            </template>
         </div>
 
         <!-- コメント -->
@@ -63,4 +67,8 @@
         <button type="submit" class="submit-button">登録</button>
     </form>
 </div>
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/spot_register.js') }}"></script>
+{% endblock %}
+
 {% endblock %}
