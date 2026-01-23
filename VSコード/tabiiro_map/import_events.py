@@ -11,19 +11,21 @@ with app.app_context():
     for pref in data:
         pref_code = pref["pref_code"]
         pref_name = pref["pref_name_ja"]
-
         for e in pref["events"]:
             event = Event(
-                title=e["event_name"],         
-                city=e["city"],
-                month=e["month"],
-                category=e["category"],
-                description=e["description"],
-                url=e["event_url"],
+                event_code=e["event_id"],          
+                title=e["event_name"],
+                city=e.get("city"),
+                month=e.get("month"),
+                category=e.get("category"),
+                description=e.get("description"),
+                url=e.get("event_url"),
+                image_url=e.get("image_url"),      
                 pref_code=pref_code,
                 pref_name=pref_name
             )
+
             db.session.add(event)
 
     db.session.commit()
-    print("✅ Events imported successfully")
+    print("✅ events imported successfully")

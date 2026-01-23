@@ -5,28 +5,30 @@
 <div class="register-container">
 
     <!-- 検索フォーム -->
-    <form method="GET" action="{{ url_for('spot.spot_search_results') }}">
+<form method="GET"
+      action="{{ url_for('spot.spot_search_results') }}"
+      class="search-form-inline">
 
-        <label for="prefecture">都道府県:</label>
-        <select name="prefecture" id="prefecture">
-            <option value="">すべて</option>
-            {% for pref in prefectures %}
-                <option value="{{ pref }}"
-                    {% if selected_pref == pref %}selected{% endif %}>
-                    {{ pref }}
-                </option>
-            {% endfor %}
-        </select>
+    <label for="prefecture">都道府県:</label>
+    <select name="prefecture" id="prefecture">
+        <option value="">すべて</option>
+        {% for pref in prefectures %}
+            <option value="{{ pref }}"
+                {% if selected_pref == pref %}selected{% endif %}>
+                {{ pref }}
+            </option>
+        {% endfor %}
+    </select>
 
-        <br><br>
+    <label for="keyword">キーワード:</label>
+    <input type="text"
+           name="keyword"
+           id="keyword"
+           value="{{ request.args.get('keyword', '') }}">
 
-        <label for="keyword">キーワード:</label>
-        <input type="text" name="keyword" id="keyword" value="{{ request.args.get('keyword', '') }}">
+    <button type="submit">再検索</button>
+</form>
 
-        <br><br>
-
-        <button type="submit">再検索</button>
-    </form>
 
     <hr>
 
@@ -35,22 +37,31 @@
     {% if results %}
         <ul>
             {% for spot in results %}
-                <li>
-                    <strong>{{ spot.spot_name }}</strong><br>
-                    都道府県：{{ spot.pref_name }}<br>
-                    市区町村：{{ spot.city }}<br>
-                    カテゴリ：{{ spot.category }}<br>
-                    説明：{{ spot.description }}
-                    {% if session.get('logged_in') %}
-                    <button class="bookmark-btn"
-                        data-type="spot"
-                        data-id="{{ spot.spot_id }}"
-                        data-title="{{ spot.spot_name }}"
-                        data-url="{{ url_for('spot.spot_detail', spot_id=spot.spot_id) }}">
-                        ☆ ブックマーク
-                    </button>
-                {% endif %}
-                </li>
+                <li class="spot-item">
+    {% if spot.image_url %}
+        <img src="{{ url_for('static', filename=spot.image_url.replace('static/', '')) }}"
+             alt="{{ spot.spot_name }}"
+             class="spot-image">
+    {% endif %}
+
+    <div class="spot-info">
+        <strong>{{ spot.spot_name }}</strong><br>
+        都道府県：{{ spot.pref_name }}<br>
+        市区町村：{{ spot.city }}<br>
+        カテゴリ：{{ spot.category }}<br>
+        説明：{{ spot.description }}
+    </div>
+
+    {% if session.get('logged_in') %}
+        <button class="bookmark-btn"
+            data-type="spot"
+            data-id="{{ spot.spot_id }}"
+            data-title="{{ spot.spot_name }}"
+            data-url="{{ url_for('spot.spot_detail', spot_id=spot.spot_id) }}">
+            ☆ ブックマーク
+        </button>
+    {% endif %}
+</li>
             {% endfor %}
         </ul>
     {% else %}

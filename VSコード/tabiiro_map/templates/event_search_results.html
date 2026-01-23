@@ -38,8 +38,7 @@
         </select>
 
         <label>キーワード:</label>
-        <input type="text" name="keyword"
-               value="{{ request.args.get('keyword', '') }}">
+        <input type="text" name="keyword" value="{{ request.args.get('keyword', '') }}">
 
         <button type="submit">再検索</button>
     </form>
@@ -67,38 +66,52 @@
         <p class="result-count">
             {{ results|length }} 件のイベントが見つかりました
         </p>
-
         {% for ev in results %}
-            <div class="event-card">
+        <div class="event-card">
+            {% if ev.image_url %}
+  <img 
+  src="{{ url_for('static', filename=ev.image_url.replace('static/', '')) }}"
+  class="event-image"
+  alt="{{ ev.title }}">
 
-                <div class="event-title">
-                    {{ ev.title }}
-                </div>
+{% elif ev.image %}
+  <img src="{{ url_for('static', filename='images/' + ev.image) }}">
+{% endif %}
+            <div class="event-title">{{ ev.title }}</div>
 
-                <div class="event-meta">
-                    {{ ev.month }} /
-                    {{ ev.pref_name }}
-                    {% if ev.city %} / {{ ev.city }}{% endif %}
-                    {% if ev.category %} / {{ ev.category }}{% endif %}
-
-                    {% if session.get('logged_in') %}
-                        <button class="bookmark-btn"
-                            data-type="event"
-                            data-id="{{ ev.id }}"
-                            data-title="{{ ev.title }}"
-                            data-url="{{ ev.url }}">
-                            ☆ ブックマーク
-                        </button>
-                    {% endif %}
-                </div>
-
-                {% if ev.description %}
-                    <div class="event-description">
-                        {{ ev.description }}
-                    </div>
+            <div class="event-meta">
+                {{ ev.month }} / {{ ev.pref_name }}
+                {% if ev.city %} / {{ ev.city }}{% endif %}
+                {% if ev.category %}
+                    <span class="event-category-tag">{{ ev.category }}</span>
                 {% endif %}
-
             </div>
+
+            {% if ev.description %}
+            <div class="event-description">
+                {{ ev.description }}
+            </div>
+            {% endif %}
+
+            {% if ev.url %}
+            <div class="event-link">
+                <a href="{{ ev.url }}" target="_blank" rel="noopener noreferrer">
+                    イベント詳細を見る
+                </a>
+            </div>
+            {% endif %}
+
+            {% if session.get('logged_in') %}
+            <button class="bookmark-btn"
+                data-type="event"
+                data-id="{{ ev.id }}"
+                data-title="{{ ev.title }}"
+                data-url="{{ ev.url }}">
+                ☆ ブックマーク
+            </button>
+            {% endif %}
+
+        </div>
         {% endfor %}
 
     {% endif %}
