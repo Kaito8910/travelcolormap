@@ -1,8 +1,8 @@
-"""empty message
+"""initial schema
 
-Revision ID: 2de19dee9460
+Revision ID: 5802ec72df8a
 Revises: 
-Create Date: 2025-12-05 10:17:11.059766
+Create Date: 2026-01-23 10:14:43.181068
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2de19dee9460'
+revision = '5802ec72df8a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,6 +29,32 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
+    op.create_table('events',
+    sa.Column('event_code', sa.String(length=20), nullable=False),
+    sa.Column('title', sa.String(length=200), nullable=False),
+    sa.Column('category', sa.String(length=50), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('month', sa.String(length=20), nullable=True),
+    sa.Column('city', sa.String(length=100), nullable=True),
+    sa.Column('url', sa.String(length=500), nullable=True),
+    sa.Column('image_url', sa.String(length=500), nullable=True),
+    sa.Column('pref_code', sa.String(length=10), nullable=True),
+    sa.Column('pref_name', sa.String(length=50), nullable=True),
+    sa.PrimaryKeyConstraint('event_code')
+    )
+    op.create_table('spots',
+    sa.Column('spot_id', sa.String(length=20), nullable=False),
+    sa.Column('name', sa.String(length=200), nullable=False),
+    sa.Column('city', sa.String(length=100), nullable=True),
+    sa.Column('category', sa.String(length=100), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('image_url', sa.String(length=500), nullable=True),
+    sa.Column('pref_code', sa.Integer(), nullable=True),
+    sa.Column('pref_name_ja', sa.String(length=50), nullable=True),
+    sa.Column('pref_name_en', sa.String(length=50), nullable=True),
+    sa.Column('region', sa.String(length=50), nullable=True),
+    sa.PrimaryKeyConstraint('spot_id')
+    )
     op.create_table('BOOKMARK',
     sa.Column('bookmark_id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -40,22 +66,6 @@ def upgrade():
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['USER.id'], ),
     sa.PrimaryKeyConstraint('bookmark_id')
-    )
-    op.create_table('SPOT',
-    sa.Column('spot_id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=100), nullable=False),
-    sa.Column('prefecture', sa.String(length=20), nullable=False),
-    sa.Column('visit_date', sa.Date(), nullable=False),
-    sa.Column('comment', sa.Text(), nullable=True),
-    sa.Column('weather', sa.String(length=50), nullable=True),
-    sa.Column('temp_max', sa.Float(), nullable=True),
-    sa.Column('temp_min', sa.Float(), nullable=True),
-    sa.Column('precipitation', sa.Float(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=False),
-    sa.Column('updated_at', sa.DateTime(), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['USER.id'], ),
-    sa.PrimaryKeyConstraint('spot_id')
     )
     op.create_table('STAY',
     sa.Column('stay_id', sa.Integer(), autoincrement=True, nullable=False),
@@ -102,7 +112,7 @@ def upgrade():
     sa.Column('filename', sa.String(length=255), nullable=False),
     sa.Column('uploaded_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['food_id'], ['FOOD.food_id'], ),
-    sa.ForeignKeyConstraint(['spot_id'], ['SPOT.spot_id'], ),
+    sa.ForeignKeyConstraint(['spot_id'], ['spots.spot_id'], ),
     sa.ForeignKeyConstraint(['stay_id'], ['STAY.stay_id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['USER.id'], ),
     sa.PrimaryKeyConstraint('photo_id')
@@ -116,7 +126,8 @@ def downgrade():
     op.drop_table('FOOD')
     op.drop_table('TRAVEL_RECORD')
     op.drop_table('STAY')
-    op.drop_table('SPOT')
     op.drop_table('BOOKMARK')
+    op.drop_table('spots')
+    op.drop_table('events')
     op.drop_table('USER')
     # ### end Alembic commands ###

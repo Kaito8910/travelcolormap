@@ -5,27 +5,43 @@
 <div class="register-container">
     <h1>スポット検索</h1>
 
-    <form method="GET" action="{{ url_for('spot.spot_search_results') }}">
+    <form method="GET"
+      action="{{ url_for('spot.spot_search_results') }}"
+      class="search-card">
 
-        <label for="prefecture">都道府県:</label>
-        <select name="prefecture" id="prefecture">
-            <option value="">すべて</option>
-            {% for pref in prefectures %}
-                <option value="{{ pref }}"
-                    {% if selected_pref == pref %}selected{% endif %}>
-                    {{ pref }}
-                </option>
-            {% endfor %}
-        </select>
+    <div class="search-row">
 
-        <br><br>
+        <!-- 都道府県 -->
+        <div class="search-field" style="flex: 1 1 150px;">
+            <label for="prefecture">都道府県</label>
+            <select name="prefecture" id="prefecture">
+                <option value="">すべて</option>
+                {% for pref in prefectures %}
+                    <option value="{{ pref }}"
+                        {% if selected_pref == pref %}selected{% endif %}>
+                        {{ pref }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
 
-        <label for="keyword">キーワード:</label>
-        <input type="text" name="keyword" id="keyword">
+        <!-- キーワード -->
+        <div class="search-field keyword" style="flex: 2 1 250px; margin-left: 10px;">
+            <label for="keyword">キーワード</label>
+            <input type="text"
+                   name="keyword"
+                   id="keyword"
+                   placeholder="例：城・展望台・温泉">
+        </div>
 
-        <br><br>
-        <button type="submit">検索</button>
-    </form>
+        <!-- 検索ボタン -->
+        <div class="search-action" style="margin-left: 10px;">
+            <button type="submit">検索</button>
+        </div>
+
+    </div>
+</form>
+
 
 </div>
 {% endblock %}

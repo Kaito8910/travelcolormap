@@ -21,25 +21,19 @@ class User(db.Model):
 # 観光地テーブル（SPOT）
 # ============================
 class Spot(db.Model):
-    __tablename__ = "SPOT"
+    __tablename__ = "spots"
 
-    spot_id = db.Column(db.Integer, primary_key=True, autoincrement=True)          # 観光地ID
-    user_id = db.Column(db.Integer, db.ForeignKey("USER.id"), nullable=False)      # 登録ユーザー
-    name = db.Column(db.String(100), nullable=False)                               # 観光地名
-    prefecture = db.Column(db.String(20), nullable=False)                          # 都道府県（短縮名：東京/京都など）
-    visit_date = db.Column(db.Date, nullable=False)                                # 訪問日
-    comment = db.Column(db.Text)                                                   # コメント
-    weather = db.Column(db.String(50))                                             # 天気アイコン（☀️など）
-    temp_max = db.Column(db.Float)                                                 # 最高気温
-    temp_min = db.Column(db.Float)                                                 # 最低気温
-    precipitation = db.Column(db.Float)                                            # 降水量
-    created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)      # 作成日時
-    updated_at = db.Column(
-        db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False
-    )  # 更新日時
+    spot_id = db.Column(db.String(20), primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    city = db.Column(db.String(100))
+    category = db.Column(db.String(100))
+    description = db.Column(db.Text)
+    image_url = db.Column(db.String(500))
 
-    # SPOT から Photo への参照（spot.photos で取得できる）
-    photos = db.relationship("Photo", backref="spot", cascade="all, delete", lazy=True)
+    pref_code = db.Column(db.Integer)
+    pref_name_ja = db.Column(db.String(50))
+    pref_name_en = db.Column(db.String(50))
+    region = db.Column(db.String(50))
 
 # ============================
 # グルメテーブル（FOOD）
@@ -104,7 +98,7 @@ class Photo(db.Model):
 
     photo_id = db.Column(db.Integer, primary_key=True, autoincrement=True)         # 写真ID
     user_id = db.Column(db.Integer, db.ForeignKey("USER.id"), nullable=False)      # 所有ユーザー
-    spot_id = db.Column(db.Integer, db.ForeignKey("SPOT.spot_id"))                 # 観光地紐付け
+    spot_id = db.Column(db.Integer, db.ForeignKey("spots.spot_id"))                 # 観光地紐付け
     food_id = db.Column(db.Integer, db.ForeignKey("FOOD.food_id"))                 # グルメ紐付け
     stay_id = db.Column(db.Integer, db.ForeignKey("STAY.stay_id"))                 # 宿泊紐付け
     filename = db.Column(db.String(255), nullable=False)                           # static/uploads 内のファイル名
@@ -125,13 +119,13 @@ class TravelRecord(db.Model):
 #==============================
 class Event(db.Model):
     __tablename__ = "events"
-
-    id = db.Column(db.Integer, primary_key=True)
+    event_code = db.Column(db.String(20), primary_key=True)
     title = db.Column(db.String(200), nullable=False)
-    month = db.Column(db.Integer)
-    city = db.Column(db.String(100))
-    url = db.Column(db.String(500))
-    pref_code = db.Column(db.String(10))     
-    pref_name = db.Column(db.String(50))
     category = db.Column(db.String(50))
     description = db.Column(db.Text)
+    month = db.Column(db.String(20))       
+    city = db.Column(db.String(100))
+    url = db.Column(db.String(500))
+    image_url = db.Column(db.String(500))
+    pref_code = db.Column(db.String(10))
+    pref_name = db.Column(db.String(50))
