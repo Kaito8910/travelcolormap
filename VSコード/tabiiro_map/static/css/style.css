@@ -786,18 +786,18 @@ body {
     border: 1px solid var(--border, #ddd);
 }
 .event-image {
-  width: 100%;
-  max-height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
 }
-.spot-image {
-  width: 100%;
-  max-height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
+.spots-image {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
 }
 .search-form-inline {
     display: flex;

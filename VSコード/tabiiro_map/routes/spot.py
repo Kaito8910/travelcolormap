@@ -1,12 +1,14 @@
 # routes/spot.py
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from models import db, Spot, Photo
 from datetime import datetime
 import os
 import requests
 from config import PREF_LATLON, PREF_LIST
 from utils.weather_utils import convert_weather_icon
+from sqlalchemy.exc import InvalidRequestError, OperationalError
+from models import db, Spot, Photo, TravelRecord
+
 
 # =============================================
 # /spot をルートに統一
@@ -328,19 +330,25 @@ def spot_search_results():
 # ====================================================
 @spot_bp.route("/pref/<string:pref_name>", methods=["GET"])
 def pref_click(pref_name):
+    pref_full = pref_name.strip()
     if not session.get("logged_in"):
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("spot.spot_search_results", prefecture=pref_full, keyword=""))
 
     user_id = session.get("user_id")
-    pref_full = pref_name.strip()
 
     # Spotは短縮で保存されてるので短縮に合わせる
     pref_short = pref_full if pref_full == "北海道" else pref_full.replace("都", "").replace("府", "").replace("県", "")
 
-    exists = Spot.query.filter_by(user_id=user_id, prefecture=pref_short).first() is not None
+    try:
+        exists = Spot.query.filter_by(user_id=user_id, prefecture=pref_short).first() is not None
+    except (InvalidRequestError, OperationalError, AttributeError):
+        exists = (
+            TravelRecord.query.filter_by(user_id=user_id, prefecture=pref_short).first()
+            is not None
+        )
 
     if exists:
         return redirect(url_for("spot.spot_list", prefecture=pref_full))
     else:
         # ★検索結果画面へ直行（keywordは空でOK）
-        return redirect(url_for("spot.spot_search_results", prefecture=pref_short, keyword=""))
+        return redirect(url_for("spot.spot_search_results", prefecture=pref_full, keyword=""))

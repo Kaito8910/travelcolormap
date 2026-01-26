@@ -6,8 +6,8 @@
 
     <!-- 検索フォーム -->
 <form method="GET"
-      action="{{ url_for('spot.spot_search_results') }}"
-      class="search-form-inline">
+        action="{{ url_for('spot.spot_search_results') }}"
+        class="search-form-inline">
 
     <label for="prefecture">都道府県:</label>
     <select name="prefecture" id="prefecture">
@@ -22,9 +22,9 @@
 
     <label for="keyword">キーワード:</label>
     <input type="text"
-           name="keyword"
-           id="keyword"
-           value="{{ request.args.get('keyword', '') }}">
+            name="keyword"
+            id="keyword"
+            value="{{ request.args.get('keyword', '') }}">
 
     <button type="submit">再検索</button>
 </form>
@@ -36,28 +36,28 @@
 
     {% if results %}
         <ul>
-            {% for spot in results %}
-                <li class="spot-item">
-    {% if spot.image_url %}
-        <img src="{{ url_for('static', filename=spot.image_url.replace('static/', '')) }}"
-             alt="{{ spot.spot_name }}"
-             class="spot-image">
+            {% for spots in results %}
+                <li class="spots-item">
+    {% if spots.image_url %}
+        <img src="{{ url_for('static', filename=spots.image_url.replace('static/', '')) }}"
+                alt="{{ spots.spot_name }}"
+                class="spots-image">
     {% endif %}
 
     <div class="spot-info">
-        <strong>{{ spot.spot_name }}</strong><br>
-        都道府県：{{ spot.pref_name }}<br>
-        市区町村：{{ spot.city }}<br>
-        カテゴリ：{{ spot.category }}<br>
-        説明：{{ spot.description }}
+        <strong>{{ spots.spot_name }}</strong><br>
+        都道府県：{{ spots.pref_name }}<br>
+        市区町村：{{ spots.city }}<br>
+        カテゴリ：{{ spots.category }}<br>
+        説明：{{ spots.description }}
     </div>
 
     {% if session.get('logged_in') %}
         <button class="bookmark-btn"
-            data-type="spot"
-            data-id="{{ spot.spot_id }}"
-            data-title="{{ spot.spot_name }}"
-            data-url="{{ url_for('spot.spot_detail', spot_id=spot.spot_id) }}">
+            data-type="spots"
+            data-id="{{ spots.spot_id }}"
+            data-title="{{ spots.spot_name }}"
+            data-url="{{ url_for('spot.spot_detail', spot_id=spots.spot_id) }}">
             ☆ ブックマーク
         </button>
     {% endif %}
