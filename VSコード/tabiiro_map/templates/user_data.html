@@ -21,11 +21,6 @@
             <label for="password">パスワード</label>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <input type="password" id="password" name="password" value="********" readonly>
-
-                <!-- パスワード変更は auth Blueprint に所属している想定 -->
-                <a href="{{ url_for('user.change_password') }}" class="btn btn-secondary" style="white-space: nowrap;">
-                    パスワード変更
-                </a>
             </div>
         </div>
 
