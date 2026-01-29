@@ -69,13 +69,13 @@
         {% for ev in results %}
         <div class="event-card">
             {% if ev.image_url %}
-  <img 
-  src="{{ url_for('static', filename=ev.image_url.replace('static/', '')) }}"
-  class="event-image"
-  alt="{{ ev.title }}">
+    <img 
+    src="{{ url_for('static', filename=ev.image_url.replace('static/', '')) }}"
+    class="event-image"
+    alt="{{ ev.title }}">
 
 {% elif ev.image %}
-  <img src="{{ url_for('static', filename='images/' + ev.image) }}">
+    <img src="{{ url_for('static', filename='images/' + ev.image) }}">
 {% endif %}
             <div class="event-title">{{ ev.title }}</div>
 
@@ -106,6 +106,7 @@
                 data-type="event"
                 data-id="{{ ev.id }}"
                 data-title="{{ ev.title }}"
+                data-thumb="{{ ev.image_url }}"
                 data-url="{{ ev.url }}">
                 ☆ ブックマーク
             </button>

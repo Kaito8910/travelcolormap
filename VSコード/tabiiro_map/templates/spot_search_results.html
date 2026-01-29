@@ -40,13 +40,13 @@
                 <li class="spots-item">
     {% if spots.image_url %}
         <img src="{{ url_for('static', filename=spots.image_url.replace('static/', '')) }}"
-                alt="{{ spots.spot_name }}"
+                alt="{{ spots.name }}"
                 class="spots-image">
     {% endif %}
 
     <div class="spot-info">
-        <strong>{{ spots.spot_name }}</strong><br>
-        都道府県：{{ spots.pref_name }}<br>
+        <strong>{{ spots.name }}</strong><br>
+        都道府県：{{ spots.pref_name_ja }}<br>
         市区町村：{{ spots.city }}<br>
         カテゴリ：{{ spots.category }}<br>
         説明：{{ spots.description }}
@@ -56,7 +56,8 @@
         <button class="bookmark-btn"
             data-type="spots"
             data-id="{{ spots.spot_id }}"
-            data-title="{{ spots.spot_name }}"
+            data-title="{{ spots.name }}"
+            data-thumb="{{ spots.image_url }}"
             data-url="{{ url_for('spot.spot_detail', spot_id=spots.spot_id) }}">
             ☆ ブックマーク
         </button>

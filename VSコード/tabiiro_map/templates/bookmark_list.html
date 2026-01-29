@@ -12,7 +12,7 @@
         <option value="all"   {% if filter == 'all' %}selected{% endif %}>すべて</option>
         <option value="hotel" {% if filter == 'hotel' %}selected{% endif %}>ホテル</option>
         <option value="event" {% if filter == 'event' %}selected{% endif %}>イベント</option>
-        <option value="spot"  {% if filter == 'spot' %}selected{% endif %}>観光スポット</option>
+        <option value="spots"  {% if filter == 'spots' %}selected{% endif %}>観光スポット</option>
     </select>
 </form>
 <!-- ★★★★★ ここまで ★★★★★ -->
@@ -35,11 +35,25 @@
         <!-- ★ カード全体クリックで詳細へ遷移 -->
         <a href="{{ bm.detail_url }}" target="_blank" class="bookmark-card-link">
             <div class="bookmark-card">
-                {% if bm.thumb %}
-                    <img src="{{ bm.thumb }}" class="bookmark-thumb">
-                {% else %}
-                    <div class="bookmark-thumb no-thumb">No Image</div>
+                {% set thumb = bm.thumb or '' %}
+            {% if thumb %}
+            {# 外部URL（http/https） #}
+            {% if '://' in thumb %}
+                <img src="{{ thumb }}" class="bookmark-thumb" alt="{{ bm.title }}">
+            {% else %}
+                {# /static/... や static/... を正規化して static配下の相対パスにする #}
+                {% set fname = thumb.replace('\\', '/') %}
+                {% if fname.startswith('/static/') %}
+                {% set fname = fname[8:] %}
+                {% elif fname.startswith('static/') %}
+                {% set fname = fname[7:] %}
                 {% endif %}
+                <img src="{{ url_for('static', filename=fname) }}"
+                    class="bookmark-thumb" alt="{{ bm.title }}">
+            {% endif %}
+            {% else %}
+            <div class="bookmark-thumb no-thumb">No Image</div>
+            {% endif %}
 
                 <div class="bookmark-info">
                     <div class="bookmark-title">{{ bm.title }}</div>
@@ -50,7 +64,7 @@
                             ホテル
                         {% elif bm.target_type == 'event' %}
                             イベント
-                        {% elif bm.target_type == 'spot' %}
+                        {% elif bm.target_type == 'spots' %}
                             観光スポット
                         {% endif %}
                     </div>

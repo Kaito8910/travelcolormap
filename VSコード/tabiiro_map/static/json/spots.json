@@ -1046,7 +1046,7 @@
         "image_url": "static/images/spots/33_002.jpg"
       },
       {
-        "spot_id":"32_003",
+        "spot_id":"33_003",
         "spot_name":"岡山城",
         "city":"岡山市",
         "category":"城・歴史",
@@ -1110,7 +1110,7 @@
         "image_url": "static/images/spots/35_002.jpg"
       },
       {
-        "spot_id":"35_002",
+        "spot_id":"35_003",
         "spot_name":"秋芳洞",
         "city":"美祢市",
         "category":"景観・歴史",

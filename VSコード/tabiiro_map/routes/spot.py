@@ -7,8 +7,8 @@ import requests
 from config import PREF_LATLON, PREF_LIST
 from utils.weather_utils import convert_weather_icon
 from sqlalchemy.exc import InvalidRequestError, OperationalError
-from models import db, Spot, Photo, TravelRecord
-
+from models import db, Spot, Photo, TravelRecord, Spots
+from sqlalchemy import or_
 
 # =============================================
 # /spot をルートに統一
@@ -267,60 +267,56 @@ def delete_spot_photo(photo_id):
 # ============================================
 @spot_bp.route("/search", methods=["GET"])
 def spot_search():
-    selected_pref = request.args.get("prefecture", "")
-    return render_template("spot_search.html", prefectures=PREF_LIST, selected_pref=selected_pref)
+    selected_pref = request.args.get("prefecture", "").strip()
+    prefectures = [
+        r[0] for r in db.session.query(Spots.pref_name_ja)
+        .distinct()
+        .order_by(Spots.pref_code)
+        .all()
+        if r[0]
+    ]
+    return render_template("spot_search.html", prefectures=prefectures, selected_pref=selected_pref)
+
 
 # ============================================
 # 📍 観光地検索結果
 # ============================================
 @spot_bp.route("/search/result", methods=["GET"])
 def spot_search_results():
-    prefecture = request.args.get("prefecture", "")
-    keyword = request.args.get("keyword", "")
+    prefecture = request.args.get("prefecture", "").strip()
+    keyword = request.args.get("keyword", "").strip()
 
-    import json
-    from flask import current_app
-    import os
+    query = Spots.query
 
-    # JSON のロード
-    path = os.path.join(current_app.root_path, "static", "json", "spots.json")
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)   # data は 都道府県オブジェクトの LIST
+    if prefecture:
+        query = query.filter(Spots.pref_name_ja == prefecture)
 
-    results = []
+    if keyword:
+        query = query.filter(
+            or_(
+                Spots.name.contains(keyword),
+                Spots.description.contains(keyword),
+            )
+        )
 
-    for pref_block in data:
-        pref_name = pref_block["pref_name_ja"]  # 例: "北海道"
+    results = query.all()
 
-        # フィルタ① 都道府県（指定があれば）
-        if prefecture and prefecture != pref_name:
-            continue
-
-        # スポットを走査
-        for s in pref_block["spots"]:
-
-            # フィルタ② キーワード（名前 or 説明）
-            if keyword:
-                if keyword not in s.get("spot_name", "") and keyword not in s.get("description", ""):
-                    continue
-
-            # ヒットしたスポットを追加（pref_name を付けて返す）
-            result_item = s.copy()
-            result_item["prefecture"] = pref_name
-            results.append(result_item)
-
-    # 都道府県リストをテンプレートに渡すため生成
-    prefectures = [p["pref_name_ja"] for p in data]
+    # プルダウン用：都道府県一覧（DBから）
+    prefectures = [
+        r[0] for r in db.session.query(Spots.pref_name_ja)
+        .distinct()
+        .order_by(Spots.pref_code)
+        .all()
+        if r[0]
+    ]
 
     return render_template(
-    "spot_search_results.html",
-    results=results,
-    prefectures=prefectures,
-    selected_pref=prefecture, 
-    keyword=keyword
-)
-
-
+        "spot_search_results.html",
+        results=results,
+        prefectures=prefectures,
+        selected_pref=prefecture,
+        keyword=keyword
+    )
 
 # ====================================================
 # 都道府県クリック時の分岐
@@ -352,3 +348,4 @@ def pref_click(pref_name):
     else:
         # ★検索結果画面へ直行（keywordは空でOK）
         return redirect(url_for("spot.spot_search_results", prefecture=pref_full, keyword=""))
+
