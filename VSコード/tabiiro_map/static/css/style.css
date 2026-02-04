@@ -158,17 +158,17 @@ body {
         z-index: 10000;
         display: block !important;
     }
-}
 
-.page-right-sidebar.is-closed {
-    width: 60px;
-    padding-left: 0;
-    padding-right: 0;
-    overflow: hidden;
-}
+    .page-right-sidebar.is-closed {
+        width: 60px;
+        padding-left: 0;
+        padding-right: 0;
+        overflow: hidden;
+    }
 
-.page-right-sidebar.is-closed .menu-nav {
-    display: none;
+    .page-right-sidebar.is-closed .menu-nav {
+        display: none;
+    }
 }
 
 /* =========================================================
