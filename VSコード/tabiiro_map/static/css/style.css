@@ -98,13 +98,6 @@ body {
     font-size: 1.05em;
 }
 
-/* PC：サイドバーは常に表示 */
-@media (min-width: 900px) {
-    .page-right-sidebar {
-        transform: translateX(0) !important;
-    }
-}
-
 /* スマホ：バーガーは右上固定、メニュー(nav)だけ右からスライド */
 @media (max-width: 768px) {
 
@@ -168,6 +161,13 @@ body {
 
     .page-right-sidebar.is-closed .menu-nav {
         display: none;
+    }
+}
+
+/* PC：サイドバーは常に表示 */
+@media (min-width: 900px) {
+    .page-right-sidebar {
+        transform: translateX(0) !important;
     }
 }
 
