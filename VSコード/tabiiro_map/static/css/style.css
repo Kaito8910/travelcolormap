@@ -98,6 +98,13 @@ body {
     font-size: 1.05em;
 }
 
+/* PC：サイドバーは常に表示 */
+@media (min-width: 900px) {
+    .page-right-sidebar {
+        transform: translateX(0) !important;
+    }
+}
+
 /* スマホ：バーガーは右上固定、メニュー(nav)だけ右からスライド */
 @media (max-width: 768px) {
 
@@ -151,26 +158,18 @@ body {
         z-index: 10000;
         display: block !important;
     }
-
-    .page-right-sidebar.is-closed {
-        width: 60px;
-        padding-left: 0;
-        padding-right: 0;
-        overflow: hidden;
-    }
-
-    .page-right-sidebar.is-closed .menu-nav {
-        display: none;
-    }
 }
 
-/* PC：サイドバーは常に表示 */
-@media (min-width: 900px) {
-    .page-right-sidebar {
-        transform: translateX(0) !important;
-    }
+.page-right-sidebar.is-closed {
+    width: 60px;
+    padding-left: 0;
+    padding-right: 0;
+    overflow: hidden;
 }
 
+.page-right-sidebar.is-closed .menu-nav {
+    display: none;
+}
 /* =========================================================
     3. 共通 UI（タイトル、ボタン、カード）
 ========================================================= */
