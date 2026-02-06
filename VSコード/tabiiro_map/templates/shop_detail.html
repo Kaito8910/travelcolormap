@@ -24,22 +24,28 @@
     <div class="visit-list">
         {% for f in items %}
             <div class="visit-card">
-
-                <p><strong>料理名：</strong>{{ f.food_name }}</p>
-
-                <p><strong>評価：</strong>
-                    {% for i in range(f.evaluation) %}★{% endfor %}
-                    {% for i in range(5 - f.evaluation) %}☆{% endfor %}
-                </p>
-
-                <p><strong>日付：</strong>{{ f.visit_date }}</p>
-
-                {% if f.memo %}
-                    <p class="memo">{{ f.memo }}</p>
+                <!-- 料理写真サムネ -->
+                {% if f.photos and f.photos|length > 0 %}
+                    <img
+                        src="{{ url_for('static', filename='uploads/' ~ f.photos[0].filename) }}"
+                        class="visit-thumb"
+                        alt="{{ f.food_name }}">
+                {% else %}
+                    <div class="visit-thumb no-photo">写真なし</div>
                 {% endif %}
-
-                <a href="{{ url_for('food.gourmet_detail', food_id=f.food_id) }}"
+                <div class="visit-body">
+                    <p><strong>料理名：</strong>{{ f.food_name }}</p>
+                    <p><strong>評価：</strong>
+                        {% for i in range(f.evaluation) %}★{% endfor %}
+                        {% for i in range(5 - f.evaluation) %}☆{% endfor %}
+                    </p>
+                    <p><strong>日付：</strong>{{ f.visit_date }}</p>
+                    {% if f.memo %}
+                        <p class="memo">{{ f.memo }}</p>
+                    {% endif %}
+                    <a href="{{ url_for('food.gourmet_detail', food_id=f.food_id) }}"
                     class="detail-link">→ この記録の詳細を見る</a>
+                </div>
             </div>
         {% endfor %}
     </div>

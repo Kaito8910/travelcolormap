@@ -399,6 +399,92 @@ body {
     color: inherit;
 }
 
+/* ===== 訪問カード一覧 ===== */
+.visit-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* ===== 1カード ===== */
+.visit-card {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.visit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* ===== 料理写真サムネ ===== */
+.visit-thumb {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    background: #f2f2f2;
+}
+
+.visit-thumb.no-photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* ===== 本文 ===== */
+.visit-body {
+    padding: 18px;
+}
+
+.visit-card p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+}
+
+/* ===== メモ ===== */
+.memo {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+/* ===== 詳細リンク ===== */
+.detail-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: #2a7cff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+}
+
+/* ===== 戻るボタン ===== */
+.back-button {
+    display: inline-block;
+    margin-top: 30px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: #333;
+}
+
+.back-button:hover {
+    background: #ddd;
+}
+
 /* =========================================================
    詳細ページ（観光地 / グルメ）共通画像サイズ
 ========================================================= */
